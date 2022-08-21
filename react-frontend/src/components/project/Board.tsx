@@ -8,7 +8,7 @@ const Board = () => {
   const onDragStart = (update: DragStart) => {};
 
   return (
-    <div className='overflow-auto grow px-6'>
+    <div className='grow px-10'>
       <DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={() => {}}>
         <DroppableWrapper
           type='board'
@@ -16,7 +16,7 @@ const Board = () => {
           droppableId='board-central'
           direction='horizontal'
         >
-          {[1, 2].map((n) => (
+          {[1, 2, 3, 4].map((n) => (
             <DraggableWrapper index={n} draggableId={'dnd-list-' + n}>
               <List key={n} index={n} />
             </DraggableWrapper>

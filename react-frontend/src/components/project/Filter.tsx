@@ -5,20 +5,21 @@ import {
   Input,
   Avatar,
   AvatarGroup,
-  useStyleConfig,
+  Button,
+  ButtonGroup,
+  Divider,
 } from '@chakra-ui/react';
-import type { ComponentStyleConfig } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
 
 const Filter = () => {
   return (
     <ChakraProvider>
-      <div className='my-8 flex items-center px-6'>
-        <InputGroup size='sm' width={140}>
+      <div className='mb-8 flex items-center px-10 min-w-fit'>
+        <InputGroup size='sm' minW={160} w={160}>
           <InputLeftElement children={<IconIfy width={20} icon='ant-design:search-outlined' />} />
           <Input size='sm' placeholder='Search issues'></Input>
         </InputGroup>
-        <AvatarGroup>
+        <AvatarGroup ml={6} mr={4}>
           <Avatar
             name='Jugram Haschwalth'
             src='https://i.pinimg.com/550x/6a/ba/57/6aba571046202190f7cee92fa0e2a036.jpg'
@@ -44,6 +45,18 @@ const Filter = () => {
             w={'43px'}
           />
         </AvatarGroup>
+        <ButtonGroup size='sm' variant='ghost'>
+          <Button fontWeight='normal' fontSize={15}>
+            Only my issues
+          </Button>
+          <Button fontWeight='normal' fontSize={15}>
+            Recently uploaded
+          </Button>
+          <Divider my={1} h={6} orientation='vertical' />
+          <Button fontWeight='normal' fontSize={15}>
+            Clear all
+          </Button>
+        </ButtonGroup>
       </div>
     </ChakraProvider>
   );

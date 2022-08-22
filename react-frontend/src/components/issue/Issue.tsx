@@ -1,13 +1,15 @@
 import DraggableWrapper from '../dnd/DraggableWrapper';
-const Issue = ({ index, listIndex }: Props) => {
+import type { JiraIssue } from '../../types';
+
+const Issue = ({ index, listIndex, title, id }: Props) => {
   return (
     <DraggableWrapper
-      className='mb-2 w-60 rounded-sm bg-light-c-1 p-2 shadow-light-issue'
+      className='mb-2 w-full rounded-sm bg-light-c-1 p-2 shadow-light-issue'
       index={index}
-      draggableId={['issue', listIndex, index].join('-')}
+      draggableId={id}
     >
       <div>
-        <span className='text-sm'>{'issue-' + index + ' of list' + listIndex}</span>
+        <span className='text-sm'>{title}</span>
       </div>
     </DraggableWrapper>
   );
@@ -15,7 +17,7 @@ const Issue = ({ index, listIndex }: Props) => {
 
 export default Issue;
 
-type Props = {
+interface Props extends JiraIssue {
   listIndex: number;
   index: number;
 };

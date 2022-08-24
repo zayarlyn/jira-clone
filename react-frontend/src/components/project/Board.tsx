@@ -34,7 +34,6 @@ const Board = () => {
     combine: null,
   };
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
-    console.log(s, d, type);
     if (!d) return;
 
     dispatch((type === 'list' ? updateListOrder : updateIssueOrder)({ s, d }));

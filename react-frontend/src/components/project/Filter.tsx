@@ -44,8 +44,8 @@ const Filter = () => {
             Clear all
           </Button>
         </ButtonGroup>
-        <Button size='sm' ml={6} colorScheme='messenger' fontWeight='normal' fontSize={15}>
-        Create an issue
+        <Button borderRadius={2} size='sm' ml={6} colorScheme='messenger' fontWeight='normal' fontSize={15}>
+          Create an issue
         </Button>
       </ChakraProvider>
     </div>

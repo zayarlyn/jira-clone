@@ -1,15 +1,24 @@
-import { Button, ChakraProvider, Input, Select, Stack, Text } from '@chakra-ui/react';
-import { FieldError, useForm } from 'react-hook-form';
+import { Button, ChakraProvider, Stack } from '@chakra-ui/react';
+import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { selectProject, update } from '../../features/projectSlice';
 import InputWithValidation from '../util/InputWithValidation';
+import { Icon } from '@iconify/react';
 
 const Setting = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  const onSubmit = () => {};
+  const { name, descr, repo } = useAppSelector(selectProject);
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (formObj: FieldValues) => {
+    if (formObj.name === name && formObj.descr === descr && formObj.repo === repo) return;
+    dispatch(update(formObj));
+  };
 
   return (
     <ChakraProvider>
@@ -17,32 +26,42 @@ const Setting = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={4} maxW={480}>
             <InputWithValidation
+              defaultValue={name}
               label='Name'
-              error={errors.projectName as FieldError}
               placeholder='project name'
-              register={register('projectName', {
+              register={register('name', {
                 required: { value: true, message: 'name must not be empty' },
               })}
+              error={errors.name as FieldError}
             />
             <InputWithValidation
+              defaultValue={descr}
               label='Description'
-              error={errors.descr as FieldError}
               placeholder='project description'
               register={register('descr', {
                 required: { value: true, message: 'description must not be empty' },
               })}
-            />{' '}
+              error={errors.descr as FieldError}
+            />
             <InputWithValidation
+              defaultValue={repo}
               label='Repository'
-              error={errors.repoLink as FieldError}
               placeholder='github repo link'
-              register={register('repoLink', {
-                required: { value: true, message: 'description must not be empty' },
+              register={register('repo', {
+                // required: { value: true, message: 'description must not be empty' },
               })}
+              error={errors.repo as FieldError}
             />
           </Stack>
-          <Button mt={8} type='submit' size='sm' colorScheme='messenger'>
-            Save changes
+          <Button
+            borderRadius={2}
+            mt={8}
+            type='submit'
+            size='sm'
+            colorScheme={isSubmitSuccessful ? 'facebook' : 'messenger'}
+            rightIcon={isSubmitSuccessful ? <Icon icon='teenyicons:tick-solid' /> : undefined}
+          >
+            {isSubmitSuccessful ? 'Changes saved' : 'Save changes'}
           </Button>
         </form>
       </div>

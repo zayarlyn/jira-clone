@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import listReducer from '../features/listSlice';
 import issueReducer from '../features/issueSlice';
+import projectSlice from '../features/projectSlice';
 
 export const store = configureStore({
   reducer: {
     jiraLists: listReducer,
     jiraIssues: issueReducer,
+    jiraProject: projectSlice
   },
 });
 

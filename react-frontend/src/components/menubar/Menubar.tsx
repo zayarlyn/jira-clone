@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import BtnWithIcon from '../util/BtnWithIcon';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
+import { selectProject } from '../../features/projectSlice';
+import BtnWithIcon from '../util/BtnWithIcon';
 
 const Menubar = () => {
   const [on, setOn] = useState(true);
+  const { name } = useAppSelector(selectProject);
 
   return (
     <motion.div
@@ -16,9 +19,9 @@ const Menubar = () => {
     >
       <div className='h-full w-[15rem] bg-light-c-2 px-4 py-6 text-light-c-3'>
         <div className='flex'>
-          <div className='h-10 w-10 bg-cyan-500'></div>
-          <div className='ml-2'>
-            <span className='block text-sm font-medium'>Bleach: TYBW</span>
+          <div className='h-10 w-10 shrink-0 bg-cyan-500'></div>
+          <div className='ml-2 w-40'>
+            <span className='block text-sm font-medium truncate'>{name}</span>
             <span className='text-[13px] text-[#42526e]'>Project Planning</span>
           </div>
         </div>
@@ -26,7 +29,8 @@ const Menubar = () => {
           {/* <Link to='/kanban'>Kanban Board</Link> */}
           <BtnWithIcon to='project/123/kanban' icon='bi:kanban' text='Kanban Board' />
           <BtnWithIcon to='project/123/roadmap' icon='carbon:roadmap' text='Roadmap' />
-          <BtnWithIcon to='project/123' icon='clarity:settings-solid' text='Project Setting' />
+          <BtnWithIcon to='project/123/commits' icon='material-symbols:commit' text='Commits' />
+          <BtnWithIcon to='project/123/' icon='clarity:settings-solid' text='Project Setting' />
         </div>
         <hr className='border-t-[.5px] border-gray-400' />
         <div className='my-5'></div>

@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String
+  username     String
+  pwd          String
+  lastLoggedIn DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  member       Member[]
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String
+  descr     String?
+  repo      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  kanban    Kanban?
+  member    Member[]
+}
+
+model Kanban {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int      @unique
+  list      List[]
+}
+
+model List {
+  id        Int      @id @default(autoincrement())
+  name      String
+  order     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Kanban    Kanban?  @relation(fields: [kanbanId], references: [id])
+  kanbanId  Int?
+  issue     Issue[]
+}
+
+model Issue {
+  id        Int      @id @default(autoincrement())
+  name      String
+  order     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  List      List?    @relation(fields: [listId], references: [id])
+  listId    Int?
+}

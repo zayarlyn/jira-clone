@@ -3,14 +3,14 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 export interface JiraList {
   id: string;
-  title: string;
+  name: string;
   order: number;
   boardId: string;
 }
 
 export interface JiraIssue {
   id: string;
-  title: string;
+  name: string;
   order: number;
   listId: string;
   boardId: string;

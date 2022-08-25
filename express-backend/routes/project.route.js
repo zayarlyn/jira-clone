@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const { getProject } = require('../controllers/project.controller');
+const { getListsInProject } = require('../controllers/project.controller');
 
-router.get('/', getProject);
+router.get('/:projectId/lists', getListsInProject);
 
 module.exports = router;

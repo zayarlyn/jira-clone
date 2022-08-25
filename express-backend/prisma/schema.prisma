@@ -38,35 +38,25 @@ model Project {
   repo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  kanban    Kanban?
   member    Member[]
-}
-
-model Kanban {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId Int      @unique
   list      List[]
 }
 
 model List {
   id        Int      @id @default(autoincrement())
   name      String
-  order     Int      @unique
+  order     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  Kanban    Kanban?  @relation(fields: [kanbanId], references: [id])
-  kanbanId  Int?
   issue     Issue[]
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId Int?
 }
 
 model Issue {
   id        Int      @id @default(autoincrement())
   name      String
-  order     Int      @unique
+  order     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   List      List?    @relation(fields: [listId], references: [id])

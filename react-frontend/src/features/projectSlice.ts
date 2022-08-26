@@ -23,5 +23,5 @@ export const projectSlice = createSlice({
 });
 
 export const { update } = projectSlice.actions;
-export const selectProject = (state: RootState) => state.jiraProject.project;
+// export const selectProject = (state: RootState) => state.jiraProject.project;
 export default projectSlice.reducer;

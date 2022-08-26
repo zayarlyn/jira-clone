@@ -2,7 +2,7 @@ import { Draggable } from '@hello-pangea/dnd';
 
 const DraggableWrapper = ({ children: CH, className, index, draggableId }: DROP) => {
   return (
-    <Draggable {...{index, draggableId}}>
+    <Draggable {...{ index, draggableId }}>
       {({ innerRef, dragHandleProps, draggableProps }) => (
         <div className={className} ref={innerRef} {...dragHandleProps} {...draggableProps}>
           {CH}

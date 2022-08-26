@@ -31,7 +31,7 @@ export const listSlice = createSlice({
 });
 
 export const { setLists, updateListOrder } = listSlice.actions;
-export const selectLists = (state: RootState) => state.jiraLists;
+// export const selectLists = (state: RootState) => state.jiraLists;
 export default listSlice.reducer;
 
 // helper

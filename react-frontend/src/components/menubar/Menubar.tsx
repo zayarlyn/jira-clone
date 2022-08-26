@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
-import { selectProject } from '../../features/projectSlice';
+// import { useAppSelector } from '../../store/hooks';
+// import { selectProject } from '../../features/projectSlice';
 import BtnWithIcon from '../util/BtnWithIcon';
 
 const Menubar = () => {
   const [on, setOn] = useState(true);
-  const { name } = useAppSelector(selectProject);
+  // const { name } = useAppSelector(selectProject);
 
   return (
     <motion.div
@@ -21,7 +21,7 @@ const Menubar = () => {
         <div className='flex'>
           <div className='h-10 w-10 shrink-0 bg-cyan-500'></div>
           <div className='ml-2 w-40'>
-            <span className='block text-sm font-medium truncate'>{name}</span>
+            {/* <span className='block text-sm font-medium truncate'>{name}</span> */}
             <span className='text-[13px] text-[#42526e]'>Project Planning</span>
           </div>
         </div>

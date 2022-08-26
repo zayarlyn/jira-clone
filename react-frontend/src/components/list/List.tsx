@@ -2,15 +2,16 @@ import Issue from '../issue/Issue';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import type { JiraList } from '../../types';
 import { useAppSelector } from '../../store/hooks';
-import { selectIssues } from '../../features/issueSlice';
+// import { selectIssues } from '../../features/issueSlice';
 import DraggableWrapper from '../dnd/DraggableWrapper';
+import type { List as LIST } from '../../api/apiTypes';
 
-interface Props extends JiraList {
+interface Props extends LIST {
   index: number;
 }
 
 const List = ({ index, name, id }: Props) => {
-  const { issues } = useAppSelector(selectIssues);
+  // const { issues } = useAppSelector(selectIssues);
 
   return (
     <DraggableWrapper
@@ -20,7 +21,7 @@ const List = ({ index, name, id }: Props) => {
     >
       <div className='relative mr-3 bg-light-c-2 p-3 shadow-light-list'>
         <span className='mt-3 mb-5 block text-[15px] font-medium'>{name}</span>
-        {issues[id] && (
+        {/* {issues[id] && (
           <DroppableWrapper
             className='min-h-[3rem]'
             type='issue'
@@ -30,7 +31,7 @@ const List = ({ index, name, id }: Props) => {
               <Issue {...datapoints} key={datapoints.id} listIndex={index} index={n} />
             ))}
           </DroppableWrapper>
-        )}
+        )} */}
       </div>
     </DraggableWrapper>
   );

@@ -32,7 +32,7 @@ export const issueSlice = createSlice({
 });
 
 export const { setIssuesInList, updateIssueOrder } = issueSlice.actions;
-export const selectIssues = (state: RootState) => state.jiraIssues;
+// export const selectIssues = (state: RootState) => state.jiraIssues;
 export default issueSlice.reducer;
 
 // helper

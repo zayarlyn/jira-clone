@@ -1,7 +1,7 @@
 import { Button, ChakraProvider, Stack } from '@chakra-ui/react';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { selectProject, update } from '../../features/projectSlice';
+// import { selectProject, update } from '../../features/projectSlice';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';
 
@@ -12,19 +12,19 @@ const Setting = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  const { name, descr, repo } = useAppSelector(selectProject);
-  const dispatch = useAppDispatch();
+  // const { name, descr, repo } = useAppSelector(selectProject);
+  // const dispatch = useAppDispatch();
 
   const onSubmit = (formObj: FieldValues) => {
-    if (formObj.name === name && formObj.descr === descr && formObj.repo === repo) return;
-    dispatch(update(formObj));
+    // if (formObj.name === name && formObj.descr === descr && formObj.repo === repo) return;
+    // dispatch(update(formObj));
   };
 
   return (
     <ChakraProvider>
       <div className='mt-8 px-10'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={4} maxW={480}>
+          {/* <Stack spacing={4} maxW={480}>
             <InputWithValidation
               defaultValue={name}
               label='Name'
@@ -52,7 +52,7 @@ const Setting = () => {
               })}
               error={errors.repo as FieldError}
             />
-          </Stack>
+          </Stack> */}
           <Button
             borderRadius={2}
             mt={8}

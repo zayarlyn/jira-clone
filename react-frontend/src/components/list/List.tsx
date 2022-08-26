@@ -5,13 +5,18 @@ import { useAppSelector } from '../../store/hooks';
 // import { selectIssues } from '../../features/issueSlice';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import type { List as LIST } from '../../api/apiTypes';
+import { jiraAPI } from '../../api/jiraAPI';
 
 interface Props extends LIST {
   index: number;
 }
 
 const List = ({ index, name, id }: Props) => {
-  // const { issues } = useAppSelector(selectIssues);
+  const { issues } = jiraAPI.useIssuesQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      issues: data ? data[id] : [],
+    }),
+  });
 
   return (
     <DraggableWrapper
@@ -21,17 +26,11 @@ const List = ({ index, name, id }: Props) => {
     >
       <div className='relative mr-3 bg-light-c-2 p-3 shadow-light-list'>
         <span className='mt-3 mb-5 block text-[15px] font-medium'>{name}</span>
-        {/* {issues[id] && (
-          <DroppableWrapper
-            className='min-h-[3rem]'
-            type='issue'
-            droppableId={'droppable-list-' + id}
-          >
-            {issues[id].map((datapoints, n) => (
-              <Issue {...datapoints} key={datapoints.id} listIndex={index} index={n} />
-            ))}
-          </DroppableWrapper>
-        )} */}
+        <DroppableWrapper className='min-h-[3rem]' type='issue' droppableId={'list-' + id}>
+          {issues.map((datapoints, n) => (
+            <Issue {...datapoints} key={datapoints.id} listIndex={index} index={n} />
+          ))}
+        </DroppableWrapper>
       </div>
     </DraggableWrapper>
   );

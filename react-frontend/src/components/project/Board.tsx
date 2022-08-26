@@ -1,16 +1,36 @@
 import { DragDropContext } from '@hello-pangea/dnd';
-import type { DragStart, DragUpdate, DropResult } from '@hello-pangea/dnd';
+import type { DropResult } from '@hello-pangea/dnd';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import List from '../list/List';
-import { useListsQuery, useReorderListsMutation } from '../../api/jiraAPI';
+import {
+  useIssuesQuery,
+  useListsQuery,
+  useReorderIssuesMutation,
+  useReorderListsMutation,
+} from '../../api/jiraAPI';
 
 const Board = () => {
-  const { data, isSuccess } = useListsQuery();
+  const { data: lists, isSuccess: listsFetched } = useListsQuery();
+  const { data: issues, isSuccess: issuesFetched } = useIssuesQuery();
   const [reorderLists] = useReorderListsMutation();
+  const [reorderIssues] = useReorderIssuesMutation();
 
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
-    if (!data || !d || (s.droppableId === d.droppableId && s.index === d.index)) return;
-    reorderLists({ id: data[s.index].id, order: s.index + 1, newOrder: d.index + 1, projectId: 1 });
+    if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
+      return;
+    type === 'list'
+      ? reorderLists({
+          id: lists[s.index].id,
+          order: s.index + 1,
+          newOrder: d.index + 1,
+          projectId: 1,
+        })
+      : reorderIssues({
+          id: issues[+s.droppableId.split('-')[1]][s.index].id,
+          s: { sId: +s.droppableId.split('-')[1], order: s.index + 1 },
+          d: { dId: +d.droppableId.split('-')[1], newOrder: d.index + 1 },
+          projectId: 1,
+        });
   };
 
   return (
@@ -22,8 +42,8 @@ const Board = () => {
           droppableId='board-central'
           direction='horizontal'
         >
-          {isSuccess &&
-            data.map((datapoints, n) => <List key={datapoints.id} index={n} {...datapoints} />)}
+          {listsFetched &&
+            lists.map((datapoints, n) => <List key={datapoints.id} index={n} {...datapoints} />)}
         </DroppableWrapper>
       </DragDropContext>
     </div>

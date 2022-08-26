@@ -1,5 +1,5 @@
 import DraggableWrapper from '../dnd/DraggableWrapper';
-import type { JiraIssue } from '../../types';
+import { Issue as JiraIssue } from '../../api/apiTypes';
 
 const Issue = ({ index, listIndex, name, id }: Props) => {
   return (

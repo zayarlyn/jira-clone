@@ -10,7 +10,6 @@ exports.getIssuesInList = async (req, res) => {
 
 exports.reorderLists = async (req, res) => {
   const { id, order, newOrder, projectId } = req.body;
-  console.log(req.body);
   const stl = newOrder < order; // shift to
   const lists = await client.list.findMany({
     where: {

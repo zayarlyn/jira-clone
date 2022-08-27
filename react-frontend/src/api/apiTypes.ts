@@ -33,5 +33,4 @@ export interface reorderIssues {
     dId: number;
     newOrder: number;
   };
-  projectId: number;
 }

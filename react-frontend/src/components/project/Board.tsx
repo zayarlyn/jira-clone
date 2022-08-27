@@ -29,7 +29,6 @@ const Board = () => {
           id: issues[+s.droppableId.split('-')[1]][s.index].id,
           s: { sId: +s.droppableId.split('-')[1], order: s.index + 1 },
           d: { dId: +d.droppableId.split('-')[1], newOrder: d.index + 1 },
-          projectId: 1,
         });
   };
 

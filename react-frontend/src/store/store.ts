@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { jiraAPI } from '../api/jiraAPI';
+import { api } from '../api/api';
 
 export const store = configureStore({
   reducer: {
-    [jiraAPI.reducerPath]: jiraAPI.reducer,
+    [api.reducerPath]: api.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(jiraAPI.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

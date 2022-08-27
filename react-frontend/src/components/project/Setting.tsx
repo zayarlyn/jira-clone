@@ -1,6 +1,6 @@
 import { Button, ChakraProvider, Stack } from '@chakra-ui/react';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+// import { useAppSelector, useAppDispatch } from '../../store/hooks';
 // import { selectProject, update } from '../../features/projectSlice';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';

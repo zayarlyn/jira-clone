@@ -1,22 +1,15 @@
 import Issue from '../issue/Issue';
 import DroppableWrapper from '../dnd/DroppableWrapper';
-import type { JiraList } from '../../types';
-import { useAppSelector } from '../../store/hooks';
-// import { selectIssues } from '../../features/issueSlice';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import type { List as LIST } from '../../api/apiTypes';
-import { jiraAPI } from '../../api/jiraAPI';
+import { selectIssuesArray } from '../../api/issues.endpoint';
 
 interface Props extends LIST {
   index: number;
 }
 
 const List = ({ index, name, id }: Props) => {
-  const { issues } = jiraAPI.useIssuesQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      issues: data ? data[id] : [],
-    }),
-  });
+  const { issues } = selectIssuesArray(id);
 
   return (
     <DraggableWrapper

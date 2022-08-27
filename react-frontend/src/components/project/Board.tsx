@@ -1,13 +1,9 @@
-import { DragDropContext } from '@hello-pangea/dnd';
+import { DragDropContext, DraggableLocation } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import List from '../list/List';
-import {
-  useIssuesQuery,
-  useListsQuery,
-  useReorderIssuesMutation,
-  useReorderListsMutation,
-} from '../../api/jiraAPI';
+import { useIssuesQuery, useReorderIssuesMutation } from '../../api/issues.endpoint';
+import { useListsQuery, useReorderListsMutation } from '../../api/lists.endpoint';
 
 const Board = () => {
   const { data: lists, isSuccess: listsFetched } = useListsQuery();
@@ -26,9 +22,9 @@ const Board = () => {
           projectId: 1,
         })
       : reorderIssues({
-          id: issues[+s.droppableId.split('-')[1]][s.index].id,
-          s: { sId: +s.droppableId.split('-')[1], order: s.index + 1 },
-          d: { dId: +d.droppableId.split('-')[1], newOrder: d.index + 1 },
+          id: issues[parseId(s)][s.index].id,
+          s: { sId: parseId(s), order: s.index + 1 },
+          d: { dId: parseId(d), newOrder: d.index + 1 },
         });
   };
 
@@ -51,11 +47,5 @@ const Board = () => {
 
 export default Board;
 
-// const fetchLists = async () => {
-//   const { data } = await axios.get('http://localhost:5000/api/projects/1/lists');
-//   return data as JiraList[];
-// };
-// const fetchIssuesByListId = async (id: string) => {
-//   const { data } = await axios.get(`http://localhost:5000/api/lists/${id}/issues`);
-//   return data;
-// };
+// helpers
+const parseId = (dndObj: DraggableLocation) => +dndObj.droppableId.split('-')[1];

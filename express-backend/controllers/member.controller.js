@@ -8,13 +8,15 @@ exports.getMembersInProject = async (req, res) => {
     where: { projectId: +projectId },
     orderBy: { createdAt: 'asc' },
   });
-  userIds = projectMembers.map(({ userId }) => userId);
+  const userIds = projectMembers.map(({ userId }) => userId);
   const members = await prisma.user.findMany({ where: { id: { in: userIds } } });
+  const adminId = projectMembers.filter(({ isAdmin }) => isAdmin === true)[0].userId;
   const filtered = members.map(({ id, username, email, profileUrl }) => ({
     id,
     username,
     email,
     profileUrl,
+    isAdmin: id === adminId,
   }));
   res.json(filtered).end();
 };

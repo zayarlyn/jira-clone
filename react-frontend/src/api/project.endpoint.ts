@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { Member, Project } from './apiTypes';
+import type { EditProject, Member, Project } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,6 +10,15 @@ export const extendedApi = api.injectEndpoints({
     members: builder.query<Member[], number>({
       query: (id) => `project/${id}/members`,
       providesTags: ['Members'],
+    }),
+    editProject: builder.mutation<void, EditProject>({
+      query: (body) => ({ url: 'project/1', method: 'PUT', body }),
+      invalidatesTags: ['Project'],
+      async onQueryStarted({ id, ...newData }, { dispatch, queryFulfilled }) {
+        const result = dispatch(
+          extendedApi.util.updateQueryData('project', id, (oldData) => ({ ...oldData, ...newData }))
+        );
+      },
     }),
 
     // reorderIssues: builder.mutation<void, reorderIssues>({
@@ -35,7 +44,7 @@ export const extendedApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useProjectQuery, useMembersQuery } = extendedApi;
+export const { useProjectQuery, useMembersQuery, useEditProjectMutation } = extendedApi;
 
 // selectors
 export const selectProject = (projectId: number) =>

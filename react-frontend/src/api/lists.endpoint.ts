@@ -20,11 +20,6 @@ export const extendedApi = api.injectEndpoints({
             updateListOrderLocally(oldLists, { s: order - 1, d: newOrder - 1 })
           )
         );
-        try {
-          await queryFulfilled;
-        } catch {
-          result.undo();
-        }
       },
     }),
   }),
@@ -32,8 +27,6 @@ export const extendedApi = api.injectEndpoints({
 });
 
 export const { useListsQuery, useReorderListsMutation } = extendedApi;
-
-// export const selectUsersResult = extendedApiSlice.endpoints.getUsers.select();
 
 function updateListOrderLocally(array: List[], { s, d }: { s: number; d: number }) {
   const source = array.slice(0);

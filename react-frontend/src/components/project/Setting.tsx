@@ -3,7 +3,7 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';
 import MemberInput from './MemberInput';
-import { selectProject } from '../../api/project.endpoint';
+import { selectProject, useEditProjectMutation } from '../../api/project.endpoint';
 
 const Setting = () => {
   const { project } = selectProject(1);
@@ -12,12 +12,14 @@ const Setting = () => {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm();
+  const [updateProject] = useEditProjectMutation();
 
   if (!project) return null;
 
-  const { id, name, descr, repo, members } = project;
-  const onSubmit = (formObj: FieldValues) => {
-    // if (formObj.name === name && formObj.descr === descr && formObj.repo === repo) return;
+  const { id, name, descr, repo } = project;
+  const onSubmit = (formData: FieldValues) => {
+    if (formData.name === name && formData.descr === descr && formData.repo === repo) return;
+    updateProject({ id, ...formData });
   };
 
   return (

@@ -13,18 +13,12 @@ export interface Issue {
   listId: number;
 }
 
-export interface ProjectMember {
-  id: number;
-  isAdmin: boolean;
-  userId: number;
-  projectId: number;
-}
-
 export interface Member {
   id: number;
   username: string;
   profileUrl: string;
   email: string;
+  isAdmin: boolean;
 }
 
 export interface Project {
@@ -32,7 +26,10 @@ export interface Project {
   name: string;
   descr?: string;
   repo?: string;
-  members: ProjectMember[];
+}
+
+export interface EditProject extends Partial<Project> {
+  id: number;
 }
 
 export interface Issues {

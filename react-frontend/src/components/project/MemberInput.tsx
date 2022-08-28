@@ -1,6 +1,6 @@
-import { Badge, Flex, Input, Text } from '@chakra-ui/react';
+import { Badge, Flex, IconButton, Input, Text } from '@chakra-ui/react';
+import { Icon } from '@iconify/react';
 import React, { memo } from 'react';
-import { ProjectMember } from '../../api/apiTypes';
 import { useMembersQuery } from '../../api/project.endpoint';
 
 interface Props {
@@ -18,9 +18,9 @@ const MemberInput = ({ projectId }: Props) => {
       <Input defaultValue='' size='sm' mt={1} variant='filled' placeholder='add members by email' />
       <Flex wrap='wrap' gap={1} mt={3}>
         {members
-          ? members.map(({ username, id }) => (
-              <Badge key={id} variant='outline' colorScheme='blue'>
-                {username}
+          ? members.map(({ username, id, isAdmin }) => (
+              <Badge key={id} variant={isAdmin ? 'solid' : 'outline'} colorScheme='blue' gap={1}>
+                {username + (isAdmin ? ' *' : '')}
               </Badge>
             ))
           : 'loading ...'}

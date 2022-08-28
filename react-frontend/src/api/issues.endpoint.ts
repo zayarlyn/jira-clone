@@ -20,11 +20,6 @@ export const extendedApi = api.injectEndpoints({
             })
           )
         );
-        try {
-          await queryFulfilled;
-        } catch {
-          result.undo();
-        }
       },
     }),
   }),

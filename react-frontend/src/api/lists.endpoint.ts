@@ -4,12 +4,12 @@ import { List, ReorderList } from './apiTypes';
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     lists: builder.query<List[], void>({
-      query: () => 'projects/1/lists',
+      query: () => 'project/1/lists',
       providesTags: ['Lists'],
     }),
     reorderLists: builder.mutation<void, ReorderList>({
       query: (body) => ({
-        url: 'lists/reorder',
+        url: 'list/reorder',
         method: 'PUT',
         body,
       }),

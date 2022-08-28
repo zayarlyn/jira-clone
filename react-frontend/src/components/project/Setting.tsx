@@ -1,30 +1,30 @@
 import { Button, ChakraProvider, Stack } from '@chakra-ui/react';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
-// import { useAppSelector, useAppDispatch } from '../../store/hooks';
-// import { selectProject, update } from '../../features/projectSlice';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';
+import MemberInput from './MemberInput';
+import { selectProject } from '../../api/project.endpoint';
 
 const Setting = () => {
+  const { project } = selectProject(1);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  // const { name, descr, repo } = useAppSelector(selectProject);
-  // const dispatch = useAppDispatch();
+  if (!project) return null;
 
+  const { id, name, descr, repo, members } = project;
   const onSubmit = (formObj: FieldValues) => {
     // if (formObj.name === name && formObj.descr === descr && formObj.repo === repo) return;
-    // dispatch(update(formObj));
   };
 
   return (
     <ChakraProvider>
       <div className='mt-8 px-10'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <Stack spacing={4} maxW={480}>
+          <Stack spacing={4} maxW={480}>
             <InputWithValidation
               defaultValue={name}
               label='Name'
@@ -39,7 +39,7 @@ const Setting = () => {
               label='Description'
               placeholder='project description'
               register={register('descr', {
-                required: { value: true, message: 'description must not be empty' },
+                // required: { value: true, message: 'description must not be empty' },
               })}
               error={errors.descr as FieldError}
             />
@@ -52,7 +52,8 @@ const Setting = () => {
               })}
               error={errors.repo as FieldError}
             />
-          </Stack> */}
+            <MemberInput projectId={id} />
+          </Stack>
           <Button
             borderRadius={2}
             mt={8}

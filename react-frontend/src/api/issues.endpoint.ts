@@ -1,15 +1,15 @@
 import { api } from './api';
-import { Issues, reorderIssues } from './apiTypes';
+import { dndOrderData, Issues, reorderIssues } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     issues: builder.query<Issues, void>({
-      query: () => 'projects/1/issues',
+      query: () => 'project/1/issues',
       providesTags: ['Issues'],
     }),
 
     reorderIssues: builder.mutation<void, reorderIssues>({
-      query: (body) => ({ url: 'issues/reorder', method: 'PUT', body }),
+      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body }),
       invalidatesTags: ['Issues'],
       async onQueryStarted({ s, d }, { dispatch, queryFulfilled }) {
         const result = dispatch(
@@ -43,10 +43,7 @@ export const selectIssuesArray = (listId: number) =>
   });
 
 // helpers
-const updateIssueOrderLocally = (
-  issues: Issues,
-  { s, d }: { s: { sId: number; index: number }; d: { dId: number; index: number } }
-) => {
+const updateIssueOrderLocally = (issues: Issues, { s, d }: dndOrderData) => {
   const source = issues[s.sId].slice(0);
   const target = issues[d.dId].slice(0);
   const draggedIssue = source.splice(s.index, 1)[0]; // remove dragged item from its source list

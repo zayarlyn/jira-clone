@@ -9,8 +9,8 @@ const issueRoute = require('./routes/issue.route');
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/lists', listRoute);
-app.use('/api/issues', issueRoute);
-app.use('/api/projects', projectRoute);
+app.use('/api/list', listRoute);
+app.use('/api/issue', issueRoute);
+app.use('/api/project', projectRoute);
 
 app.listen(5000);

@@ -1,9 +1,6 @@
 const router = require('express').Router();
 
-const { getIssuesInList, reorderLists } = require('../controllers/list.controller');
-
-router.get('/', getIssuesInList);
-router.get('/:listId/issues', getIssuesInList);
+const { reorderLists } = require('../controllers/list.controller');
 
 // neon
 router.put('/reorder', reorderLists);

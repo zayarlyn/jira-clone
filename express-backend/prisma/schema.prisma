@@ -15,10 +15,11 @@ model User {
   email        String
   username     String
   pwd          String
+  profileUrl   String
   lastLoggedIn DateTime @default(now())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
-  member       Member[]
+  members      Member[]
 }
 
 model Member {
@@ -38,8 +39,8 @@ model Project {
   repo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  member    Member[]
-  list      List[]
+  members   Member[]
+  lists     List[]
 }
 
 model List {
@@ -48,7 +49,7 @@ model List {
   order     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  issue     Issue[]
+  issues    Issue[]
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId Int?
 }

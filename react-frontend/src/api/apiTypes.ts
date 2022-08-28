@@ -12,6 +12,29 @@ export interface Issue {
   order: number;
   listId: number;
 }
+
+export interface ProjectMember {
+  id: number;
+  isAdmin: boolean;
+  userId: number;
+  projectId: number;
+}
+
+export interface Member {
+  id: number;
+  username: string;
+  profileUrl: string;
+  email: string;
+}
+
+export interface Project {
+  id: number;
+  name: string;
+  descr?: string;
+  repo?: string;
+  members: ProjectMember[];
+}
+
 export interface Issues {
   [key: string]: Issue[];
 }
@@ -33,4 +56,9 @@ export interface reorderIssues {
     dId: number;
     newOrder: number;
   };
+}
+
+export interface dndOrderData {
+  s: { sId: number; index: number };
+  d: { dId: number; index: number };
 }

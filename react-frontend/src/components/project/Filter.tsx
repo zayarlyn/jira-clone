@@ -10,8 +10,11 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
+import { useMembersQuery } from '../../api/project.endpoint';
 
 const Filter = () => {
+  const { data: members } = useMembersQuery(1);
+
   return (
     <div className='mb-8 flex min-w-fit items-center px-10'>
       <ChakraProvider>
@@ -20,10 +23,11 @@ const Filter = () => {
           <Input size='sm' placeholder='Search issues'></Input>
         </InputGroup>
         <AvatarGroup ml={6} mr={4}>
-          {accounts.map((detail) => (
+          {members?.map(({ id, profileUrl, username }) => (
             <Avatar
-              key={detail.name}
-              {...detail}
+              key={id}
+              name={username}
+              src={profileUrl}
               h={'43px'}
               w={'43px'}
               cursor='pointer'

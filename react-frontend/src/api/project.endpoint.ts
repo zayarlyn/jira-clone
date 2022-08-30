@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { EditProject, Member, Project } from './apiTypes';
+import type { AddRemoveMember, EditProject, Member, Project } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,6 +19,20 @@ export const extendedApi = api.injectEndpoints({
           extendedApi.util.updateQueryData('project', id, (oldData) => ({ ...oldData, ...newData }))
         );
       },
+    }),
+    removeMember: builder.mutation<void, AddRemoveMember>({
+      query: ({ userId, projectId }) => ({
+        url: `member/remove?userId=${userId}&projectId=${projectId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Members'],
+    }),
+    addMember: builder.mutation<void, AddRemoveMember>({
+      query: ({ userId, projectId }) => ({
+        url: `member/add?userId=${userId}&projectId=${projectId}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Members'],
     }),
 
     // reorderIssues: builder.mutation<void, reorderIssues>({
@@ -44,10 +58,21 @@ export const extendedApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useProjectQuery, useMembersQuery, useEditProjectMutation } = extendedApi;
+export const {
+  useProjectQuery,
+  useMembersQuery,
+  useEditProjectMutation,
+  useRemoveMemberMutation,
+  useAddMemberMutation,
+} = extendedApi;
 
 // selectors
 export const selectProject = (projectId: number) =>
   extendedApi.useProjectQuery(projectId, {
     selectFromResult: ({ data }) => ({ project: data }),
+  });
+
+export const selectMembers = (projectId: number) =>
+  extendedApi.useMembersQuery(projectId, {
+    selectFromResult: ({ data }) => ({ members: data }),
   });

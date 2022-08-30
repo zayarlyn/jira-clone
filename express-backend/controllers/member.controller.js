@@ -1,22 +1,35 @@
 const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
+const client = new PrismaClient();
 
 exports.getMembersInProject = async (req, res) => {
   const { projectId } = req.params;
-  const projectMembers = await prisma.member.findMany({
+  const members = await client.member.findMany({
     where: { projectId: +projectId },
     orderBy: { createdAt: 'asc' },
+    include: { User: { select: { id: true, username: true, email: true, profileUrl: true } } },
   });
-  const userIds = projectMembers.map(({ userId }) => userId);
-  const members = await prisma.user.findMany({ where: { id: { in: userIds } } });
-  const adminId = projectMembers.filter(({ isAdmin }) => isAdmin === true)[0].userId;
-  const filtered = members.map(({ id, username, email, profileUrl }) => ({
-    id,
-    username,
-    email,
-    profileUrl,
-    isAdmin: id === adminId,
+  const users = members.map(({ isAdmin, projectId, createdAt, User }) => ({
+    isAdmin,
+    projectId,
+    createdAt,
+    ...User,
   }));
-  res.json(filtered).end();
+  res.json(users).end();
+};
+
+exports.addMember = async (req, res) => {
+  const { userId, projectId } = req.query;
+  const result = await client.member.create({ data: { userId: +userId, projectId: +projectId } });
+  res.json(result).end();
+};
+
+exports.removeMember = async (req, res) => {
+  const { userId, projectId } = req.query;
+  const result = await client.member.deleteMany({
+    where: {
+      AND: [{ userId: +userId }, { projectId: +projectId }],
+    },
+  });
+  res.json(result).end();
 };

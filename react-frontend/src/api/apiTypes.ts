@@ -19,6 +19,8 @@ export interface Member {
   profileUrl: string;
   email: string;
   isAdmin: boolean;
+  projectId: number;
+  // createdAt: string
 }
 
 export interface Project {
@@ -26,6 +28,13 @@ export interface Project {
   name: string;
   descr?: string;
   repo?: string;
+}
+
+export interface SearchedUser {
+  id: number;
+  username: string;
+  email: string;
+  profileUrl: string;
 }
 
 export interface EditProject extends Partial<Project> {
@@ -53,6 +62,11 @@ export interface reorderIssues {
     dId: number;
     newOrder: number;
   };
+}
+
+export interface AddRemoveMember {
+  userId: number;
+  projectId: number;
 }
 
 export interface dndOrderData {

@@ -4,6 +4,7 @@ import DroppableWrapper from '../dnd/DroppableWrapper';
 import List from '../list/List';
 import { useIssuesQuery, useReorderIssuesMutation } from '../../api/issues.endpoint';
 import { useListsQuery, useReorderListsMutation } from '../../api/lists.endpoint';
+import CreateIssueModel from '../issue/CreateIssueModel';
 
 const Board = () => {
   const { data: lists, isSuccess: listsFetched } = useListsQuery();
@@ -41,6 +42,7 @@ const Board = () => {
             lists.map((datapoints, n) => <List key={datapoints.id} index={n} {...datapoints} />)}
         </DroppableWrapper>
       </DragDropContext>
+      <CreateIssueModel />
     </div>
   );
 };

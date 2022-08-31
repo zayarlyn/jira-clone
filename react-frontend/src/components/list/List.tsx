@@ -13,7 +13,7 @@ const List = ({ index, name, id }: Props) => {
 
   return (
     <DraggableWrapper
-      className='w-[clamp(14rem,16rem,18rem)]'
+      className='w-[clamp(16rem,18rem,20rem)]'
       index={index}
       draggableId={'list-' + id}
     >
@@ -22,7 +22,7 @@ const List = ({ index, name, id }: Props) => {
           <span className='block font-medium'>{name}</span>
           <span className='mx-2 text-gray-500'>|</span>
           <span className='mt-[1px]'>{issues.length}</span>
-          <img className='w-4' src='/assets/feature.svg' alt='dm' />
+          <img className='w-4' src='/assets/review.svg' alt='dm' />
           <img className='w-4' src='/assets/bug.svg' alt='dm' />
           <img className='w-4' src='/assets/task.svg' alt='dm' />
         </div>

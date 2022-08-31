@@ -73,17 +73,17 @@ const MemberInput = ({ projectId }: Props) => {
           </Flex>
           {selectedId && (
             <Flex justifyContent='right' mt={3}>
-              <Button onClick={handleRemoveMember} size='xs' borderRadius={3} colorScheme='red'>
-                remove member
-              </Button>
               <Button
                 onClick={() => setSelectedId(null)}
                 size='xs'
                 borderRadius={3}
                 variant='ghost'
-                ml={3}
+                mr={3}
               >
                 cancel
+              </Button>
+              <Button onClick={handleRemoveMember} size='xs' borderRadius={3} colorScheme='red'>
+                remove member
               </Button>
             </Flex>
           )}

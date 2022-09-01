@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ChakraProvider,
   InputGroup,
@@ -11,9 +12,11 @@ import {
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/project.endpoint';
+import CreateIssueModel from '../issue/CreateIssueModel';
 
 const Filter = () => {
   const { data: members } = useMembersQuery(1);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className='mb-8 flex min-w-fit items-center px-10'>
@@ -55,9 +58,11 @@ const Filter = () => {
           colorScheme='messenger'
           fontWeight='normal'
           fontSize={15}
+          onClick={() => setIsOpen(true)}
         >
           Create an issue
         </Button>
+        <CreateIssueModel isOpen={isOpen} setIsOpen={setIsOpen} />
       </ChakraProvider>
     </div>
   );

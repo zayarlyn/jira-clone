@@ -8,7 +8,12 @@ exports.getIssuesInProject = async (req, res) => {
   const listIssues = await client.list.findMany({
     where: { projectId: +projectId },
     orderBy: { order: 'asc' },
-    include: { issues: { orderBy: { order: 'asc' } } },
+    include: {
+      issues: {
+        orderBy: { order: 'asc' },
+        include: { assignees: { orderBy: { createdAt: 'asc' } } },
+      },
+    },
   });
   const issues = listIssues.reduce((p, { id, issues }) => ({ ...p, [id]: issues }), {});
   res.json(issues).end();
@@ -40,7 +45,18 @@ async function handleDifferentListReorder({ id, s: { sId, order }, d: { dId, new
     { order: { increment: 1 } },
     client.issue
   );
-  const { name } = await client.issue.delete({ where: { id } });
-  const insertToTarget = client.issue.create({ data: { name, order: newOrder, listId: dId } });
-  return Promise.all([reorderSource, reorderTarget, insertToTarget]);
+  const assigneesRef = client.assignee.findMany({ where: { issueId: id } });
+  const deletedIssue = client.issue.delete({ where: { id } });
+  const [{ id: oldId, ...oldData }, assignees] = await Promise.all([deletedIssue, assigneesRef]);
+  // insert into new location
+  const { id: newId } = await client.issue.create({
+    data: { ...oldData, order: newOrder, listId: dId },
+  });
+  // update assignee's forieng key
+  const assigneeIds = assignees.map(({ id }) => id);
+  const updateAssignees = client.assignee.updateMany({
+    where: { id: { in: assigneeIds } },
+    data: { issueId: newId },
+  });
+  return Promise.all([reorderSource, reorderTarget, updateAssignees]);
 }

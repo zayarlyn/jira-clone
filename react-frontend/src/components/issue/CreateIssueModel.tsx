@@ -12,14 +12,21 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
 import { selectMembers } from '../../api/project.endpoint';
+import { types, priorities } from '../../category';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
 
-const CreateIssueModel = () => {
+interface Props {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const CreateIssueModel = (props: Props) => {
+  const { isOpen, setIsOpen } = props;
   const { members } = selectMembers(1);
   const ddMembers = members?.map(({ username, profileUrl }) => ({
     text: username,
@@ -29,7 +36,7 @@ const CreateIssueModel = () => {
 
   return (
     <ChakraProvider>
-      <Modal isOpen={true} onClose={() => {}} size='xl'>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size='xl'>
         <ModalOverlay bgColor='#0d67cc30' />
         <ModalContent borderRadius={2}>
           <ModalHeader>
@@ -38,8 +45,8 @@ const CreateIssueModel = () => {
             </Text>
           </ModalHeader>
           <ModalBody>
-            <FormWithLabel label='Issue type'>
-              <DropDown list={category} updateHandler={setType} type='normal' />
+            <FormWithLabel label='Issue tye'>
+              <DropDown list={types} updateHandler={setType} type='normal' />
             </FormWithLabel>
             <FormWithLabel label='Short summary'>
               <Input
@@ -106,17 +113,3 @@ const CreateIssueModel = () => {
 };
 
 export default CreateIssueModel;
-
-const category = [
-  { text: 'Task', icon: '/assets/task.svg' },
-  { text: 'Bug', icon: '/assets/bug.svg' },
-  { text: 'Review', icon: '/assets/review.svg' },
-];
-
-const priorities = [
-  { text: 'Highest', icon: '/assets/highest.svg' },
-  { text: 'High', icon: '/assets/high.svg' },
-  { text: 'Medium', icon: '/assets/medium.svg' },
-  { text: 'Low', icon: '/assets/low.svg' },
-  { text: 'Lowest', icon: '/assets/lowest.svg' },
-];

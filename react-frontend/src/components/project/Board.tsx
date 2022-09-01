@@ -42,7 +42,6 @@ const Board = () => {
             lists.map((datapoints, n) => <List key={datapoints.id} index={n} {...datapoints} />)}
         </DroppableWrapper>
       </DragDropContext>
-      <CreateIssueModel />
     </div>
   );
 };

@@ -8,9 +8,21 @@ export interface List {
 
 export interface Issue {
   id: number;
-  name: string;
+  summary: string;
+  descr: string;
+  type: number;
+  priority: number;
   order: number;
   listId: number;
+  reporterId: number;
+  assignees: Assignee[];
+}
+
+export interface Assignee {
+  id: number;
+  userId: number;
+  issueId: number;
+  // createdAt: string
 }
 
 export interface Member {
@@ -20,6 +32,7 @@ export interface Member {
   email: string;
   isAdmin: boolean;
   projectId: number;
+  userId: number;
   // createdAt: string
 }
 

@@ -7,12 +7,10 @@ exports.getMembersInProject = async (req, res) => {
   const members = await client.member.findMany({
     where: { projectId: +projectId },
     orderBy: { createdAt: 'asc' },
-    include: { User: { select: { id: true, username: true, email: true, profileUrl: true } } },
+    include: { User: { select: { username: true, email: true, profileUrl: true } } },
   });
-  const users = members.map(({ isAdmin, projectId, createdAt, User }) => ({
-    isAdmin,
-    projectId,
-    createdAt,
+  const users = members.map(({ User, ...memberData }) => ({
+    ...memberData,
     ...User,
   }));
   res.json(users).end();

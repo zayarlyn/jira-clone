@@ -11,15 +11,16 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   email        String
   username     String
   pwd          String
   profileUrl   String
-  lastLoggedIn DateTime @default(now())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now())
+  lastLoggedIn DateTime   @default(now())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
   members      Member[]
+  assignees    Assignee[]
 }
 
 model Member {
@@ -55,11 +56,25 @@ model List {
 }
 
 model Issue {
+  id         Int        @id @default(autoincrement())
+  order      Int
+  priority   Int
+  type       Int
+  reporterId Int
+  summary    String
+  descr      String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
+  List       List?      @relation(fields: [listId], references: [id])
+  listId     Int?
+  assignees  Assignee[]
+}
+
+model Assignee {
   id        Int      @id @default(autoincrement())
-  name      String
-  order     Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  List      List?    @relation(fields: [listId], references: [id])
-  listId    Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  Issue     Issue?   @relation(fields: [issueId], references: [id])
+  issueId   Int?
 }

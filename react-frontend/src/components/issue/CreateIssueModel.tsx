@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonGroup,
   ChakraProvider,
   Input,
   Modal,
@@ -12,13 +11,38 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useReducer, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
 import { selectMembers } from '../../api/project.endpoint';
 import { types, priorities } from '../../category';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
+
+const reducer = (state: S, { type, value }: A): S => {
+  switch (type) {
+    case 'ISSUE':
+      return { ...state, issue: value as number };
+    case 'SUMMARY':
+      return { ...state, summary: value as string };
+    case 'DESCR':
+      return { ...state, descr: value as string };
+    case 'ASSIGNEE':
+      return { ...state, assignee: value as number };
+    case 'PRIORITY':
+      return { ...state, priority: value as number };
+    default:
+      return state;
+  }
+};
+
+const initial = {
+  issue: 0,
+  summary: '',
+  descr: '',
+  assignee: 0,
+  priority: 0,
+};
 
 interface Props {
   isOpen: boolean;
@@ -32,7 +56,8 @@ const CreateIssueModel = (props: Props) => {
     text: username,
     icon: profileUrl,
   }));
-  const [type, setType] = useState(0);
+  const [state, dispatch] = useReducer(reducer, initial);
+  console.log(state);
 
   return (
     <ChakraProvider>
@@ -45,8 +70,8 @@ const CreateIssueModel = (props: Props) => {
             </Text>
           </ModalHeader>
           <ModalBody>
-            <FormWithLabel label='Issue tye'>
-              <DropDown list={types} updateHandler={setType} type='normal' />
+            <FormWithLabel label='Issue type'>
+              <DropDown list={types} dispatch={dispatch} actionType='ISSUE' type='normal' />
             </FormWithLabel>
             <FormWithLabel label='Short summary'>
               <Input
@@ -55,6 +80,8 @@ const CreateIssueModel = (props: Props) => {
                 borderWidth={1}
                 borderColor='gray.300'
                 _focus={{ borderWidth: 2 }}
+                value={state.summary}
+                onChange={(e) => dispatch({ type: 'SUMMARY', value: e.target.value })}
               />
             </FormWithLabel>
             <FormWithLabel label='Description'>
@@ -65,6 +92,8 @@ const CreateIssueModel = (props: Props) => {
                 minRows={3}
                 as={ResizeTextarea}
                 borderRadius={2}
+                value={state.descr}
+                onChange={(e) => dispatch({ type: 'DESCR', value: e.target.value })}
               />
             </FormWithLabel>
             {ddMembers && (
@@ -85,11 +114,16 @@ const CreateIssueModel = (props: Props) => {
             )}
             {ddMembers && (
               <FormWithLabel label='Assignee'>
-                <DropDown list={ddMembers} updateHandler={setType} type='multiple' />
+                <DropDown
+                  list={ddMembers}
+                  dispatch={dispatch}
+                  actionType='ASSIGNEE'
+                  type='multiple'
+                />
               </FormWithLabel>
             )}
-            <FormWithLabel label='Issue type'>
-              <DropDown list={priorities} updateHandler={setType} type='normal' />
+            <FormWithLabel label='Priority'>
+              <DropDown list={priorities} dispatch={dispatch} actionType='PRIORITY' type='normal' />
             </FormWithLabel>
           </ModalBody>
           <ModalFooter>
@@ -113,3 +147,15 @@ const CreateIssueModel = (props: Props) => {
 };
 
 export default CreateIssueModel;
+
+type S = {
+  issue: number;
+  assignee: number;
+  priority: number;
+  summary: string;
+  descr: string;
+};
+
+export type T = 'ISSUE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY';
+
+export type A = { type: T; value: number | string };

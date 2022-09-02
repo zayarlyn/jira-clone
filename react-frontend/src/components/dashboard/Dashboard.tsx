@@ -8,9 +8,9 @@ const Dashboard = () => {
     <main className='z-10 bg-center bg-white overflow-auto grow'>
       <Breadcrumbs />
       <Routes>
-        <Route path='/project/:projectId/kanban' element={<Project />} />
+        <Route path='/project/:projectId/board' element={<Project />} />
         <Route path='/project/:projectId' element={<Setting />} />
-        <Route path='/' element={<Navigate to='project/1234' />} />
+        <Route path='/' element={<Navigate to='project/1234/board' />} />
       </Routes>
     </main>
   );

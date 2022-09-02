@@ -19,6 +19,8 @@ exports.getIssuesInProject = async (req, res) => {
   res.json(issues).end();
 };
 
+exports.createIssue = async (req, res) => {};
+
 exports.reorderIssues = async (req, res) => {
   const {
     id,

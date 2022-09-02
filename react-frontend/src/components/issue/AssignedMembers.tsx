@@ -13,7 +13,6 @@ const AssignedMembers = (props: Props) => {
     (p, { id, userId, ...data }) => ({ ...p, [userId]: data }),
     {}
   ) as Record<number, Member>;
-  console.log(membersObj, assignees);
 
   return (
     <ChakraProvider>

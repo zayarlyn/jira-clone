@@ -20,12 +20,12 @@ const Issue = (props: Props) => {
         <span className=''>{summary}</span>
         <div className='flex items-center justify-between mt-2'>
           <div className='flex items-center gap-3'>
+            <img className='w-[18px] h-[18px]' src={types[type].icon} alt={types[type].text} />
             <img
               className='w-[18px] h-[18px]'
               src={priorities[priority].icon}
               alt={priorities[priority].text}
             />
-            <img className='w-[18px] h-[18px]' src={types[type].icon} alt={types[type].text} />
           </div>
           <AssignedMembers assignees={assignees} members={members} />
         </div>

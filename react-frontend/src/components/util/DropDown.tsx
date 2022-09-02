@@ -1,20 +1,22 @@
 import { Icon } from '@iconify/react';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { A, T } from '../issue/CreateIssueModel';
 import Item from './Item';
 
 type Prop = {
   list: Category[];
   type: 'normal' | 'multiple';
-  updateHandler: Dispatch<SetStateAction<number>>;
+  dispatch: Dispatch<A>;
+  actionType: T;
 };
 
 const DropDown = (props: Prop) => {
-  const { list, type, updateHandler } = props;
+  const { list, type, dispatch, actionType } = props;
   const [current, setCurrent] = useState(0);
   const [on, setOn] = useState(false);
 
   const handleSelect = (idx: number) => () => {
-    updateHandler(idx);
+    dispatch({ type: actionType, value: idx });
     setCurrent(idx);
     setOn(false);
   };
@@ -36,7 +38,11 @@ const DropDown = (props: Prop) => {
       {on && (
         <ul className='absolute  w-full top-9 z-10 bg-white py-2 rounded-[3px] shadow-md'>
           {list.map((props, idx) => (
-            <li onClick={handleSelect(idx)} className='px-4 py-2 hover:bg-[#e2e8f0] cursor-pointer'>
+            <li
+              key={props.text}
+              onClick={handleSelect(idx)}
+              className='px-4 py-2 hover:bg-[#e2e8f0] cursor-pointer'
+            >
               <Item
                 className={type === 'normal' ? 'mr-4 w-4 h-4' : 'mr-4 w-6 h-6 object-cover'}
                 {...props}

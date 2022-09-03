@@ -28,6 +28,11 @@ export const extendedApi = api.injectEndpoints({
 
 export const { useListsQuery, useReorderListsMutation } = extendedApi;
 
+// selector
+export const selectLists = () =>
+  extendedApi.useListsQuery(undefined, { selectFromResult: ({ data }) => ({ lists: data }) });
+
+// helpers
 function updateListOrderLocally(array: List[], { s, d }: { s: number; d: number }) {
   const source = array.slice(0);
   const draggedIssue = source.splice(s, 1)[0]; // remove dragged item from its source list

@@ -11,8 +11,10 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Dispatch, SetStateAction, useReducer, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
+import { selectLists } from '../../api/lists.endpoint';
 import { selectMembers } from '../../api/project.endpoint';
 import { types, priorities } from '../../category';
 import DropDown from '../util/DropDown';
@@ -21,8 +23,8 @@ import Item from '../util/Item';
 
 const reducer = (state: S, { type, value }: A): S => {
   switch (type) {
-    case 'ISSUE':
-      return { ...state, issue: value as number };
+    case 'TYPE':
+      return { ...state, type: value as number };
     case 'SUMMARY':
       return { ...state, summary: value as string };
     case 'DESCR':
@@ -31,17 +33,21 @@ const reducer = (state: S, { type, value }: A): S => {
       return { ...state, assignee: value as number };
     case 'PRIORITY':
       return { ...state, priority: value as number };
+    case 'LIST':
+      return { ...state, list: value as number };
     default:
       return state;
   }
 };
 
 const initial = {
-  issue: 0,
-  summary: '',
   descr: '',
-  assignee: 0,
+  summary: '',
   priority: 0,
+  type: 0,
+  reporter: null,
+  assignee: null,
+  list: null,
 };
 
 interface Props {
@@ -49,40 +55,68 @@ interface Props {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateIssueModel = (props: Props) => {
+const CreateTYPEModel = (props: Props) => {
   const { isOpen, setIsOpen } = props;
+  const [form, dispatch] = useReducer(reducer, initial);
+  const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState(false);
   const { members } = selectMembers(1);
-  const ddMembers = members?.map(({ username, profileUrl }) => ({
-    text: username,
-    icon: profileUrl,
+  const { lists } = selectLists();
+  const ddMembers = members?.map(({ id, username: u, profileUrl: p }) => ({
+    text: u,
+    icon: p,
+    value: id,
   }));
-  const [state, dispatch] = useReducer(reducer, initial);
-  console.log(state);
+  const ddLists = lists?.map(({ id, name }) => ({ text: name, value: id }));
+
+  if (!members) return null;
+
+  const handleCreateTYPE = async () => {
+    if (!form.summary) return setInvalid(true);
+    setInvalid(false);
+    setLoading(true);
+    await createTYPE({
+      ...form,
+      reporter: 2, // for now
+    });
+    setLoading(false);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setLoading(false);
+  };
 
   return (
     <ChakraProvider>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} size='xl'>
+      <Modal isOpen={isOpen} onClose={handleClose} size='xl'>
         <ModalOverlay bgColor='#0d67cc30' />
         <ModalContent borderRadius={2}>
           <ModalHeader>
             <Text fontWeight={500} fontSize={19}>
-              Create Issue
+              Create TYPE
             </Text>
           </ModalHeader>
           <ModalBody>
-            <FormWithLabel label='Issue type'>
-              <DropDown list={types} dispatch={dispatch} actionType='ISSUE' type='normal' />
+            <FormWithLabel label='TYPE type'>
+              <DropDown list={types} dispatch={dispatch} actionType='TYPE' type='normal' />
             </FormWithLabel>
             <FormWithLabel label='Short summary'>
-              <Input
-                size='sm'
-                variant='filled'
-                borderWidth={1}
-                borderColor='gray.300'
-                _focus={{ borderWidth: 2 }}
-                value={state.summary}
-                onChange={(e) => dispatch({ type: 'SUMMARY', value: e.target.value })}
-              />
+              <>
+                <Input
+                  size='sm'
+                  variant='filled'
+                  borderWidth={1}
+                  borderColor='gray.300'
+                  _focus={{ borderWidth: 2 }}
+                  value={form.summary}
+                  onChange={(e) => dispatch({ type: 'SUMMARY', value: e.target.value })}
+                  isRequired={true}
+                />
+                {invalid && (
+                  <span className='text-[13px] text-red-500'>summary must not be empty</span>
+                )}
+              </>
             </FormWithLabel>
             <FormWithLabel label='Description'>
               <Textarea
@@ -92,7 +126,7 @@ const CreateIssueModel = (props: Props) => {
                 minRows={3}
                 as={ResizeTextarea}
                 borderRadius={2}
-                value={state.descr}
+                value={form.descr}
                 onChange={(e) => dispatch({ type: 'DESCR', value: e.target.value })}
               />
             </FormWithLabel>
@@ -125,9 +159,21 @@ const CreateIssueModel = (props: Props) => {
             <FormWithLabel label='Priority'>
               <DropDown list={priorities} dispatch={dispatch} actionType='PRIORITY' type='normal' />
             </FormWithLabel>
+            {ddLists && (
+              <FormWithLabel label='Deck'>
+                <DropDown list={ddLists} dispatch={dispatch} actionType='LIST' type='normal' />
+              </FormWithLabel>
+            )}
           </ModalBody>
           <ModalFooter>
-            <Button size='sm' fontSize={16} fontWeight={500} variant='ghost' mr={4}>
+            <Button
+              size='sm'
+              fontSize={16}
+              fontWeight={500}
+              variant='ghost'
+              mr={4}
+              onClick={handleClose}
+            >
               cancel
             </Button>
             <Button
@@ -136,6 +182,8 @@ const CreateIssueModel = (props: Props) => {
               fontWeight={500}
               borderRadius={3}
               colorScheme='messenger'
+              isLoading={loading}
+              onClick={handleCreateTYPE}
             >
               create
             </Button>
@@ -146,16 +194,23 @@ const CreateIssueModel = (props: Props) => {
   );
 };
 
-export default CreateIssueModel;
+export default CreateTYPEModel;
 
-type S = {
-  issue: number;
-  assignee: number;
+interface S {
+  type: number;
+  reporter: number | null;
+  assignee: number | null;
+  list: number | null;
   priority: number;
   summary: string;
   descr: string;
-};
+}
 
-export type T = 'ISSUE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY';
+export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LIST';
 
 export type A = { type: T; value: number | string };
+
+const createTYPE = async (body: S) => {
+  const { data } = await axios.post('http://localhost:5000/api/issue/create', body);
+  return data;
+};

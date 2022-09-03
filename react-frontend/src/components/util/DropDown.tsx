@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import { A, T } from '../issue/CreateIssueModel';
 import Item from './Item';
 
@@ -15,8 +15,12 @@ const DropDown = (props: Prop) => {
   const [current, setCurrent] = useState(0);
   const [on, setOn] = useState(false);
 
+  useEffect(() => {
+    dispatch({ type: actionType, value: list[0].value });
+  }, []);
+
   const handleSelect = (idx: number) => () => {
-    dispatch({ type: actionType, value: idx });
+    dispatch({ type: actionType, value: list[idx].value });
     setCurrent(idx);
     setOn(false);
   };
@@ -57,4 +61,4 @@ const DropDown = (props: Prop) => {
 
 export default DropDown;
 
-type Category = { text: string; icon: string };
+type Category = { text: string; icon?: string; value: string | number };

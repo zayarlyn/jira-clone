@@ -1,7 +1,9 @@
 const router = require('express').Router();
 
-const { reorderIssues } = require('../controllers/issue.controller');
+const { reorderIssues, createIssue } = require('../controllers/issue.controller');
 
 router.put('/reorder', reorderIssues);
+
+router.post('/create', createIssue);
 
 module.exports = router;

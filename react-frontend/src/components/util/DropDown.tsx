@@ -14,9 +14,8 @@ type Prop = {
 const DropDown = (props: Prop) => {
   const { list, type, dispatch, actionType } = props;
   const isMulti = type === 'multiple';
-  const initial = isMulti ? [list[0]] : 0;
-  const [localList, setLocalList] = useState<Category[]>(list.slice(1));
-  const [current, setCurrent] = useState<Category[] | number>(initial);
+  const [localList, setLocalList] = useState<Category[]>(isMulti ? list.slice(1) : list);
+  const [current, setCurrent] = useState<Category[] | number>(isMulti ? [list[0]] : 0);
   const [on, setOn] = useState(false);
 
   const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
@@ -26,21 +25,17 @@ const DropDown = (props: Prop) => {
   }, []);
 
   const handleSelect = (idx: number) => () => {
-    const clone = localList.slice(0);
-    const selected = clone.splice(idx, 1)[0];
-    const newCurrent = [...(current as Category[]), selected];
+    const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
     isMulti && setLocalList(clone);
-    setCurrent((p) => (isMulti ? newCurrent : idx));
-    dispatch({ type: actionType, value: isMulti ? parseIds(newCurrent) : idx });
+    setCurrent(isMulti ? resultList : idx);
+    dispatch({ type: actionType, value: isMulti ? parseIds(resultList) : idx });
     setOn(false);
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLSpanElement>, idx: number) => {
     e.stopPropagation();
-    const clone = (current as Category[]).slice(0);
-    const deleted = clone.splice(idx, 1)[0];
-    const newLocalList = [...localList, deleted];
-    setLocalList(newLocalList);
+    const [clone, resultList] = modifyItems(idx, current as Category[], localList);
+    setLocalList(resultList);
     setCurrent(clone);
     dispatch({ type: actionType, value: isMulti ? parseIds(clone) : idx });
   };
@@ -117,4 +112,11 @@ export default DropDown;
 
 type Category = { text: string; icon?: string; value: number };
 
-// type Multi = { idx: number; id: number };
+// helper
+
+const modifyItems = (idx: number, list: Category[], resultList: Category[]) => {
+  const clone = list.slice(0);
+  const deleted = clone.splice(idx, 1)[0];
+  const result = [...resultList, deleted];
+  return [clone, result];
+};

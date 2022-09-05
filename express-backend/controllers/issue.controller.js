@@ -22,6 +22,9 @@ exports.getIssuesInProject = async (req, res) => {
 exports.createIssue = async (req, res) => {
   const {} = req.body;
   // const result = client.issue.create({data: });
+  // create issue [summary, descr, priority, type, reporter,  list, order*]
+  // get the number of issues and set it as the order column/attribute
+  // create assignees rows with ids
   console.log(req.body);
 };
 

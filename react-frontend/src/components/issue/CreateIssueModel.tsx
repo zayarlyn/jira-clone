@@ -30,7 +30,7 @@ const reducer = (state: S, { type, value }: A): S => {
     case 'DESCR':
       return { ...state, descr: value as string };
     case 'ASSIGNEE':
-      return { ...state, assignee: value as number };
+      return { ...state, assignee: value as number[] };
     case 'PRIORITY':
       return { ...state, priority: value as number };
     case 'LIST':
@@ -46,7 +46,7 @@ const initial = {
   priority: 0,
   type: 0,
   reporter: null,
-  assignee: null,
+  assignee: [],
   list: null,
 };
 
@@ -142,7 +142,11 @@ const CreateTYPEModel = (props: Props) => {
                   borderRadius={3}
                   px={4}
                 >
-                  <Item icon={ddMembers[0].icon} text='Yhwach' className='w-6 h-6 mr-4' />
+                  <Item
+                    icon={ddMembers[0].icon}
+                    text='Yhwach'
+                    className='w-6 h-6 mr-4 rounded-full'
+                  />
                 </Button>
               </FormWithLabel>
             )}
@@ -199,7 +203,7 @@ export default CreateTYPEModel;
 interface S {
   type: number;
   reporter: number | null;
-  assignee: number | null;
+  assignee: number[];
   list: number | null;
   priority: number;
   summary: string;
@@ -208,7 +212,7 @@ interface S {
 
 export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LIST';
 
-export type A = { type: T; value: number | string };
+export type A = { type: T; value: number | number[] | string };
 
 const createTYPE = async (body: S) => {
   const { data } = await axios.post('http://localhost:5000/api/issue/create', body);

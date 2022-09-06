@@ -118,7 +118,7 @@ const DropDown = (props: Prop) => {
 
 export default DropDown;
 
-type Category = { text: string; icon?: string; value: number };
+export type Category = { text: string; icon?: string; value: number };
 
 // helper
 

@@ -21,6 +21,7 @@ const List = ({ index, name, id }: Props) => {
         <div className='flex mb-4 text-[15px] items-center'>
           <span className='block font-medium'>{name}</span>
           <span className='mx-2 text-gray-500'>|</span>
+          <span className='font-bold text-gray-600'>{issues.length}</span>
         </div>
         <DroppableWrapper className='min-h-[3rem]' type='issue' droppableId={'list-' + id}>
           {issues.map((datapoints, n) => (

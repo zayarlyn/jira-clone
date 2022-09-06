@@ -13,6 +13,7 @@ import {
 import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/project.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
+import IssueModelHOC from '../issue/IssueModelHOC';
 
 const Filter = () => {
   const { data: members } = useMembersQuery(1);
@@ -62,7 +63,7 @@ const Filter = () => {
         >
           Create an issue
         </Button>
-        <CreateIssueModel isOpen={isOpen} setIsOpen={setIsOpen} />
+        <IssueModelHOC render={CreateIssueModel} {...{ isOpen, setIsOpen }} />
       </ChakraProvider>
     </div>
   );

@@ -1,5 +1,5 @@
 import { api } from './api';
-import { dndOrderData, Issues, reorderIssues } from './apiTypes';
+import { CreateIssue, dndOrderData, Issues, reorderIssues } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,7 +7,14 @@ export const extendedApi = api.injectEndpoints({
       query: () => 'project/1/issues',
       providesTags: ['Issues'],
     }),
-
+    createIssue: builder.mutation<void, CreateIssue>({
+      query: (body) => ({ url: 'issue/create', method: 'POST', body }),
+      invalidatesTags: ['Issues'],
+    }),
+    //     const createTYPE = async (body: S) => {
+    //   const { data } = await axios.post('http://localhost:5000/api/issue/create', body);
+    //   return data;
+    // };
     reorderIssues: builder.mutation<void, reorderIssues>({
       query: (body) => ({ url: 'issue/reorder', method: 'PUT', body }),
       invalidatesTags: ['Issues'],
@@ -27,7 +34,7 @@ export const extendedApi = api.injectEndpoints({
 });
 
 // hooks
-export const { useIssuesQuery, useReorderIssuesMutation } = extendedApi;
+export const { useIssuesQuery, useCreateIssueMutation, useReorderIssuesMutation } = extendedApi;
 
 // selectors
 export const selectIssuesArray = (listId: number) =>

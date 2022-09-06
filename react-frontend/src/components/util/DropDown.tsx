@@ -21,14 +21,22 @@ const DropDown = (props: Prop) => {
   const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
 
   useEffect(() => {
-    dispatch({ type: actionType, value: isMulti ? parseIds(current as Category[]) : 0 });
+    dispatch({
+      type: actionType,
+      value: isMulti ? parseIds(current as Category[]) : list[0].value,
+    });
   }, []);
 
   const handleSelect = (idx: number) => () => {
-    const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
-    isMulti && setLocalList(clone);
-    setCurrent(isMulti ? resultList : idx);
-    dispatch({ type: actionType, value: isMulti ? parseIds(resultList) : idx });
+    if (isMulti) {
+      const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
+      dispatch({ type: actionType, value: isMulti ? parseIds(resultList) : localList[idx].value });
+      setLocalList(clone);
+      setCurrent(resultList);
+    } else {
+      setCurrent(idx);
+      dispatch({ type: actionType, value: localList[idx].value });
+    }
     setOn(false);
   };
 
@@ -37,7 +45,7 @@ const DropDown = (props: Prop) => {
     const [clone, resultList] = modifyItems(idx, current as Category[], localList);
     setLocalList(resultList);
     setCurrent(clone);
-    dispatch({ type: actionType, value: isMulti ? parseIds(clone) : idx });
+    dispatch({ type: actionType, value: isMulti ? parseIds(clone) : localList[idx].value });
   };
 
   return (

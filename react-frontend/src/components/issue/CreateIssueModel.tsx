@@ -14,6 +14,8 @@ import {
 import axios from 'axios';
 import { Dispatch, SetStateAction, useReducer, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
+import { CreateIssue } from '../../api/apiTypes';
+import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import { selectLists } from '../../api/lists.endpoint';
 import { selectMembers } from '../../api/project.endpoint';
 import { types, priorities } from '../../category';
@@ -21,7 +23,7 @@ import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
 
-const reducer = (state: S, { type, value }: A): S => {
+const reducer = (state: CreateIssue, { type, value }: A): CreateIssue => {
   switch (type) {
     case 'TYPE':
       return { ...state, type: value as number };
@@ -33,8 +35,8 @@ const reducer = (state: S, { type, value }: A): S => {
       return { ...state, assignee: value as number[] };
     case 'PRIORITY':
       return { ...state, priority: value as number };
-    case 'LIST':
-      return { ...state, list: value as number };
+    case 'LISTID':
+      return { ...state, listId: value as number };
     default:
       return state;
   }
@@ -45,9 +47,9 @@ const initial = {
   summary: '',
   priority: 0,
   type: 0,
-  reporter: null,
+  reporterId: null,
   assignee: [],
-  list: null,
+  listId: null,
 };
 
 interface Props {
@@ -56,35 +58,38 @@ interface Props {
 }
 
 const CreateTYPEModel = (props: Props) => {
+  const [createIssue] = useCreateIssueMutation();
   const { isOpen, setIsOpen } = props;
   const [form, dispatch] = useReducer(reducer, initial);
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const { members } = selectMembers(1);
   const { lists } = selectLists();
-  const ddMembers = members?.map(({ id, username: u, profileUrl: p }) => ({
+  const ddMembers = members?.map(({ username: u, profileUrl: p, userId }) => ({
     text: u,
     icon: p,
-    value: id,
+    value: userId,
   }));
   const ddLists = lists?.map(({ id, name }) => ({ text: name, value: id }));
+  console.log(ddLists);
 
   if (!members) return null;
+
+  const terminate = () => {
+    setLoading(false);
+    setIsOpen(false);
+  };
 
   const handleCreateTYPE = async () => {
     if (!form.summary) return setInvalid(true);
     setInvalid(false);
     setLoading(true);
-    await createTYPE({
-      ...form,
-      reporter: 2, // for now
-    });
-    setLoading(false);
+    await createIssue({ ...form, reporterId: 2 }); //for now
+    terminate();
   };
 
   const handleClose = () => {
-    setIsOpen(false);
-    setLoading(false);
+    terminate();
   };
 
   return (
@@ -143,8 +148,8 @@ const CreateTYPEModel = (props: Props) => {
                   px={4}
                 >
                   <Item
-                    icon={ddMembers[0].icon}
-                    text='Yhwach'
+                    icon={ddMembers[2].icon}
+                    text={ddMembers[2].text}
                     className='w-6 h-6 mr-4 rounded-full'
                   />
                 </Button>
@@ -165,7 +170,7 @@ const CreateTYPEModel = (props: Props) => {
             </FormWithLabel>
             {ddLists && (
               <FormWithLabel label='Deck'>
-                <DropDown list={ddLists} dispatch={dispatch} actionType='LIST' type='normal' />
+                <DropDown list={ddLists} dispatch={dispatch} actionType='LISTID' type='normal' />
               </FormWithLabel>
             )}
           </ModalBody>
@@ -200,21 +205,6 @@ const CreateTYPEModel = (props: Props) => {
 
 export default CreateTYPEModel;
 
-interface S {
-  type: number;
-  reporter: number | null;
-  assignee: number[];
-  list: number | null;
-  priority: number;
-  summary: string;
-  descr: string;
-}
-
-export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LIST';
+export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
 
 export type A = { type: T; value: number | number[] | string };
-
-const createTYPE = async (body: S) => {
-  const { data } = await axios.post('http://localhost:5000/api/issue/create', body);
-  return data;
-};

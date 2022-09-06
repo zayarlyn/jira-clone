@@ -86,3 +86,13 @@ export interface dndOrderData {
   s: { sId: number; index: number };
   d: { dId: number; index: number };
 }
+
+export interface CreateIssue {
+  type: number;
+  reporterId: number | null;
+  assignee: number[];
+  listId: number | null;
+  priority: number;
+  summary: string;
+  descr: string;
+}

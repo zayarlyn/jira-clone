@@ -24,7 +24,6 @@ const Menubar = () => {
           </div>
         </div>
         <div className='my-5'>
-          {/* <Link to='/kanban'>Kanban Board</Link> */}
           <BtnWithIcon to='project/123/board' icon='bi:kanban' text='Kanban Board' />
           <BtnWithIcon to='project/123/roadmap' icon='carbon:roadmap' text='Roadmap' />
           <BtnWithIcon to='project/123/commits' icon='material-symbols:commit' text='Commits' />

@@ -8,7 +8,7 @@ import IssueModelHOC from './IssueModelHOC';
 import IssueDetailModel from './IssueDetailModel';
 
 const Issue = (props: Props) => {
-  const { index, summary, id, type, priority, assignees } = props;
+  const { listId, idx, summary, id, type, priority, assignees } = props;
   const [isOpen, setIsOpen] = useState(false);
   const { members } = selectMembers(1);
   const { icon, text } = priorities[priority];
@@ -19,7 +19,7 @@ const Issue = (props: Props) => {
     <>
       <DraggableWrapper
         className='mb-2 w-full rounded-sm bg-light-c-1 p-2 shadow-light-issue hover:bg-light-c-5'
-        index={index}
+        index={idx}
         draggableId={'issue-' + id}
       >
         <div onClick={() => setIsOpen(true)}>
@@ -33,7 +33,13 @@ const Issue = (props: Props) => {
           </div>
         </div>
       </DraggableWrapper>
-      {isOpen && <IssueModelHOC render={IssueDetailModel} {...{ isOpen, setIsOpen }} />}
+      {isOpen && (
+        <IssueModelHOC
+          render={IssueDetailModel}
+          {...{ isOpen, setIsOpen }}
+          issue={{ listId, idx }}
+        />
+      )}
     </>
   );
 };
@@ -41,6 +47,6 @@ const Issue = (props: Props) => {
 export default Issue;
 
 interface Props extends JiraIssue {
-  listIndex: number;
-  index: number;
+  listId: number;
+  idx: number;
 }

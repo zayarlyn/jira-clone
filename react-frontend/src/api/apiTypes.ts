@@ -16,6 +16,8 @@ export interface Issue {
   listId: number;
   reporterId: number;
   assignees: Assignee[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Assignee {
@@ -90,9 +92,11 @@ export interface dndOrderData {
 export interface CreateIssue {
   type: number;
   reporterId: number | null;
-  assignee: number[];
+  assignees: number[];
   listId: number | null;
   priority: number;
   summary: string;
   descr: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import ResizeTextarea from 'react-textarea-autosize';
 import { useCreateIssueMutation } from '../../api/issues.endpoint';
-import DropDown, { Category } from '../util/DropDown';
+import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
 import type { IssueModelProps } from './IssueModelHOC';
@@ -30,7 +30,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
   } = props;
   const [createIssue] = useCreateIssueMutation();
 
-  const handleCreateIssue = () => createIssue({ ...form, reporterId: 2 });
+  // const handleCreateIssue = () => createIssue({ ...form, reporterId: 2 });
 
   return (
     <ChakraProvider>
@@ -53,7 +53,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
               _focus={{ borderWidth: 2 }}
               value={form.summary}
               onChange={(e) => dispatch({ type: 'SUMMARY', value: e.target.value })}
-              isRequired={true}
+              isRequired
             />
             {isInvalid && (
               <span className='text-[13px] text-red-500'>summary must not be empty</span>
@@ -97,7 +97,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
           <DropDown list={priorities} dispatch={dispatch} actionType='PRIORITY' type='normal' />
         </FormWithLabel>
         {lists && (
-          <FormWithLabel label='Deck'>
+          <FormWithLabel label='Status'>
             <DropDown list={lists} dispatch={dispatch} actionType='LISTID' type='normal' />
           </FormWithLabel>
         )}
@@ -120,7 +120,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
           borderRadius={3}
           colorScheme='messenger'
           isLoading={isLoading}
-          onClick={handleApiMutation(handleCreateIssue)} // 2 for now
+          onClick={handleApiMutation(createIssue)} // 2 for now
         >
           create
         </Button>

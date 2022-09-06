@@ -1,6 +1,7 @@
 import { Button, ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction, useReducer, useState } from 'react';
-import { CreateIssue } from '../../api/apiTypes';
+import type { CreateIssue, Issue } from '../../api/apiTypes';
+import { selectIssuesArray } from '../../api/issues.endpoint';
 import { selectLists } from '../../api/lists.endpoint';
 import { selectMembers } from '../../api/project.endpoint';
 import { types, priorities } from '../../category';
@@ -15,7 +16,7 @@ const reducer = (state: CreateIssue, { type, value }: IssueModelAction): CreateI
     case 'DESCR':
       return { ...state, descr: value as string };
     case 'ASSIGNEE':
-      return { ...state, assignee: value as number[] };
+      return { ...state, assignees: value as number[] };
     case 'PRIORITY':
       return { ...state, priority: value as number };
     case 'LISTID':
@@ -25,25 +26,19 @@ const reducer = (state: CreateIssue, { type, value }: IssueModelAction): CreateI
   }
 };
 
-const initial = {
-  descr: '',
-  summary: '',
-  priority: 0,
-  type: 0,
-  reporterId: null,
-  assignee: [],
-  listId: null,
-};
+type IssueMetaData = { listId: number; idx: number };
 
 interface Props {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   render: FC<IssueModelProps>;
+  issue?: IssueMetaData;
 }
 
 function IssueModelHOC(props: Props) {
-  const { isOpen, setIsOpen, render: Render } = props;
-  const [form, dispatch] = useReducer(reducer, initial);
+  const { issue, isOpen, setIsOpen, render: Render } = props;
+  const { issues } = selectIssuesArray(issue?.listId ?? -1); // -1 is
+  const [form, dispatch] = useReducer(reducer, setInitial(issues, issue));
   const [isLoading, setIsLoading] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
   const { members: apiMembers } = selectMembers(1);
@@ -65,11 +60,11 @@ function IssueModelHOC(props: Props) {
   };
 
   const handleApiMutation = (apiFunc: any) => async () => {
-    console.log("I'm in");
     if (!form.summary) return setIsInvalid(true);
+    const { createdAt, updatedAt, ...data } = form;
     setIsInvalid(false);
     setIsLoading(true);
-    await apiFunc();
+    await apiFunc(data);
     terminate();
   };
 
@@ -79,7 +74,7 @@ function IssueModelHOC(props: Props) {
 
   return (
     <ChakraProvider>
-      <Modal isOpen={isOpen} onClose={handleClose} size='2xl'>
+      <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} isCentered size='2xl'>
         <ModalOverlay bgColor='#0d67cc40' />
         <ModalContent borderRadius={2}>
           <Render
@@ -120,3 +115,22 @@ export interface IssueModelProps {
   handleClose: () => void;
   dispatch: Dispatch<IssueModelAction>;
 }
+
+// helpers
+const initial: CreateIssue = {
+  descr: '',
+  summary: '',
+  priority: 0,
+  type: 0,
+  reporterId: null,
+  assignees: [],
+  listId: null,
+};
+
+const setInitial = (issues: Issue[], issue?: IssueMetaData) => {
+  if (issue) {
+    const data = issues[issue.idx];
+    return { ...data, assignees: data.assignees.map(({ userId }) => userId) };
+  }
+  return initial;
+};

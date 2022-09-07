@@ -90,6 +90,7 @@ export interface dndOrderData {
 }
 
 export interface CreateIssue {
+  id?: number;
   type: number;
   reporterId: number | null;
   assignees: number[];

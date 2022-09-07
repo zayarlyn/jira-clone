@@ -72,20 +72,23 @@ const MemberInput = ({ projectId }: Props) => {
               : 'loading ...'}
           </Flex>
           {selectedId && (
-            <Flex justifyContent='right' mt={3}>
-              <Button
-                onClick={() => setSelectedId(null)}
-                size='xs'
-                borderRadius={3}
-                variant='ghost'
-                mr={3}
-              >
-                cancel
-              </Button>
-              <Button onClick={handleRemoveMember} size='xs' borderRadius={3} colorScheme='red'>
-                remove member
-              </Button>
-            </Flex>
+            <>
+              <hr className='border-t-[.5px] border-gray-400 mt-3' />
+              <Flex justifyContent='right' mt={3}>
+                <Button
+                  onClick={() => setSelectedId(null)}
+                  size='xs'
+                  borderRadius={3}
+                  variant='ghost'
+                  mr={3}
+                >
+                  cancel
+                </Button>
+                <Button onClick={handleRemoveMember} size='xs' borderRadius={3} colorScheme='red'>
+                  remove member
+                </Button>
+              </Flex>
+            </>
           )}
         </Box>
         {!input ? null : (

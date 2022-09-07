@@ -1,27 +1,47 @@
 import {
   Button,
   ChakraProvider,
-  Divider,
-  Input,
+  IconButton,
   ModalBody,
   ModalHeader,
-  Text,
   Textarea,
 } from '@chakra-ui/react';
+import { Icon } from '@iconify/react';
 import ResizeTextarea from 'react-textarea-autosize';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
+import IconBtn from '../util/IconBtn';
 import Item from '../util/Item';
 import type { IssueModelProps } from './IssueModelHOC';
 
 const IssueDetailModel = (props: IssueModelProps) => {
-  const { members, lists, priorities, form, isInvalid, dispatch } = props;
+  const { members, lists, types, priorities, form, isInvalid, dispatch } = props;
+  const metadata = types[form.type];
 
   return (
     <ChakraProvider>
-      <ModalHeader>l</ModalHeader>
+      <ModalHeader>
+        <div className='text-[16px] text-gray-600 px-3 mt-3 flex items-center justify-between'>
+          <Item className='mr-3 w-4 h-4' {...metadata} text={metadata.text + '-' + form.id} />
+          <div className='text-black'>
+            <IconButton
+              size='sm'
+              variant='ghost'
+              aria-label='delete issue'
+              icon={<Icon className='text-xl' icon='bx:trash' />}
+            />
+            <IconButton
+              size='sm'
+              variant='ghost'
+              ml={3}
+              aria-label='close issue detail'
+              icon={<Icon className='text-lg' icon='akar-icons:cross' />}
+            />
+          </div>
+        </div>
+      </ModalHeader>
       <ModalBody>
-        <div className='flex'>
+        <div className='flex mb-8'>
           <div className='w-full pr-6'>
             <FormWithLabel label=''>
               <>
@@ -49,7 +69,7 @@ const IssueDetailModel = (props: IssueModelProps) => {
             </FormWithLabel>
             <FormWithLabel label='Description' labelClass='pl-3 mb-0 text-[14px]'>
               <Textarea
-                fontSize={17}
+                fontSize={16}
                 borderWidth={1}
                 borderColor='transparent'
                 borderRadius={2}
@@ -67,7 +87,13 @@ const IssueDetailModel = (props: IssueModelProps) => {
           </div>
           <div className='w-[15rem] shrink-0 mt-3'>
             <FormWithLabel label='Status'>
-              <DropDown list={lists} dispatch={dispatch} actionType='LISTID' type='normal' />
+              <DropDown
+                list={lists}
+                dispatch={dispatch}
+                actionType='LISTID'
+                type='normal'
+                variant='small'
+              />
             </FormWithLabel>
             {members && (
               <FormWithLabel label='Reporter'>
@@ -75,11 +101,11 @@ const IssueDetailModel = (props: IssueModelProps) => {
                   display='flex'
                   justifyContent='start'
                   size='sm'
-                  w='full'
-                  borderWidth={1}
+                  w='fit'
                   borderColor='gray.300'
                   borderRadius={3}
                   px={4}
+                  mb={7}
                 >
                   <Item {...members[2]} className='w-6 h-6 mr-4 rounded-full object-cover' />
                 </Button>
@@ -88,6 +114,7 @@ const IssueDetailModel = (props: IssueModelProps) => {
             {members && (
               <FormWithLabel label='Assignee'>
                 <DropDown
+                  variant='small'
                   list={members}
                   dispatch={dispatch}
                   actionType='ASSIGNEE'
@@ -96,10 +123,16 @@ const IssueDetailModel = (props: IssueModelProps) => {
               </FormWithLabel>
             )}
             <FormWithLabel label='Priority'>
-              <DropDown list={priorities} dispatch={dispatch} actionType='PRIORITY' type='normal' />
+              <DropDown
+                variant='small'
+                list={priorities}
+                dispatch={dispatch}
+                actionType='PRIORITY'
+                type='normal'
+              />
             </FormWithLabel>
             <hr className='border-t-[.5px] border-gray-400' />
-            <div className='mt-3 text-sm text-gray-600'>
+            <div className='mt-4 text-sm text-gray-600'>
               <span className='block mb-2'>Created - 13 days ago</span>
               <span>Updated - 3 days ago</span>
             </div>

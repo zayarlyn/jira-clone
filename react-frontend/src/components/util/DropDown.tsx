@@ -7,12 +7,13 @@ import Item from './Item';
 type Prop = {
   list: Category[];
   type: 'normal' | 'multiple';
+  variant?: 'normal' | 'small';
   dispatch: Dispatch<A>;
   actionType: T;
 };
 
 const DropDown = (props: Prop) => {
-  const { list, type, dispatch, actionType } = props;
+  const { list, type, variant = 'normal', dispatch, actionType } = props;
   const isMulti = type === 'multiple';
   const [localList, setLocalList] = useState<Category[]>(isMulti ? list.slice(1) : list);
   const [current, setCurrent] = useState<Category[] | number>(isMulti ? [list[0]] : 0);
@@ -49,10 +50,18 @@ const DropDown = (props: Prop) => {
   };
 
   return (
-    <div className='relative text-black text-[15px] font-medium'>
+    <div
+      className={`relative text-black text-[15px] font-medium ${
+        variant === 'normal' ? '' : 'mb-8'
+      }`}
+    >
       <button
         onClick={() => setOn((p) => !p)}
-        className='flex items-center justify-between w-full rounded-[4px] px-4 bg-[#edf2f7] hover:bg-[#e2e8f0] py-1 border-gray-300 border-[1px]'
+        className={`flex items-center justify-between tracking-wide px-4 bg-[#edf2f7] hover:bg-[#e2e8f0] py-1 border-gray-300 ${
+          variant === 'normal'
+            ? 'border-[1px] rounded-[4px] w-full'
+            : 'border-none rounded-sm w-fit'
+        }`}
       >
         <>
           <div className='flex gap-2 flex-wrap'>
@@ -68,6 +77,7 @@ const DropDown = (props: Prop) => {
                     columnGap={2}
                     py={0.5}
                     px={2}
+                    textColor='black'
                     _hover={{ bg: 'highlight' }}
                     onClick={(e) => handleDelete(e, i)}
                   >
@@ -87,7 +97,10 @@ const DropDown = (props: Prop) => {
               />
             )}
           </div>
-          <Icon icon='la:angle-down' />
+          <Icon
+            className={`ml-3 ${variant === 'normal' ? '' : 'text-[12px]'}`}
+            icon='la:angle-down'
+          />
         </>
       </button>
       {on && (

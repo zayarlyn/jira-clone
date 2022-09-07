@@ -1,4 +1,4 @@
-import { Button, ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import { ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction, useReducer, useState } from 'react';
 import type { CreateIssue, Issue } from '../../api/apiTypes';
 import { selectIssuesArray } from '../../api/issues.endpoint';
@@ -59,9 +59,11 @@ function IssueModelHOC(props: Props) {
     setIsInvalid(false);
   };
 
+  console.log(form);
+
   const handleApiMutation = (apiFunc: any) => async () => {
     if (!form.summary) return setIsInvalid(true);
-    const { createdAt, updatedAt, ...data } = form;
+    const { createdAt, updatedAt, id, ...data } = form;
     setIsInvalid(false);
     setIsLoading(true);
     await apiFunc(data);

@@ -63,7 +63,7 @@ const Filter = () => {
         >
           Create an issue
         </Button>
-        <IssueModelHOC render={CreateIssueModel} {...{ isOpen, setIsOpen }} />
+        <IssueModelHOC size='fixed' render={CreateIssueModel} {...{ isOpen, setIsOpen }} />
       </ChakraProvider>
     </div>
   );

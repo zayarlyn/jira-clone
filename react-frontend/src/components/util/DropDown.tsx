@@ -8,36 +8,42 @@ type Prop = {
   list: Category[];
   type: 'normal' | 'multiple';
   variant?: 'normal' | 'small';
+  defaultValue?: number | Category[];
   dispatch: Dispatch<A>;
   actionType: T;
 };
 
 const DropDown = (props: Prop) => {
-  const { list, type, variant = 'normal', dispatch, actionType } = props;
+  const { list, defaultValue, type, variant = 'normal', dispatch, actionType } = props;
   const isMulti = type === 'multiple';
   const [localList, setLocalList] = useState<Category[]>(isMulti ? list.slice(1) : list);
-  const [current, setCurrent] = useState<Category[] | number>(isMulti ? [list[0]] : 0);
+  const [current, setCurrent] = useState<Category[] | number>(
+    defaultValue || (isMulti ? [list[0]] : 0)
+  );
   const [on, setOn] = useState(false);
+  // console.log(defaultValue, current);
 
   const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
 
-  useEffect(() => {
-    dispatch({
-      type: actionType,
-      value: isMulti ? parseIds(current as Category[]) : list[0].value,
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: actionType,
+  //     value: isMulti ? parseIds(current as Category[]) : list[0].value,
+  //   });
+  // }, []);
 
   const handleSelect = (idx: number) => () => {
-    if (isMulti) {
-      const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
-      dispatch({ type: actionType, value: isMulti ? parseIds(resultList) : localList[idx].value });
-      setLocalList(clone);
-      setCurrent(resultList);
-    } else {
-      setCurrent(idx);
-      dispatch({ type: actionType, value: localList[idx].value });
-    }
+    const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
+    dispatch({ type: actionType, value: isMulti ? parseIds(resultList) : localList[idx].value });
+    setLocalList(clone);
+    setCurrent(resultList);
+    setOn(false);
+  };
+
+  const handleClick = (idx: number) => () => {
+    if (idx === current) return setOn(false);
+    setCurrent(idx);
+    dispatch({ type: actionType, value: localList[idx].value });
     setOn(false);
   };
 
@@ -109,7 +115,7 @@ const DropDown = (props: Prop) => {
             localList.map((props, idx) => (
               <li
                 key={props.text}
-                onClick={handleSelect(idx)}
+                onClick={(isMulti ? handleSelect : handleClick)(idx)}
                 className='px-4 py-2 hover:bg-[#e2e8f0] cursor-pointer'
               >
                 <Item

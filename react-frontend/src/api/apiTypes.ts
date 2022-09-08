@@ -101,3 +101,8 @@ export interface CreateIssue {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface UpdateIssue {
+  id: number;
+  body: Partial<Issue>;
+}

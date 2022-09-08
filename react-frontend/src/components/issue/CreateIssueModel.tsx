@@ -8,35 +8,35 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import { useReducer, useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
+import { CreateIssue } from '../../api/apiTypes';
 import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
-import type { IssueModelProps } from './IssueModelHOC';
+import type { IssueModelAction, IssueModelProps } from './IssueModelHOC';
 
 const CreateIssueModel = (props: IssueModelProps) => {
-  const {
-    lists,
-    members,
-    types,
-    priorities,
-    form,
-    isLoading,
-    isInvalid,
-    dispatch,
-    handleClose,
-    handleApiMutation,
-  } = props;
+  const { lists, members, types, priorities, handleClose } = props;
   const [createIssue] = useCreateIssueMutation();
+  const [form, dispatch] = useReducer(reducer, initial);
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const handleCreateIssue = () => createIssue({ ...form, reporterId: 2 });
+  const handleCreateIssue = async () => {
+    if (!form.summary) return setIsInvalid(true);
+    setIsLoading(true);
+    await createIssue({ ...form, reporterId: 2 }); //for now
+    setIsLoading(false);
+    handleClose();
+  };
 
   return (
     <ChakraProvider>
       <ModalHeader>
         <Text fontWeight={500} fontSize={19}>
-          Create TYPE
+          Create Issue
         </Text>
       </ModalHeader>
       <ModalBody>
@@ -120,7 +120,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
           borderRadius={3}
           colorScheme='messenger'
           isLoading={isLoading}
-          onClick={handleApiMutation(createIssue)} // 2 for now
+          onClick={handleCreateIssue} // 2 for now
         >
           create
         </Button>
@@ -134,3 +134,32 @@ export default CreateIssueModel;
 export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
 
 export type A = { type: T; value: number | number[] | string };
+
+const initial = {
+  descr: '',
+  summary: '',
+  priority: 0,
+  type: 0,
+  reporterId: null,
+  assignees: [],
+  listId: null,
+};
+
+const reducer = (state: CreateIssue, { type, value }: IssueModelAction): CreateIssue => {
+  switch (type) {
+    case 'TYPE':
+      return { ...state, type: value as number };
+    case 'SUMMARY':
+      return { ...state, summary: value as string };
+    case 'DESCR':
+      return { ...state, descr: value as string };
+    case 'ASSIGNEE':
+      return { ...state, assignees: value as number[] };
+    case 'PRIORITY':
+      return { ...state, priority: value as number };
+    case 'LISTID':
+      return { ...state, listId: value as number };
+    default:
+      return state;
+  }
+};

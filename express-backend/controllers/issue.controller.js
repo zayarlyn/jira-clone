@@ -21,7 +21,6 @@ exports.getIssuesInProject = async (req, res) => {
 
 exports.createIssue = async (req, res) => {
   const { listId, assignees, ...data } = req.body;
-  console.log(req.body);
   // get the number of issues and set it as the order column/attribute
   const { _count: order } = await client.issue.aggregate({ where: { listId }, _count: true });
   // create issue [summary, descr, priority, type, reporter,  list, order*]
@@ -29,6 +28,11 @@ exports.createIssue = async (req, res) => {
   // create assignee[] rows with new issue id
   await client.assignee.createMany({ data: assignees.map((userId) => ({ issueId, userId })) });
   res.json({ msg: 'issue is created' }).end();
+};
+
+exports.updateIssue = async (req, res) => {
+  console.log(req.body, req.query, req.params);
+  res.end();
 };
 
 exports.reorderIssues = async (req, res) => {

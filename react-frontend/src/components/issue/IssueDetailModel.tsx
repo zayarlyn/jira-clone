@@ -18,8 +18,6 @@ import type { IssueModelAction, IssueModelProps } from './IssueModelHOC';
 
 const IssueDetailModel = (props: IssueModelProps) => {
   const { issue, members, lists, types, priorities, handleClose } = props;
-  const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
-  const [updateIssue] = useUpdateIssueMutation();
   const { issues } = selectIssuesArray(issue?.listId as number);
   const {
     id,
@@ -30,15 +28,16 @@ const IssueDetailModel = (props: IssueModelProps) => {
     summary: SUMMARY,
     descr: DESCR,
   } = issues[issue?.idx as number];
+  const [updateIssue] = useUpdateIssueMutation();
   const [summary, setSummary] = useState(SUMMARY);
   const [descr, setDescr] = useState(DESCR);
   const [isInvalid, setIsInvalid] = useState(false);
+  const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
 
   const dispatchMiddleware = ({ type, value }: IssueModelAction) => {
-    // console.log(form);
-    // const formType = type === 'LISTID' ? 'listId' : type.toLowerCase();
-    // updateIssue({ id: form.id as number, body: { [formType]: value } });
-    // return dispatch({ type, value });
+    const formType = type === 'LISTID' ? 'listId' : type.toLowerCase();
+    console.log(type, value, formType);
+    updateIssue({ id, body: { [formType]: value } });
   };
 
   return (

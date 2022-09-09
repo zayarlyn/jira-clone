@@ -31,8 +31,9 @@ exports.createIssue = async (req, res) => {
 };
 
 exports.updateIssue = async (req, res) => {
-  console.log(req.body, req.query, req.params);
-  res.end();
+  const id = req.params.id;
+  const result = await client.issue.update({ where: { id: +id }, data: req.body });
+  res.json(result).end();
 };
 
 exports.reorderIssues = async (req, res) => {

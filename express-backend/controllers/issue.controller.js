@@ -35,10 +35,12 @@ exports.updateIssue = async (req, res) => {
   const { type, value } = req.body;
   console.log(req.body);
   switch (type) {
-    // case 'listId':
-    //   break;
-    // case 'listId':
-    //   break;
+    case 'summary':
+      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+      break;
+    case 'descr':
+      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+      break;
     case 'type':
       await client.issue.update({ where: { id: +id }, data: { [type]: value } });
       break;

@@ -16,8 +16,9 @@ import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
 import type { IssueModelProps } from './IssueModelHOC';
+import TextInput from './TextInput';
 
-const constructApiAssignee = (OLD: number[], NEW: number[]): A | undefined => {
+const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
   const oldLen = OLD.length,
     newLen = NEW.length;
   if (oldLen === newLen) return;
@@ -28,22 +29,11 @@ const constructApiAssignee = (OLD: number[], NEW: number[]): A | undefined => {
 const IssueDetailModel = (props: IssueModelProps) => {
   const { issue, members, lists, types, priorities, handleClose } = props;
   const { issues } = selectIssuesArray(issue?.listId as number);
-  const {
-    id,
-    type,
-    listId,
-    priority,
-    assignees,
-    summary: SUMMARY,
-    descr: DESCR,
-  } = issues[issue?.idx as number];
+  const { id, type, listId, priority, assignees, summary, descr } = issues[issue?.idx as number];
   const [updateIssue] = useUpdateIssueMutation();
-  const [summary, setSummary] = useState(SUMMARY);
-  const [descr, setDescr] = useState(DESCR);
-  const [isInvalid, setIsInvalid] = useState(false);
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
 
-  const dispatchMiddleware = (data: A) => {
+  const dispatchMiddleware = (data: DispatchMiddleware) => {
     const assigneeIds = assignees.map(({ userId }) => userId);
     const body =
       data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
@@ -77,47 +67,19 @@ const IssueDetailModel = (props: IssueModelProps) => {
       <ModalBody>
         <div className='flex mb-8'>
           <div className='w-full pr-6'>
-            <FormWithLabel label=''>
-              <>
-                <Textarea
-                  borderColor='transparent'
-                  overflow='hidden'
-                  borderRadius={2}
-                  fontWeight={600}
-                  borderWidth={1}
-                  resize='none'
-                  fontSize={22}
-                  minH='unset'
-                  minRows={1}
-                  size='sm'
-                  as={ResizeTextarea}
-                  value={summary}
-                  isRequired
-                  _hover={{ bg: 'gray.100' }}
-                  onChange={(e) => setSummary(e.target.value)}
-                />
-                {isInvalid && (
-                  <span className='text-[13px] text-red-500'>summary must not be empty</span>
-                )}
-              </>
-            </FormWithLabel>
-            <FormWithLabel label='Description' labelClass='pl-3 mb-0 text-[14px]'>
-              <Textarea
-                fontSize={16}
-                borderWidth={1}
-                borderColor='transparent'
-                borderRadius={2}
-                minRows={1}
-                minH='unset'
-                resize='none'
-                overflow='hidden'
-                as={ResizeTextarea}
-                size='sm'
-                value={descr}
-                _hover={{ bg: 'gray.100' }}
-                onChange={(e) => setDescr(e.target.value)}
-              />
-            </FormWithLabel>
+            <TextInput
+              type='summary'
+              defaultValue={summary}
+              apiFunc={dispatchMiddleware}
+              fontWeight={600}
+              fontSize={22}
+            />
+            <TextInput
+              label='Description'
+              type='descr'
+              defaultValue={descr}
+              apiFunc={dispatchMiddleware}
+            />
           </div>
           <div className='w-[15rem] shrink-0 mt-3'>
             <FormWithLabel label='Status'>
@@ -193,4 +155,4 @@ const IssueDetailModel = (props: IssueModelProps) => {
 
 export default IssueDetailModel;
 
-export type A = { type: UpdateIssueType; value: number | number[] | string };
+export type DispatchMiddleware = { type: UpdateIssueType; value: number | number[] | string };

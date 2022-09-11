@@ -108,7 +108,7 @@ const MemberInput = ({ projectId }: Props) => {
               </Text>
             ) : users.length === 0 ? (
               <Text textAlign='center' mt={2}>
-                not found :(
+                not user was found :(
               </Text>
             ) : (
               <>
@@ -122,7 +122,7 @@ const MemberInput = ({ projectId }: Props) => {
                       projectId={projectId}
                       setInput={setInput}
                       {...info}
-                      added={members?.some(({ id }) => id === info.id) ?? false}
+                      added={members?.some(({ userId }) => userId === info.id) ?? false}
                     />
                   ))}
                 </Box>

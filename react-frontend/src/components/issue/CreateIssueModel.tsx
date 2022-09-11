@@ -15,7 +15,7 @@ import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
-import type { IssueModelAction, IssueModelProps } from './IssueModelHOC';
+import type { IssueModelProps } from './IssueModelHOC';
 
 const CreateIssueModel = (props: IssueModelProps) => {
   const { lists, members, types, priorities, handleClose } = props;
@@ -40,8 +40,8 @@ const CreateIssueModel = (props: IssueModelProps) => {
         </Text>
       </ModalHeader>
       <ModalBody>
-        <FormWithLabel label='TYPE type'>
-          <DropDown list={types} dispatch={dispatch} actionType='TYPE' type='normal' />
+        <FormWithLabel label='Issue type'>
+          <DropDown list={types} dispatch={dispatch} actionType='type' type='normal' />
         </FormWithLabel>
         <FormWithLabel label='Short summary'>
           <>
@@ -52,7 +52,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
               borderColor='gray.300'
               _focus={{ borderWidth: 2 }}
               value={form.summary}
-              onChange={(e) => dispatch({ type: 'SUMMARY', value: e.target.value })}
+              onChange={(e) => dispatch({ type: 'summary', value: e.target.value })}
               isRequired
             />
             {isInvalid && (
@@ -69,7 +69,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
             as={ResizeTextarea}
             borderRadius={2}
             value={form.descr}
-            onChange={(e) => dispatch({ type: 'DESCR', value: e.target.value })}
+            onChange={(e) => dispatch({ type: 'descr', value: e.target.value })}
           />
         </FormWithLabel>
         {members && (
@@ -90,15 +90,15 @@ const CreateIssueModel = (props: IssueModelProps) => {
         )}
         {members && (
           <FormWithLabel label='Assignee'>
-            <DropDown list={members} dispatch={dispatch} actionType='ASSIGNEE' type='multiple' />
+            <DropDown list={members} dispatch={dispatch} actionType='assignee' type='multiple' />
           </FormWithLabel>
         )}
         <FormWithLabel label='Priority'>
-          <DropDown list={priorities} dispatch={dispatch} actionType='PRIORITY' type='normal' />
+          <DropDown list={priorities} dispatch={dispatch} actionType='priority' type='normal' />
         </FormWithLabel>
         {lists && (
           <FormWithLabel label='Status'>
-            <DropDown list={lists} dispatch={dispatch} actionType='LISTID' type='normal' />
+            <DropDown list={lists} dispatch={dispatch} actionType='listId' type='normal' />
           </FormWithLabel>
         )}
       </ModalBody>
@@ -131,7 +131,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
 
 export default CreateIssueModel;
 
-export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
+export type T = 'type' | 'summary' | 'descr' | 'assignee' | 'priority' | 'listId';
 
 export type A = { type: T; value: number | number[] | string };
 
@@ -145,19 +145,19 @@ const initial = {
   listId: null,
 };
 
-const reducer = (state: CreateIssue, { type, value }: IssueModelAction): CreateIssue => {
+const reducer = (state: CreateIssue, { type, value }: A): CreateIssue => {
   switch (type) {
-    case 'TYPE':
+    case 'type':
       return { ...state, type: value as number };
-    case 'SUMMARY':
+    case 'summary':
       return { ...state, summary: value as string };
-    case 'DESCR':
+    case 'descr':
       return { ...state, descr: value as string };
-    case 'ASSIGNEE':
+    case 'assignee':
       return { ...state, assignees: value as number[] };
-    case 'PRIORITY':
+    case 'priority':
       return { ...state, priority: value as number };
-    case 'LISTID':
+    case 'listId':
       return { ...state, listId: value as number };
     default:
       return state;

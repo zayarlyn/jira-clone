@@ -1,6 +1,6 @@
 import { Badge } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useState } from 'react';
 import { A, T } from '../issue/CreateIssueModel';
 import Item from './Item';
 
@@ -13,24 +13,22 @@ type Prop = {
   actionType: T;
 };
 
+const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
+
 const DropDown = (props: Prop) => {
   const { list, defaultValue, type, variant = 'normal', dispatch, actionType } = props;
   const isMulti = type === 'multiple';
-  const [localList, setLocalList] = useState<Category[]>(isMulti ? list.slice(1) : list);
+  const [localList, setLocalList] = useState<Category[]>(
+    isMulti && defaultValue
+      ? list.filter(
+          ({ value }) => !(defaultValue as Category[]).some(({ value: v }) => v === value)
+        )
+      : list.slice(1)
+  );
   const [current, setCurrent] = useState<Category[] | number>(
     defaultValue || (isMulti ? [list[0]] : 0)
   );
   const [on, setOn] = useState(false);
-  // console.log(defaultValue, current);
-
-  const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: actionType,
-  //     value: isMulti ? parseIds(current as Category[]) : list[0].value,
-  //   });
-  // }, []);
 
   const handleSelect = (idx: number) => () => {
     const [clone, resultList] = modifyItems(idx, localList, current as Category[]);
@@ -110,7 +108,7 @@ const DropDown = (props: Prop) => {
         </>
       </button>
       {on && (
-        <ul className='absolute  w-full top-9 z-10 bg-white py-2 rounded-[3px] shadow-md'>
+        <ul className='absolute  w-full bottom-0 z-10 translate-y-[calc(100%+5px)] bg-white py-2 rounded-[3px] shadow-md'>
           {localList.length > 0 ? (
             localList.map((props, idx) => (
               <li

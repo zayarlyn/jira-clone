@@ -31,9 +31,39 @@ exports.createIssue = async (req, res) => {
 };
 
 exports.updateIssue = async (req, res) => {
-  const id = req.params.id;
-  const result = await client.issue.update({ where: { id: +id }, data: req.body });
-  res.json(result).end();
+  const { id } = req.params;
+  const { type, value } = req.body;
+  console.log(req.body);
+  switch (type) {
+    // case 'listId':
+    //   break;
+    // case 'listId':
+    //   break;
+    case 'type':
+      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+      break;
+    case 'priority':
+      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+      break;
+    case 'listId':
+      const { _count: order } = await client.issue.aggregate({
+        where: { listId: value },
+        _count: true,
+      });
+      await client.issue.update({ where: { id: +id }, data: { [type]: value, order } });
+      break;
+    case 'addAssignee':
+      await client.assignee.create({ data: { issueId: +id, userId: value } });
+      break;
+    case 'removeAssignee':
+      await client.assignee.deleteMany({ where: { AND: { issueId: +id, userId: value } } });
+      break;
+  }
+  res.end();
+  // change api body data specification //
+  // const id = req.params.id;
+  // const result = await client.issue.update({ where: { id: +id }, data: req.body });
+  // res.json(result).end();
 };
 
 exports.reorderIssues = async (req, res) => {

@@ -10,11 +10,20 @@ import {
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import ResizeTextarea from 'react-textarea-autosize';
+import { UpdateIssueType } from '../../api/apiTypes';
 import { selectIssuesArray, useUpdateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
-import type { IssueModelAction, IssueModelProps } from './IssueModelHOC';
+import type { IssueModelProps } from './IssueModelHOC';
+
+const constructApiAssignee = (OLD: number[], NEW: number[]): A | undefined => {
+  const oldLen = OLD.length,
+    newLen = NEW.length;
+  if (oldLen === newLen) return;
+  const userId = newLen > oldLen ? NEW[newLen - 1] : OLD.filter((id) => !NEW.includes(id))[0];
+  return { type: newLen > oldLen ? 'addAssignee' : 'removeAssignee', value: userId };
+};
 
 const IssueDetailModel = (props: IssueModelProps) => {
   const { issue, members, lists, types, priorities, handleClose } = props;
@@ -34,10 +43,12 @@ const IssueDetailModel = (props: IssueModelProps) => {
   const [isInvalid, setIsInvalid] = useState(false);
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
 
-  const dispatchMiddleware = ({ type, value }: IssueModelAction) => {
-    const formType = type === 'LISTID' ? 'listId' : type.toLowerCase();
-    console.log(type, value, formType);
-    updateIssue({ id, body: { [formType]: value } });
+  const dispatchMiddleware = (data: A) => {
+    const assigneeIds = assignees.map(({ userId }) => userId);
+    const body =
+      data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
+    if (!body) return;
+    updateIssue({ id, body });
   };
 
   return (
@@ -114,7 +125,7 @@ const IssueDetailModel = (props: IssueModelProps) => {
                 list={lists}
                 defaultValue={lists.findIndex(({ value: v }) => v === listId)}
                 dispatch={dispatchMiddleware}
-                actionType='LISTID'
+                actionType='listId'
                 type='normal'
                 variant='small'
               />
@@ -142,18 +153,28 @@ const IssueDetailModel = (props: IssueModelProps) => {
                   list={members}
                   defaultValue={assignees.map(({ userId }) => memberObj[userId])}
                   dispatch={dispatchMiddleware}
-                  actionType='ASSIGNEE'
+                  actionType='assignee'
                   type='multiple'
                 />
               </FormWithLabel>
             )}
+            <FormWithLabel label='Type'>
+              <DropDown
+                variant='small'
+                list={types}
+                defaultValue={types.findIndex(({ value: v }) => v === type)}
+                dispatch={dispatchMiddleware}
+                actionType='type'
+                type='normal'
+              />
+            </FormWithLabel>
             <FormWithLabel label='Priority'>
               <DropDown
                 variant='small'
                 list={priorities}
                 defaultValue={priority as number}
                 dispatch={dispatchMiddleware}
-                actionType='PRIORITY'
+                actionType='priority'
                 type='normal'
               />
             </FormWithLabel>
@@ -165,9 +186,11 @@ const IssueDetailModel = (props: IssueModelProps) => {
           </div>
         </div>
       </ModalBody>
-      <ModalFooter></ModalFooter>
+      {/* <ModalFooter></ModalFooter> */}
     </ChakraProvider>
   );
 };
 
 export default IssueDetailModel;
+
+export type A = { type: UpdateIssueType; value: number | number[] | string };

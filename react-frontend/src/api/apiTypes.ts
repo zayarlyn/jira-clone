@@ -102,7 +102,20 @@ export interface CreateIssue {
   updatedAt?: string;
 }
 
+export type UpdateIssueType =
+  | 'type'
+  | 'summary'
+  | 'descr'
+  | 'assignee'
+  | 'priority'
+  | 'listId'
+  | 'addAssignee'
+  | 'removeAssignee';
+
 export interface UpdateIssue {
   id: number;
-  body: Partial<Issue>;
+  body: {
+    type: UpdateIssueType;
+    value: string | number | number[];
+  };
 }

@@ -62,7 +62,7 @@ export default IssueModelHOC;
 
 export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
 
-export type IssueModelAction = { type: T; value: number | number[] | string };
+// export type IssueModelAction = { type: T; value: number | number[] | string };
 
 export interface IssueModelProps {
   issue?: IssueMetaData;

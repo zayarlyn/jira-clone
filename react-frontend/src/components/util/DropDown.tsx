@@ -19,11 +19,13 @@ const DropDown = (props: Prop) => {
   const { list, defaultValue, type, variant = 'normal', dispatch, actionType } = props;
   const isMulti = type === 'multiple';
   const [localList, setLocalList] = useState<Category[]>(
-    isMulti && defaultValue
-      ? list.filter(
-          ({ value }) => !(defaultValue as Category[]).some(({ value: v }) => v === value)
-        )
-      : list.slice(1)
+    isMulti
+      ? defaultValue
+        ? list.filter(
+            ({ value }) => !(defaultValue as Category[]).some(({ value: v }) => v === value)
+          )
+        : list.slice(1)
+      : list
   );
   const [current, setCurrent] = useState<Category[] | number>(
     defaultValue || (isMulti ? [list[0]] : 0)

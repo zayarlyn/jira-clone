@@ -18,7 +18,6 @@ const TextInput = (props: Props) => {
   const { type, label, defaultValue, apiFunc, fontSize: fs, fontWeight: fw } = props;
   const [value, setValue] = useState(defaultValue ?? '');
   const [isEditing, setIsEditing] = useState(false);
-  const [isInvalid, setIsInvalid] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     !isEditing && setIsEditing(true);

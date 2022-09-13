@@ -119,3 +119,8 @@ export interface UpdateIssue {
     value: string | number | number[];
   };
 }
+
+export interface IssueQuery {
+  projectId: number;
+  username?: string;
+}

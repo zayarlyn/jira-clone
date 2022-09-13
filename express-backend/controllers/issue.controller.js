@@ -33,20 +33,8 @@ exports.createIssue = async (req, res) => {
 exports.updateIssue = async (req, res) => {
   const { id } = req.params;
   const { type, value } = req.body;
-  console.log(req.body);
+
   switch (type) {
-    case 'summary':
-      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
-      break;
-    case 'descr':
-      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
-      break;
-    case 'type':
-      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
-      break;
-    case 'priority':
-      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
-      break;
     case 'listId':
       const { _count: order } = await client.issue.aggregate({
         where: { listId: value },
@@ -60,12 +48,11 @@ exports.updateIssue = async (req, res) => {
     case 'removeAssignee':
       await client.assignee.deleteMany({ where: { AND: { issueId: +id, userId: value } } });
       break;
+    default:
+      await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+      break;
   }
   res.end();
-  // change api body data specification //
-  // const id = req.params.id;
-  // const result = await client.issue.update({ where: { id: +id }, data: req.body });
-  // res.json(result).end();
 };
 
 exports.reorderIssues = async (req, res) => {
@@ -75,6 +62,7 @@ exports.reorderIssues = async (req, res) => {
     d: { dId, newOrder },
   } = req.body;
   // check if reordering occur in same list
+  console.log(req.body);
   await (sId === dId
     ? handleSameListReorder({ id, order, newOrder }, { listId: sId }, client.issue)
     : handleDifferentListReorder(req.body));

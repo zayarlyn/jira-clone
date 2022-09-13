@@ -1,15 +1,5 @@
-import {
-  Button,
-  ChakraProvider,
-  IconButton,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Textarea,
-} from '@chakra-ui/react';
+import { Button, ChakraProvider, IconButton, ModalBody, ModalHeader } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
-import ResizeTextarea from 'react-textarea-autosize';
 import { UpdateIssueType } from '../../api/apiTypes';
 import { selectIssuesArray, useUpdateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';

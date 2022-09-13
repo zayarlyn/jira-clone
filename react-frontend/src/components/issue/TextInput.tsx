@@ -42,6 +42,7 @@ const TextInput = (props: Props) => {
         <>
           <Textarea
             borderColor='transparent'
+            textColor='blackAlpha.900'
             overflow='hidden'
             borderRadius={2}
             fontWeight={fw || 500}
@@ -59,7 +60,7 @@ const TextInput = (props: Props) => {
           />
           {isEditing && (
             <>
-              <hr className='border-t-[.5px] border-gray-400 mt-3 mb-2' />
+              <hr className='border-t-[.5px] border-gray-400 mt-3 mb-2 mx-3' />
               <div className='flex justify-end'>
                 <Button onClick={handleCancel} size='sm' borderRadius={3} variant='ghost' mr={3}>
                   cancel

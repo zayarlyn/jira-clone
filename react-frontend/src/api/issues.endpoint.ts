@@ -1,10 +1,19 @@
 import { api } from './api';
-import type { CreateIssue, dndOrderData, Issues, reorderIssues, UpdateIssue } from './apiTypes';
+import type {
+  CreateIssue,
+  dndOrderData,
+  IssueQuery,
+  Issues,
+  reorderIssues,
+  UpdateIssue,
+} from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    issues: builder.query<Issues, void>({
-      query: () => 'project/1/issues',
+    issues: builder.query<Issues, IssueQuery>({
+      query: ({ projectId, username: u }) => ({
+        url: `project/${projectId}/issues/${u ? '?username=' + u : ''}`,
+      }),
       providesTags: ['Issues'],
     }),
     createIssue: builder.mutation<void, CreateIssue>({
@@ -20,7 +29,7 @@ export const extendedApi = api.injectEndpoints({
       invalidatesTags: ['Issues'],
       async onQueryStarted({ s, d }, { dispatch, queryFulfilled }) {
         const result = dispatch(
-          extendedApi.util.updateQueryData('issues', undefined, (oldIssues) =>
+          extendedApi.util.updateQueryData('issues', { projectId: 1 }, (oldIssues) =>
             updateIssueOrderLocally(oldIssues, {
               s: { sId: s.sId, index: s.order - 1 },
               d: { dId: d.dId, index: d.newOrder - 1 },
@@ -43,11 +52,14 @@ export const {
 
 // selectors
 export const selectIssuesArray = (listId: number) =>
-  extendedApi.useIssuesQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      issues: data ? data[listId] : [],
-    }),
-  });
+  extendedApi.useIssuesQuery(
+    { projectId: 1 },
+    {
+      selectFromResult: ({ data }) => ({
+        issues: data ? data[listId] : [],
+      }),
+    }
+  );
 
 // helpers
 const updateIssueOrderLocally = (issues: Issues, { s, d }: dndOrderData) => {

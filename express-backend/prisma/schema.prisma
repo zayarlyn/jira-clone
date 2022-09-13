@@ -36,7 +36,7 @@ model Member {
 model Project {
   id        Int      @id @default(autoincrement())
   name      String
-  descr     String?
+  descr     String?  @db.VarChar(300)
   repo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

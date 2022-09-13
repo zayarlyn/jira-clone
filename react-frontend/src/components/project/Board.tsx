@@ -5,10 +5,17 @@ import List from '../list/List';
 import { useIssuesQuery, useReorderIssuesMutation } from '../../api/issues.endpoint';
 import { useListsQuery, useReorderListsMutation } from '../../api/lists.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
+import type { Issues, List as ApiList } from '../../api/apiTypes';
 
-const Board = () => {
-  const { data: lists, isSuccess: listsFetched } = useListsQuery();
-  const { data: issues, isSuccess: issuesFetched } = useIssuesQuery();
+interface Props {
+  lists: ApiList[];
+  issues: Issues;
+  // listsAreReady: boolean;
+  // issuesAreReady: boolean;
+}
+
+const Board = (props: Props) => {
+  const { lists, issues } = props;
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
 
@@ -38,8 +45,9 @@ const Board = () => {
           droppableId='board-central'
           direction='horizontal'
         >
-          {listsFetched &&
-            lists.map((datapoints, n) => <List key={datapoints.id} index={n} {...datapoints} />)}
+          {lists.map((datapoints, n) => (
+            <List key={datapoints.id} index={n} {...datapoints} />
+          ))}
         </DroppableWrapper>
       </DragDropContext>
     </div>

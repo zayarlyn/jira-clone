@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   ChakraProvider,
   InputGroup,
@@ -14,8 +14,18 @@ import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/project.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
 import IssueModelHOC from '../issue/IssueModelHOC';
+import { IssueQuery } from '../../api/apiTypes';
 
-const Filter = () => {
+interface Props {
+  issueQueryData: Omit<IssueQuery, 'projectId'>;
+  setIssueQueryData: Dispatch<SetStateAction<Omit<IssueQuery, 'projectId'>>>;
+}
+
+const Filter = (props: Props) => {
+  const {
+    issueQueryData: { userId: uid },
+    setIssueQueryData,
+  } = props;
   const { data: members } = useMembersQuery(1);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,7 +37,7 @@ const Filter = () => {
           <Input size='sm' placeholder='Search issues'></Input>
         </InputGroup>
         <AvatarGroup ml={6} mr={4}>
-          {members?.map(({ id, profileUrl, username }) => (
+          {members?.map(({ id, profileUrl, username, userId }) => (
             <Avatar
               key={id}
               name={username}
@@ -36,7 +46,9 @@ const Filter = () => {
               w={'43px'}
               cursor='pointer'
               transitionDuration='.2s'
+              borderColor={userId === uid ? 'blue' : undefined}
               _hover={{ transform: 'translateY(-6px)' }}
+              onClick={() => setIssueQueryData({ userId })}
             />
           ))}
         </AvatarGroup>
@@ -48,9 +60,11 @@ const Filter = () => {
             Recently uploaded
           </Button>
           <Divider my={1} h={6} orientation='vertical' />
-          <Button fontWeight='normal' fontSize={15}>
-            Clear all
-          </Button>
+          {uid && (
+            <Button fontWeight='normal' fontSize={15} onClick={() => setIssueQueryData({})}>
+              Clear all
+            </Button>
+          )}
         </ButtonGroup>
         <Button
           borderRadius={2}

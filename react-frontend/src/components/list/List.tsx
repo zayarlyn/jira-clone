@@ -1,15 +1,17 @@
 import Issue from '../issue/Issue';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import DraggableWrapper from '../dnd/DraggableWrapper';
-import type { List as LIST } from '../../api/apiTypes';
-import { selectIssuesArray } from '../../api/issues.endpoint';
+import type { Issue as ApiIssue, List as LIST } from '../../api/apiTypes';
+// import { selectIssuesArray } from '../../api/issues.endpoint';
 
 interface Props extends LIST {
   index: number;
+  issues: ApiIssue[];
 }
 
-const List = ({ index, name, id }: Props) => {
-  const { issues } = selectIssuesArray(id);
+const List = ({ index, name, id, issues }: Props) => {
+  // const { issues } = selectIssuesArray(id);
+  // console.log(issues);
 
   return (
     <DraggableWrapper

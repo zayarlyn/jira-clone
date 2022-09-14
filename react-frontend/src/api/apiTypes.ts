@@ -122,5 +122,5 @@ export interface UpdateIssue {
 
 export interface IssueQuery {
   projectId: number;
-  username?: string;
+  userId?: number;
 }

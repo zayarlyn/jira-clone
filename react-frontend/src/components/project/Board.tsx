@@ -36,6 +36,7 @@ const Board = (props: Props) => {
         });
   };
 
+  console.log(issues);
   return (
     <div className='grow px-10 min-w-max'>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -45,8 +46,8 @@ const Board = (props: Props) => {
           droppableId='board-central'
           direction='horizontal'
         >
-          {lists.map((datapoints, n) => (
-            <List key={datapoints.id} index={n} {...datapoints} />
+          {lists.map((props, n) => (
+            <List key={props.id} index={n} issues={issues[props.id]} {...props} />
           ))}
         </DroppableWrapper>
       </DragDropContext>

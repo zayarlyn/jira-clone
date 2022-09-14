@@ -5,17 +5,25 @@ const client = new PrismaClient();
 
 exports.getIssuesInProject = async (req, res) => {
   const { projectId } = req.params;
+  const { userId } = req.query;
   const listIssues = await client.list.findMany({
     where: { projectId: +projectId },
     orderBy: { order: 'asc' },
     include: {
       issues: {
+        ...(userId && { where: { assignees: { some: { userId: +userId } } } }),
         orderBy: { order: 'asc' },
-        include: { assignees: { orderBy: { createdAt: 'asc' } } },
+        include: {
+          assignees: {
+            orderBy: { createdAt: 'asc' },
+          },
+        },
       },
     },
   });
+  console.log('userid ' + userId);
   const issues = listIssues.reduce((p, { id, issues }) => ({ ...p, [id]: issues }), {});
+  console.log(issues);
   res.json(issues).end();
 };
 

@@ -25,18 +25,17 @@ const Board = (props: Props) => {
     type === 'list'
       ? reorderLists({
           id: lists[s.index].id,
-          order: s.index + 1,
-          newOrder: d.index + 1,
+          order: s.index + 1, // change index to actual order
+          newOrder: d.index + 1, // change index to actual order
           projectId: 1,
         })
       : reorderIssues({
           id: issues[parseId(s)][s.index].id,
-          s: { sId: parseId(s), order: s.index + 1 },
-          d: { dId: parseId(d), newOrder: d.index + 1 },
+          s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
+          d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order
         });
   };
 
-  console.log(issues);
   return (
     <div className='grow px-10 min-w-max'>
       <DragDropContext onDragEnd={onDragEnd}>

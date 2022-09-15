@@ -10,7 +10,7 @@ const Dashboard = () => {
       <Routes>
         <Route path='/project/:projectId/board' element={<Project />} />
         <Route path='/project/:projectId' element={<Setting />} />
-        <Route path='/' element={<Navigate to='project/1/board' />} />
+        {/* <Route path='/' element={<Navigate to='project/1/board' />} /> */}
       </Routes>
     </main>
   );

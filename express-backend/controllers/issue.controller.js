@@ -21,9 +21,7 @@ exports.getIssuesInProject = async (req, res) => {
       },
     },
   });
-  console.log('userid ' + userId);
   const issues = listIssues.reduce((p, { id, issues }) => ({ ...p, [id]: issues }), {});
-  console.log(issues);
   res.json(issues).end();
 };
 

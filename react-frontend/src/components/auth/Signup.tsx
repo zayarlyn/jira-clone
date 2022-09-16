@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Form from './Form';
@@ -9,8 +10,10 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const handleSignUp = handleSubmit((form) => {
+  const handleSignUp = handleSubmit(async (form) => {
     // api post request
+    const result = await signUp(form);
+    console.log(result);
   });
 
   return (
@@ -31,3 +34,10 @@ const Signup = () => {
 };
 
 export default Signup;
+
+const signUp = async (body: {}) => {
+  const result = await axios.post('http://localhost:5000/auth/signup', body, {
+    withCredentials: true,
+  });
+  return result.data;
+};

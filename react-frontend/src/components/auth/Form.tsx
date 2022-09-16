@@ -1,5 +1,5 @@
 import { Button, ChakraProvider, Input } from '@chakra-ui/react';
-import { FieldErrorsImpl, FieldValues, FormState, UseFormRegister } from 'react-hook-form';
+import { FieldErrorsImpl, FieldValues, FormState, useForm, UseFormRegister } from 'react-hook-form';
 import FormWithLabel from '../util/FormWithLabel';
 
 interface Props {
@@ -39,7 +39,7 @@ const Form = (props: Props) => {
               <Input
                 {...register('username', {
                   required: { value: true, message: 'must not be empty' },
-                  min: { value: 2, message: 'must be at least two characters long' },
+                  minLength: { value: 2, message: 'must be at least two characters long' },
                   pattern: { value: /^[A_Za-z0-9_]+$/, message: 'username can be a-z,A-Z,0-9,_' },
                 })}
                 size='sm'
@@ -54,12 +54,8 @@ const Form = (props: Props) => {
             <Input
               {...register('pwd', {
                 required: { value: true, message: 'must not be empty' },
-                min: { value: 4, message: 'must be at least 4 characters long' },
-                max: { value: 14, message: 'must be under 15 characters' },
-                pattern: {
-                  value: /^[a-zA-Z0-9!@#$&()\\-`.+,/\"]*$/,
-                  message: 'must include a special character',
-                },
+                minLength: { value: 4, message: 'must be at least 4 characters long' },
+                maxLength: { value: 14, message: 'must be under 15 characters' },
               })}
               size='sm'
               borderColor='gray'

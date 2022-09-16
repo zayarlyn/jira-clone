@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import { Outlet } from 'react-router-dom';
 
 const Welcome = () => {
@@ -14,6 +15,14 @@ const Welcome = () => {
             <li>5 collaborator for each project</li>
             <li>Unlimited issues and updates</li>
           </ol>
+          <button className='border-2 px-4 py-1 mt-9 group hover:border-dashed rounded-md flex items-center'>
+            <span>Go to demo</span>
+            <Icon
+              className='ml-2 duration-300 group-hover:translate-x-3'
+              width={25}
+              icon='bi:arrow-right-short'
+            />
+          </button>
         </div>
       </div>
       <div className='w-1/2'>

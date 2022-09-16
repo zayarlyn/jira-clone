@@ -29,6 +29,7 @@ const Form = (props: Props) => {
               })}
               size='sm'
               borderColor='gray'
+              border='1.5px solid'
             />
             {errors.email && <ErrorMsg msg={errors.email.message as string} />}
           </>
@@ -43,6 +44,7 @@ const Form = (props: Props) => {
                   pattern: { value: /^[A_Za-z0-9_]+$/, message: 'username can be a-z,A-Z,0-9,_' },
                 })}
                 size='sm'
+                border='1.5px solid'
                 borderColor='gray'
               />
               {errors.username && <ErrorMsg msg={errors.username.message as string} />}
@@ -58,6 +60,7 @@ const Form = (props: Props) => {
                 maxLength: { value: 14, message: 'must be under 15 characters' },
               })}
               size='sm'
+              border='1.5px solid'
               borderColor='gray'
             />
             {errors.pwd && <ErrorMsg msg={errors.pwd.message as string} />}
@@ -73,8 +76,8 @@ const Form = (props: Props) => {
           size='sm'
           width='full'
           colorScheme='blue'
-          // color='white'
-          // bgColor='#321898'
+          color='white'
+          bgColor='#321898'
           borderRadius={3}
           mt={6}
           py={5}

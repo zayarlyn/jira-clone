@@ -24,10 +24,10 @@ const Menubar = () => {
           </div>
         </div>
         <div className='my-5'>
-          <BtnWithIcon to='project/123/board' icon='bi:kanban' text='Kanban Board' />
-          <BtnWithIcon to='project/123/roadmap' icon='carbon:roadmap' text='Roadmap' />
-          <BtnWithIcon to='project/123/commits' icon='material-symbols:commit' text='Commits' />
-          <BtnWithIcon to='project/123/' icon='clarity:settings-solid' text='Project Setting' />
+          <BtnWithIcon to='board' icon='bi:kanban' text='Kanban Board' />
+          <BtnWithIcon to='roadmap' icon='carbon:roadmap' text='Roadmap' />
+          <BtnWithIcon to='commits' icon='material-symbols:commit' text='Commits' />
+          <BtnWithIcon to='setting' icon='clarity:settings-solid' text='Project Setting' />
         </div>
         <hr className='border-t-[.5px] border-gray-400' />
         <div className='my-5'></div>

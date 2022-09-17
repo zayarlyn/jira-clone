@@ -3,24 +3,18 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
-const Signup = () => {
+const Register = () => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
   } = useForm();
-
-  const handleSignUp = handleSubmit(async (form) => {
-    // api post request
-    const result = await signUp(form);
-    console.log(result);
-  });
 
   return (
     <div className='bg-light-c-1 w-[22rem] rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Get Started</h3>
       <h4 className='text-center mb-5 text-[15px] text-gray-600'>Free for testing</h4>
-      <Form type='SIGNUP' register={register} errors={errors} onSubmit={handleSignUp} />
+      <Form type='SIGNUP' onSubmit={registerUser} {...{ errors, handleSubmit, register }} />
       <div className='flex items-center'>
         <hr className='border-t-[.5px] grow border-gray-400' />
         <span className='text-center block my-3 bg-white w-fit px-2'>OR</span>
@@ -33,10 +27,10 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;
 
-const signUp = async (body: {}) => {
-  const result = await axios.post('http://localhost:5000/auth/signup', body, {
+const registerUser = async (body: {}) => {
+  const result = await axios.post('http://localhost:5000/auth/register', body, {
     withCredentials: true,
   });
   return result.data;

@@ -1,5 +1,12 @@
-import { Button, ChakraProvider, Input } from '@chakra-ui/react';
-import { FieldErrorsImpl, FieldValues, FormState, useForm, UseFormRegister } from 'react-hook-form';
+import { Button, ChakraProvider, Input, useToast } from '@chakra-ui/react';
+import { AxiosError } from 'axios';
+import {
+  FieldErrorsImpl,
+  FieldValues,
+  useForm,
+  UseFormHandleSubmit,
+  UseFormRegister,
+} from 'react-hook-form';
 import FormWithLabel from '../util/FormWithLabel';
 
 interface Props {
@@ -7,15 +14,36 @@ interface Props {
   errors: FieldErrorsImpl<{
     [x: string]: any;
   }>;
-  onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
+  onSubmit: (body: {}) => Promise<any>;
+  handleSubmit: UseFormHandleSubmit<FieldValues>;
   type: 'LOGIN' | 'SIGNUP';
 }
 
+type APIERROR = { message: string };
+
 const Form = (props: Props) => {
-  const { register, onSubmit, errors, type } = props;
+  const { register, onSubmit, handleSubmit, errors, type } = props;
+  // const { handleSubmit } = useForm();
+  const toast = useToast();
+
+  const submit = handleSubmit(async (form) => {
+    try {
+      const result = await onSubmit(form);
+    } catch (error) {
+      const err = (error as AxiosError).response?.data as APIERROR;
+      toast({
+        title: 'Resiger error',
+        description: err.message,
+        status: 'error',
+        isClosable: true,
+        position: 'top-right',
+        duration: null,
+      });
+    }
+  });
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={submit}>
       <ChakraProvider>
         <FormWithLabel label='Email' labelClass='text-[14px]'>
           <>

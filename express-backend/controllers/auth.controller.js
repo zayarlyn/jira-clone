@@ -1,38 +1,56 @@
 const { PrismaClient } = require('@prisma/client');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const client = new PrismaClient();
 
-exports.signUp = async (req, res) => {
+exports.register = async (req, res) => {
   // validate body (not now)
-  // check if user already exists
-  const isExist = await client.user.findFirst({ where: { email: req.body.email } });
-  if (isExist) return res.status(409).json({ error: 'user with this email already exists' }).end();
-  // add to db
-  const user = await client.user.create({ data: req.body });
-  // create jwt
+  if (await findUser(req.body.email))
+    return res.status(409).json({ message: 'user with this email already exists' }).end();
+  const pwd = await bcrypt.hash(req.body.pwd, 10);
+  const user = await client.user.create({ data: { ...req.body, pwd } });
   const token = generateJwt({ uid: user.id });
-  res.cookie('jira-clone', JSON.stringify({ token }), {
-    httpOnly: true,
-  });
-  // send back newly created user obj
-  res.json(user).end();
+  createCookie(res, token);
+  res.json(user).end(); // send back newly created user obj
 };
 
 exports.logIn = async (req, res) => {
-  const token = JSON.parse(req.cookies['jira-clone']).token;
-  try {
-    const tmp = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET);
-    console.log(tmp);
-    return res.end();
-  } catch (err) {
-    return res.json({ error: err.message }).end();
-  }
+  const { email, pwd } = req.body;
+  const user = await findUser(email);
+  if (!user)
+    return res.status(409).json({ message: 'no account was registered with this email' }).end();
+  const isValidPwd = await bcrypt.compare(pwd, user.pwd);
+  if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect' }).end();
+  const token = generateJwt({ uid: user.id });
+  createCookie(res, token);
+  res.json(user).end();
 };
 
 exports.logOut = async (req, res) => {
   res.clearCookie('jira-clone').end();
 };
 
+exports.authMiddleware = (req, res, next) => {
+  const cookie = req.cookies['jira-clone'];
+  if (!cookie)
+    return res.status(401).json({ message: 'please log in to access this resource' }).end();
+  const token = JSON.parse(cookie).token;
+  try {
+    const payload = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET);
+    req.user = payload;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: err.message }).end();
+  }
+};
+
 const generateJwt = (payload) =>
-  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+
+const findUser = async (email) => client.user.findFirst({ where: { email } });
+
+const createCookie = (res, token) =>
+  res.cookie('jira-clone', JSON.stringify({ token }), {
+    httpOnly: true,
+  });

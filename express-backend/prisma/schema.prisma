@@ -21,6 +21,7 @@ model User {
   updatedAt    DateTime   @default(now())
   members      Member[]
   assignees    Assignee[]
+  projects     Project[]
 }
 
 model Member {
@@ -42,6 +43,8 @@ model Project {
   updatedAt DateTime @default(now())
   members   Member[]
   lists     List[]
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model List {

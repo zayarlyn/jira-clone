@@ -2,7 +2,7 @@ import { Badge, Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { ChangeEvent, memo, useState } from 'react';
 import { SearchedUser } from '../../api/apiTypes';
-import { selectMembers, useRemoveMemberMutation } from '../../api/project.endpoint';
+import { selectMembers, useRemoveMemberMutation } from '../../api/member.endpoint';
 import UserMember from './UserMember';
 
 interface Props {

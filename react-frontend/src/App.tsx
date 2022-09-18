@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Welcome from './components/auth/Welcome';
-import Signup from './components/auth/Signup';
 import LogIn from './components/auth/Login';
 import Setting from './components/project/Setting';
 import Project from './components/project/Project';
 import Home from './components/home/Home';
+import Register from './components/auth/Register';
 
 function App() {
   return (
@@ -14,12 +14,12 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path='/project/:projectId' element={<Home />}>
-              <Route path='board' element={<Project />} />
-              <Route path='setting' element={<Setting />} />
+            <Route path='/project' element={<Home />}>
+              <Route path=':projectId' element={<Setting />} />
+              <Route path=':projectId/board' element={<Project />} />
             </Route>
             <Route path='/' element={<Welcome />}>
-              <Route path='signup' element={<Signup />} />
+              <Route path='register' element={<Register />} />
               <Route path='login' element={<LogIn />} />
             </Route>
           </Routes>

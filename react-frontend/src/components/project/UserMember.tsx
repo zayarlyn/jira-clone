@@ -1,7 +1,7 @@
 import { Avatar, Button, Text } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { SearchedUser } from '../../api/apiTypes';
-import { useAddMemberMutation } from '../../api/project.endpoint';
+import { useAddMemberMutation } from '../../api/member.endpoint';
 
 interface Props extends SearchedUser {
   added: boolean;

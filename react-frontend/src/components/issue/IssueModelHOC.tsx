@@ -1,7 +1,7 @@
 import { ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 import { selectLists } from '../../api/lists.endpoint';
-import { selectMembers } from '../../api/project.endpoint';
+import { selectMembers } from '../../api/member.endpoint';
 import { types, priorities } from '../../category';
 import { Category } from '../util/DropDown';
 

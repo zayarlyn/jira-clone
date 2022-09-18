@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import BtnWithIcon from '../util/BtnWithIcon';
 import { useProjectQuery } from '../../api/project.endpoint';
+import { useParams } from 'react-router-dom';
 
 const Menubar = () => {
+  const { projectId } = useParams();
   const [on, setOn] = useState(true);
-  const { data } = useProjectQuery(1);
+  const { data } = useProjectQuery(projectId ? +projectId : 1);
 
   return (
     <motion.div
@@ -24,10 +26,10 @@ const Menubar = () => {
           </div>
         </div>
         <div className='my-5'>
-          <BtnWithIcon to='board' icon='bi:kanban' text='Kanban Board' />
-          <BtnWithIcon to='roadmap' icon='carbon:roadmap' text='Roadmap' />
-          <BtnWithIcon to='commits' icon='material-symbols:commit' text='Commits' />
-          <BtnWithIcon to='setting' icon='clarity:settings-solid' text='Project Setting' />
+          <BtnWithIcon to={projectId + '/board'} icon='bi:kanban' text='Kanban Board' />
+          <BtnWithIcon to={projectId + '/roadmap'} icon='carbon:roadmap' text='Roadmap' />
+          <BtnWithIcon to={projectId + '/commits'} icon='material-symbols:commit' text='Commits' />
+          <BtnWithIcon to={projectId + ''} icon='clarity:settings-solid' text='Project Setting' />
         </div>
         <hr className='border-t-[.5px] border-gray-400' />
         <div className='my-5'></div>

@@ -43,6 +43,7 @@ export interface Project {
   name: string;
   descr?: string;
   repo?: string;
+  userId: number;
 }
 
 export interface SearchedUser {

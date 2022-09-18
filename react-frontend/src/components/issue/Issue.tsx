@@ -1,7 +1,7 @@
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import { Issue as JiraIssue } from '../../api/apiTypes';
 import { types, priorities } from '../../category';
-import { selectMembers } from '../../api/project.endpoint';
+import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
 import { useState } from 'react';
 import IssueModelHOC from './IssueModelHOC';

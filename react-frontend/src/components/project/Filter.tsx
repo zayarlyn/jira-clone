@@ -11,7 +11,7 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
-import { useMembersQuery } from '../../api/project.endpoint';
+import { useMembersQuery } from '../../api/member.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
 import IssueModelHOC from '../issue/IssueModelHOC';
 import { IssueQuery } from '../../api/apiTypes';
@@ -71,6 +71,7 @@ const Filter = (props: Props) => {
           size='sm'
           ml={6}
           colorScheme='messenger'
+          bgColor='#0052cc'
           fontWeight='normal'
           fontSize={15}
           onClick={() => setIsOpen(true)}

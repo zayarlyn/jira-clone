@@ -78,6 +78,7 @@ export interface reorderIssues {
     dId: number;
     newOrder: number;
   };
+  projectId: number;
 }
 
 export interface AddRemoveMember {
@@ -101,6 +102,7 @@ export interface CreateIssue {
   descr: string;
   createdAt?: string;
   updatedAt?: string;
+  projectId: number;
 }
 
 export type UpdateIssueType =
@@ -118,6 +120,7 @@ export interface UpdateIssue {
   body: {
     type: UpdateIssueType;
     value: string | number | number[];
+    projectId: number;
   };
 }
 

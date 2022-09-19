@@ -3,10 +3,13 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';
 import MemberInput from './MemberInput';
-import { selectProject, useEditProjectMutation } from '../../api/project.endpoint';
+import { selectCurrentProject, useEditProjectMutation } from '../../api/project.endpoint';
+import { useParams } from 'react-router-dom';
 
 const Setting = () => {
-  const { project } = selectProject(1);
+  const { projectId } = useParams();
+
+  const { project } = selectCurrentProject(Number(projectId));
   const {
     register,
     handleSubmit,

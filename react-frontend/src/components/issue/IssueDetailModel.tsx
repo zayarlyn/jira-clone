@@ -1,5 +1,6 @@
 import { Button, ChakraProvider, IconButton, ModalBody, ModalHeader } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
+import { useParams } from 'react-router-dom';
 import { UpdateIssueType } from '../../api/apiTypes';
 import { selectIssuesArray, useUpdateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
@@ -22,13 +23,14 @@ const IssueDetailModel = (props: IssueModelProps) => {
   const { id, type, listId, priority, assignees, summary, descr } = issues[issue?.idx as number];
   const [updateIssue] = useUpdateIssueMutation();
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
+  const { projectId } = useParams();
 
   const dispatchMiddleware = (data: DispatchMiddleware) => {
     const assigneeIds = assignees.map(({ userId }) => userId);
     const body =
       data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
     if (!body) return;
-    updateIssue({ id, body });
+    updateIssue({ id, body: { ...body, projectId: Number(projectId) } });
   };
 
   return (

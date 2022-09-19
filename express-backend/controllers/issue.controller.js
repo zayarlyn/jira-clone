@@ -4,7 +4,7 @@ const { handleSameListReorder, reorder } = require('./util');
 const client = new PrismaClient();
 
 exports.getIssuesInProject = async (req, res) => {
-  const { projectId } = req.params;
+  const { projectId } = req.customParams;
   const { userId } = req.query;
   const listIssues = await client.list.findMany({
     where: { projectId: +projectId },

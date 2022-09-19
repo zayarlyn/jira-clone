@@ -138,6 +138,8 @@ const MemberInput = ({ projectId }: Props) => {
 export default memo(MemberInput);
 
 const searchUsers = async (q: string) => {
-  const result = await axios.get('http://localhost:5000/api/user/search?q=' + q);
+  const result = await axios.get('http://localhost:5000/api/user/search?q=' + q, {
+    withCredentials: true,
+  });
   return result.data;
 };

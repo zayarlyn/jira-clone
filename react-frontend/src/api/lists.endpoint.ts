@@ -3,8 +3,11 @@ import { List, ReorderList } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    lists: builder.query<List[], void>({
-      query: () => ({ url: 'project/1/lists', credentials: 'include' }),
+    lists: builder.query<List[], number>({
+      query: (projectId) => ({
+        url: `project/${projectId}/lists`,
+        credentials: 'include',
+      }),
       providesTags: ['Lists'],
     }),
     reorderLists: builder.mutation<void, ReorderList>({
@@ -14,9 +17,9 @@ export const extendedApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: ['Lists'],
-      async onQueryStarted({ order, newOrder }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ order, newOrder, projectId }, { dispatch, queryFulfilled }) {
         const result = dispatch(
-          extendedApi.util.updateQueryData('lists', undefined, (oldLists) =>
+          extendedApi.util.updateQueryData('lists', projectId, (oldLists) =>
             updateListOrderLocally(oldLists, { s: order - 1, d: newOrder - 1 })
           )
         );
@@ -29,8 +32,8 @@ export const extendedApi = api.injectEndpoints({
 export const { useListsQuery, useReorderListsMutation } = extendedApi;
 
 // selector
-export const selectLists = () =>
-  extendedApi.useListsQuery(undefined, { selectFromResult: ({ data }) => ({ lists: data }) });
+export const selectLists = (projectId: number) =>
+  extendedApi.useListsQuery(projectId, { selectFromResult: ({ data }) => ({ lists: data }) });
 
 // helpers
 function updateListOrderLocally(array: List[], { s, d }: { s: number; d: number }) {

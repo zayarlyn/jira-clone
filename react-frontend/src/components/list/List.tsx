@@ -10,8 +10,7 @@ interface Props extends LIST {
 }
 
 const List = ({ index, name, id, issues }: Props) => {
-  // const { issues } = selectIssuesArray(id);
-  // console.log(issues);
+  if (!issues) return null;
 
   return (
     <DraggableWrapper

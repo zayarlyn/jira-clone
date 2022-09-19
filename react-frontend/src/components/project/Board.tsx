@@ -6,6 +6,7 @@ import { useIssuesQuery, useReorderIssuesMutation } from '../../api/issues.endpo
 import { useListsQuery, useReorderListsMutation } from '../../api/lists.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
 import type { Issues, List as ApiList } from '../../api/apiTypes';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   lists: ApiList[];
@@ -18,6 +19,7 @@ const Board = (props: Props) => {
   const { lists, issues } = props;
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
+  const { projectId } = useParams();
 
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
     if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
@@ -33,6 +35,7 @@ const Board = (props: Props) => {
           id: issues[parseId(s)][s.index].id,
           s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
           d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order
+          projectId: Number(projectId),
         });
   };
 

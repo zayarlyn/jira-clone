@@ -12,7 +12,7 @@ export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     issues: builder.query<Issues, IssueQuery>({
       query: ({ projectId, userId: uid }) => ({
-        url: `project/${projectId}/issues/${uid ? '?userId=' + uid : ''}`,
+        url: `project/${projectId}/issues${uid ? '?userId=' + uid : ''}`,
         credentials: 'include',
       }),
       providesTags: ['Issues'],

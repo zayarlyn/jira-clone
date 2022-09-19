@@ -9,6 +9,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { useReducer, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import ResizeTextarea from 'react-textarea-autosize';
 import { CreateIssue } from '../../api/apiTypes';
 import { useCreateIssueMutation } from '../../api/issues.endpoint';
@@ -23,11 +24,12 @@ const CreateIssueModel = (props: IssueModelProps) => {
   const [form, dispatch] = useReducer(reducer, initial);
   const [isInvalid, setIsInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { projectId } = useParams();
 
   const handleCreateIssue = async () => {
     if (!form.summary) return setIsInvalid(true);
     setIsLoading(true);
-    await createIssue({ ...form, reporterId: 2 }); //for now
+    await createIssue({ ...form, reporterId: 2, projectId: Number(projectId) }); //for now
     setIsLoading(false);
     handleClose();
   };
@@ -145,7 +147,9 @@ const initial = {
   listId: null,
 };
 
-const reducer = (state: CreateIssue, { type, value }: A): CreateIssue => {
+type State = Omit<CreateIssue, 'projectId'>;
+
+const reducer = (state: State, { type, value }: A): State => {
   switch (type) {
     case 'type':
       return { ...state, type: value as number };

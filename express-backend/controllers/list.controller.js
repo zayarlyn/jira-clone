@@ -4,7 +4,7 @@ const { handleSameListReorder } = require('./util');
 const client = new PrismaClient();
 
 exports.getListsInProject = async (req, res) => {
-  const { projectId } = req.params;
+  const { projectId } = req.customParams;
   const lists = await client.list.findMany({
     where: { projectId: +projectId },
     orderBy: { order: 'asc' },

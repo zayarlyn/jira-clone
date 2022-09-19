@@ -4,7 +4,10 @@ import type { AddRemoveMember, Member } from './apiTypes';
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     members: builder.query<Member[], number>({
-      query: (id) => ({ url: `project/${id}/members`, credentials: 'include' }),
+      query: (projectId) => ({
+        url: `project/${projectId}/members`,
+        credentials: 'include',
+      }),
       providesTags: ['Members'],
     }),
     removeMember: builder.mutation<void, AddRemoveMember>({

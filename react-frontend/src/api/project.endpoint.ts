@@ -3,12 +3,15 @@ import type { EditProject, Project } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    projects: builder.query<Project[], void>({
-      query: () => ({ url: 'project', credentials: 'include' }),
+    projects: builder.query<Project[], number>({
+      query: (userId) => ({ url: `user/${userId}/projects`, credentials: 'include' }),
       providesTags: ['Project'],
     }),
     project: builder.query<Project, number>({
-      query: (projectId) => ({ url: 'project/' + projectId, credentials: 'include' }),
+      query: (projectId) => ({
+        url: 'project/' + projectId,
+        credentials: 'include',
+      }),
       providesTags: ['Project'],
     }),
     editProject: builder.mutation<void, EditProject>({
@@ -27,7 +30,7 @@ export const extendedApi = api.injectEndpoints({
 export const { useProjectsQuery, useProjectQuery, useEditProjectMutation } = extendedApi;
 
 // selectors
-export const selectProject = (projectId: number) =>
+export const selectCurrentProject = (projectId: number) =>
   extendedApi.useProjectQuery(projectId, {
     selectFromResult: ({ data }) => ({ project: data }),
   });

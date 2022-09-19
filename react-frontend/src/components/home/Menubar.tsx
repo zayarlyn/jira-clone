@@ -8,7 +8,8 @@ import { useParams } from 'react-router-dom';
 const Menubar = () => {
   const { projectId } = useParams();
   const [on, setOn] = useState(true);
-  const { data } = useProjectQuery(projectId ? +projectId : 1);
+  const { data } = useProjectQuery(Number(projectId));
+  console.log(projectId, data);
 
   return (
     <motion.div

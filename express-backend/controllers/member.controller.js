@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const client = new PrismaClient();
 
 exports.getMembersInProject = async (req, res) => {
-  const { projectId } = req.params;
+  const { projectId } = req.customParams;
   const members = await client.member.findMany({
     where: { projectId: +projectId },
     orderBy: { createdAt: 'asc' },

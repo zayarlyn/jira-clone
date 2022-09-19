@@ -19,14 +19,16 @@ import { IssueQuery } from '../../api/apiTypes';
 interface Props {
   issueQueryData: Omit<IssueQuery, 'projectId'>;
   setIssueQueryData: Dispatch<SetStateAction<Omit<IssueQuery, 'projectId'>>>;
+  projectId: number;
 }
 
 const Filter = (props: Props) => {
   const {
     issueQueryData: { userId: uid },
     setIssueQueryData,
+    projectId,
   } = props;
-  const { data: members } = useMembersQuery(1);
+  const { data: members } = useMembersQuery(projectId);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

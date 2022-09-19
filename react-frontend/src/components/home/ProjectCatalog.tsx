@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useProjectsQuery } from '../../api/project.endpoint';
 
 const ProjectCatalog = () => {
-  const { data: projects } = useProjectsQuery();
+  const { data: projects } = useProjectsQuery(11);
   const navigate = useNavigate();
-  console.log(projects);
 
   return (
     <div className='bg-white w-full pt-12 px-10'>
@@ -48,7 +47,7 @@ const ProjectCatalog = () => {
             className='flex border-y-2 py-1 -mt-[2px] cursor-pointer hover:border-blue-400'
             onClick={() => navigate(id + '/board')}
           >
-            <div className='text-center w-8'>{i}</div>
+            <div className='text-center w-8'>{i + 1}</div>
             <div className='grow px-2'>{name}</div>
             <div className='grow px-2'>{descr}</div>
             <div className='w-32 px-2'>{userId}</div>

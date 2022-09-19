@@ -28,7 +28,7 @@ const Form = (props: Props) => {
 
   const submit = handleSubmit(async (form) => {
     try {
-      const result = await onSubmit(form);
+      onSubmit(form);
     } catch (error) {
       const err = (error as AxiosError).response?.data as APIERROR;
       toast({

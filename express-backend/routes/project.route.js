@@ -5,11 +5,10 @@ const { getListsInProject } = require('../controllers/list.controller');
 const { getMembersInProject } = require('../controllers/member.controller');
 const { getProject, updateProject, getProjects } = require('../controllers/project.controller');
 
-router.get('/', getProjects);
-router.get('/:projectId/lists', getListsInProject);
-router.get('/:projectId/issues', getIssuesInProject);
-router.get('/:projectId/members', getMembersInProject);
-router.get('/:projectId', getProject);
-router.put('/:projectId', updateProject);
+router.get('/lists', getListsInProject);
+router.get('/issues', getIssuesInProject);
+router.get('/members', getMembersInProject);
+router.get('/', getProject);
+router.put('/', updateProject);
 
 module.exports = router;

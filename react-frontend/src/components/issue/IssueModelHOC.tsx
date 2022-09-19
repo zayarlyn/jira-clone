@@ -1,5 +1,6 @@
 import { ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
+import { useParams } from 'react-router-dom';
 import { selectLists } from '../../api/lists.endpoint';
 import { selectMembers } from '../../api/member.endpoint';
 import { types, priorities } from '../../category';
@@ -18,7 +19,8 @@ interface Props {
 function IssueModelHOC(props: Props) {
   const { issue, size = 'responsive', isOpen, setIsOpen, render: Render } = props;
   const { members: apiMembers } = selectMembers(1);
-  const { lists: apiLists } = selectLists();
+  const { projectId } = useParams();
+  const { lists: apiLists } = selectLists(Number(projectId));
 
   if (!apiMembers || !apiLists) return null;
 

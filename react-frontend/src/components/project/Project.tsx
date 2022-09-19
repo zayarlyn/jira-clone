@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { IssueQuery } from '../../api/apiTypes';
+import { Navigate, useParams } from 'react-router-dom';
+import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { useIssuesQuery } from '../../api/issues.endpoint';
 import { useListsQuery } from '../../api/lists.endpoint';
 import Board from './Board';
@@ -10,11 +10,11 @@ import Filter from './Filter';
 const Project = () => {
   const projectId = Number(useParams().projectId);
   const [issueQueryData, setIssueQueryData] = useState<Omit<IssueQuery, 'projectId'>>({});
-  const { data: lists, isSuccess: listsAreReady, isError: listsError } = useListsQuery(projectId);
+  const { data: lists, isSuccess: listsAreReady, error: listError } = useListsQuery(projectId);
   const {
     data: issues,
     isSuccess: issuesAreReady,
-    isError: issuesError,
+    error: issueError,
   } = useIssuesQuery(
     {
       projectId,
@@ -23,18 +23,21 @@ const Project = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  if (listsError && issuesError)
+  if (listError && issueError) {
+    if ((listError as APIERROR).status === 401 || (issueError as APIERROR).status === 401)
+      return <Navigate to='/login' />;
     return (
       <div className='grow grid place-items-center h-full text-xl'>
         You are not part of this project ☝
       </div>
     );
+  }
 
   return (
     <div className='flex grow flex-col'>
       <Details />
       <Filter {...{ issueQueryData, setIssueQueryData, projectId }} />
-      {lists && issues && <Board {...{ lists, issues, listsAreReady, issuesAreReady }} />}
+      <Board {...{ lists, issues }} />
     </div>
   );
 };

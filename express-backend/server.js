@@ -24,9 +24,6 @@ app.use(express.json());
 app.use('/auth', authRoute);
 app.use(authMiddleware);
 app.use('/api/user', userRoute);
-// app.use(restrictProjectMiddleware);
-//// put middleware for each controllers
-//// get requests has different style of passing id
 app.use('/api/project/:projectId', restrictProjectMiddleware, projectRoute);
 app.use('/api/list', restrictProjectMiddleware, listRoute);
 app.use('/api/issue', restrictProjectMiddleware, issueRoute);

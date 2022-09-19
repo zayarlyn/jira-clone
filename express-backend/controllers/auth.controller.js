@@ -31,10 +31,15 @@ exports.logOut = async (req, res) => {
   res.clearCookie('jira-clone').end();
 };
 
+exports.getAuth = async (req, res) => {};
+
 exports.authMiddleware = (req, res, next) => {
   const cookie = req.cookies['jira-clone'];
   if (!cookie)
-    return res.status(401).json({ message: 'please log in to access this resource' }).end();
+    return res
+      .status(401)
+      .json({ status: 401, message: 'please log in to access this resource' })
+      .end();
   const token = JSON.parse(cookie).token;
   try {
     const payload = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET);

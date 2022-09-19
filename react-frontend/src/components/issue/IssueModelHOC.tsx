@@ -37,7 +37,7 @@ function IssueModelHOC(props: Props) {
 
   return (
     <ChakraProvider>
-      <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} isCentered size='xl'>
+      <Modal isOpen={true} onClose={handleClose} autoFocus={false} isCentered size='xl'>
         <ModalOverlay bgColor='#0d67cc40' />
         <ModalContent
           borderRadius={2}

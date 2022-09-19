@@ -128,3 +128,8 @@ export interface IssueQuery {
   projectId: number;
   userId?: number;
 }
+
+export interface APIERROR {
+  message: string;
+  status: number;
+}

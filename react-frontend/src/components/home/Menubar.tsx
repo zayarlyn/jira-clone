@@ -3,13 +3,15 @@ import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import BtnWithIcon from '../util/BtnWithIcon';
 import { useProjectQuery } from '../../api/project.endpoint';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import type { APIERROR } from '../../api/apiTypes';
 
 const Menubar = () => {
   const { projectId } = useParams();
   const [on, setOn] = useState(true);
-  const { data } = useProjectQuery(Number(projectId));
-  console.log(projectId, data);
+  const { data, error } = useProjectQuery(Number(projectId));
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
     <motion.div

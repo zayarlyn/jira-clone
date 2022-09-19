@@ -2,15 +2,15 @@ import { DragDropContext, DraggableLocation } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import List from '../list/List';
-import { useIssuesQuery, useReorderIssuesMutation } from '../../api/issues.endpoint';
-import { useListsQuery, useReorderListsMutation } from '../../api/lists.endpoint';
-import CreateIssueModel from '../issue/CreateIssueModel';
+import { useReorderIssuesMutation } from '../../api/issues.endpoint';
+import { useReorderListsMutation } from '../../api/lists.endpoint';
 import type { Issues, List as ApiList } from '../../api/apiTypes';
 import { useParams } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 interface Props {
-  lists: ApiList[];
-  issues: Issues;
+  lists?: ApiList[];
+  issues?: Issues;
   // listsAreReady: boolean;
   // issuesAreReady: boolean;
 }
@@ -20,6 +20,9 @@ const Board = (props: Props) => {
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
   const { projectId } = useParams();
+
+  if (!lists || !issues) return null;
+  console.log(lists, issues);
 
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
     if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
@@ -51,6 +54,9 @@ const Board = (props: Props) => {
           {lists.map((props, n) => (
             <List key={props.id} index={n} issues={issues[props.id]} {...props} />
           ))}
+          <button className='bg-light-c-2 hover:bg-[#eef1f7] active:bg-blue-100 py-3 px-11 rounded-md flex items-center gap-5'>
+            Create a list <Icon icon='ant-design:plus-outlined' />
+          </button>
         </DroppableWrapper>
       </DragDropContext>
     </div>

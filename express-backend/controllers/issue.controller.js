@@ -68,7 +68,6 @@ exports.reorderIssues = async (req, res) => {
     d: { dId, newOrder },
   } = req.body;
   // check if reordering occur in same list
-  console.log(req.body);
   await (sId === dId
     ? handleSameListReorder({ id, order, newOrder }, { listId: sId }, client.issue)
     : handleDifferentListReorder(req.body));

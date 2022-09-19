@@ -1,11 +1,14 @@
 import { Button, ChakraProvider, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { APIERROR } from '../../api/apiTypes';
 import { useProjectsQuery } from '../../api/project.endpoint';
 
 const ProjectCatalog = () => {
-  const { data: projects } = useProjectsQuery(11);
+  const { data: projects, error } = useProjectsQuery(11);
   const navigate = useNavigate();
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
     <div className='bg-white w-full pt-12 px-10'>

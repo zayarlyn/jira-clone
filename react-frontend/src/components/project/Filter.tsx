@@ -14,7 +14,8 @@ import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
 import CreateIssueModel from '../issue/CreateIssueModel';
 import IssueModelHOC from '../issue/IssueModelHOC';
-import { IssueQuery } from '../../api/apiTypes';
+import { APIERROR, IssueQuery } from '../../api/apiTypes';
+import { Navigate } from 'react-router-dom';
 
 interface Props {
   issueQueryData: Omit<IssueQuery, 'projectId'>;
@@ -28,8 +29,10 @@ const Filter = (props: Props) => {
     setIssueQueryData,
     projectId,
   } = props;
-  const { data: members } = useMembersQuery(projectId);
+  const { data: members, error } = useMembersQuery(projectId);
   const [isOpen, setIsOpen] = useState(false);
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
     <div className='mb-8 flex min-w-fit items-center px-10'>

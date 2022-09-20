@@ -19,6 +19,14 @@ exports.createList = async (req, res) => {
   res.json(list).end();
 };
 
+exports.updateList = async (req, res) => {
+  const { listId } = req.params;
+  const { projectId, ...data } = req.body; //exclude projectId
+  const list = await client.list.update({ where: { id: +listId }, data });
+  res.json(list).end();
+  res.end();
+};
+
 exports.deleteList = async (req, res) => {
   const { listId } = req.params;
   const list = await client.list.delete({ where: { id: +listId } });

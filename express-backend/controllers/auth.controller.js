@@ -46,7 +46,8 @@ exports.authMiddleware = (req, res, next) => {
     req.user = payload;
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message }).end();
+    console.log(err);
+    return res.clearCookie('jira-clone').status(401).json({ message: err.message }).end();
   }
 };
 

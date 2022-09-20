@@ -3,7 +3,6 @@ const { PrismaClient } = require('@prisma/client');
 const client = new PrismaClient();
 
 exports.restrictProjectMiddleware = async (req, res, next) => {
-  console.log(req.body, req.params);
   const projectId = Number(req.params.projectId ?? req.body.projectId);
   if (!projectId) return reject(res);
   const project = await client.member.findFirst({

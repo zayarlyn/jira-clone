@@ -26,7 +26,7 @@ exports.getIssuesInProject = async (req, res) => {
 };
 
 exports.createIssue = async (req, res) => {
-  const { listId, assignees, ...data } = req.body;
+  const { projectId, listId, assignees, ...data } = req.body; // opt out projectId
   // get the number of issues and set it as the order column/attribute
   const { _count: order } = await client.issue.aggregate({ where: { listId }, _count: true });
   // create issue [summary, descr, priority, type, reporter,  list, order*]

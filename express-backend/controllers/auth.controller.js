@@ -35,6 +35,7 @@ exports.getAuth = async (req, res) => {};
 
 exports.authMiddleware = (req, res, next) => {
   const cookie = req.cookies['jira-clone'];
+  console.log(req.cookies);
   if (!cookie)
     return res
       .status(401)

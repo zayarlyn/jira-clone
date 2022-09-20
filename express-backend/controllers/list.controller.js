@@ -29,6 +29,7 @@ exports.updateList = async (req, res) => {
 
 exports.deleteList = async (req, res) => {
   const { listId } = req.params;
+  await client.issue.deleteMany({ where: { listId: +listId } }); // delete issues in the list
   const list = await client.list.delete({ where: { id: +listId } });
   res.json(list).end();
 };
@@ -38,3 +39,4 @@ exports.reorderLists = async (req, res) => {
   await handleSameListReorder({ id, order, newOrder }, { projectId }, client.list);
   res.end();
 };
+client.list.update({ where: {}, data: {} });

@@ -15,8 +15,14 @@ exports.getListsInProject = async (req, res) => {
 exports.createList = async (req, res) => {
   const { projectId } = req.body;
   const { _count: order } = await client.list.aggregate({ where: { projectId }, _count: true });
-  const project = await client.list.create({ data: { projectId, order } });
-  res.json(project).end();
+  const list = await client.list.create({ data: { projectId, order } });
+  res.json(list).end();
+};
+
+exports.deleteList = async (req, res) => {
+  const { listId } = req.params;
+  const list = await client.list.delete({ where: { id: +listId } });
+  res.json(list).end();
 };
 
 exports.reorderLists = async (req, res) => {

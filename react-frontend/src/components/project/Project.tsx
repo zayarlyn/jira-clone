@@ -10,12 +10,9 @@ import Filter from './Filter';
 const Project = () => {
   const projectId = Number(useParams().projectId);
   const [issueQueryData, setIssueQueryData] = useState<Omit<IssueQuery, 'projectId'>>({});
-  const { data: lists, isSuccess: listsAreReady, error: listError } = useListsQuery(projectId);
-  const {
-    data: issues,
-    isSuccess: issuesAreReady,
-    error: issueError,
-  } = useIssuesQuery(
+  const { data: lists, error: listError } = useListsQuery(projectId);
+
+  const { data: issues, error: issueError } = useIssuesQuery(
     {
       projectId,
       ...issueQueryData,

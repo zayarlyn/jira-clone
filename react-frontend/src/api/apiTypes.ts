@@ -6,6 +6,8 @@ export interface List {
   // updatedAt: string;
 }
 
+export type CreateList = Omit<List, 'order'>;
+
 export interface Issue {
   id: number;
   summary: string;

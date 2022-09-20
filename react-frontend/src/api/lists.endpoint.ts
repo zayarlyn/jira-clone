@@ -1,5 +1,5 @@
 import { api } from './api';
-import { List, ReorderList } from './apiTypes';
+import { CreateList, List, ReorderList } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +9,10 @@ export const extendedApi = api.injectEndpoints({
         credentials: 'include',
       }),
       providesTags: ['Lists'],
+    }),
+    createList: builder.mutation<List, void>({
+      query: (body) => ({ url: 'list/create', method: 'POST', body, credentials: 'include' }),
+      invalidatesTags: ['Lists'],
     }),
     reorderLists: builder.mutation<void, ReorderList>({
       query: (body) => ({
@@ -29,7 +33,7 @@ export const extendedApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useListsQuery, useReorderListsMutation } = extendedApi;
+export const { useListsQuery, useCreateListMutation, useReorderListsMutation } = extendedApi;
 
 // selector
 export const selectLists = (projectId: number) =>

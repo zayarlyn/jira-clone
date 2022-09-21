@@ -1,5 +1,5 @@
 import { api } from './api';
-import { CreateList, List, ReorderList } from './apiTypes';
+import type { CreateList, DeleteList, List, ReorderList, UpdateList } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,15 +10,34 @@ export const extendedApi = api.injectEndpoints({
       }),
       providesTags: ['Lists'],
     }),
-    createList: builder.mutation<List, void>({
+    createList: builder.mutation<List, CreateList>({
       query: (body) => ({ url: 'list/create', method: 'POST', body, credentials: 'include' }),
+      invalidatesTags: ['Lists'],
+    }),
+    updateList: builder.mutation<List, UpdateList>({
+      query: ({ listId, body }) => ({
+        url: `list/${listId}/update`,
+        method: 'PATCH',
+        body,
+        credentials: 'include',
+      }),
+      invalidatesTags: ['Lists'],
+    }),
+    deleteList: builder.mutation<List, DeleteList>({
+      query: ({ listId, projectId }) => ({
+        url: `list/${listId}/delete`,
+        method: 'DELETE',
+        body: { projectId },
+        credentials: 'include',
+      }),
       invalidatesTags: ['Lists'],
     }),
     reorderLists: builder.mutation<void, ReorderList>({
       query: (body) => ({
-        url: 'list/reorder',
+        url: 'api/list/reorder',
         method: 'PUT',
         body,
+        credentials: 'include',
       }),
       invalidatesTags: ['Lists'],
       async onQueryStarted({ order, newOrder, projectId }, { dispatch, queryFulfilled }) {
@@ -33,7 +52,13 @@ export const extendedApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useListsQuery, useCreateListMutation, useReorderListsMutation } = extendedApi;
+export const {
+  useListsQuery,
+  useCreateListMutation,
+  useUpdateListMutation,
+  useDeleteListMutation,
+  useReorderListsMutation,
+} = extendedApi;
 
 // selector
 export const selectLists = (projectId: number) =>

@@ -18,15 +18,20 @@ export const extendedApi = api.injectEndpoints({
       providesTags: ['Issues'],
     }),
     createIssue: builder.mutation<void, CreateIssue>({
-      query: (body) => ({ url: 'issue/create', method: 'POST', body }),
+      query: (body) => ({ url: 'issue/create', method: 'POST', body, credentials: 'include' }),
       invalidatesTags: ['Issues'],
     }),
     updateIssue: builder.mutation<void, UpdateIssue>({
-      query: ({ id, body }) => ({ url: `issue/${id}/update`, method: 'PATCH', body }),
+      query: ({ id, body }) => ({
+        url: `issue/${id}/update`,
+        method: 'PATCH',
+        body,
+        credentials: 'include',
+      }),
       invalidatesTags: ['Issues'],
     }),
     reorderIssues: builder.mutation<void, reorderIssues>({
-      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body }),
+      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body, credentials: 'include' }),
       invalidatesTags: ['Issues'],
       async onQueryStarted({ s, d }, { dispatch, queryFulfilled }) {
         const result = dispatch(
@@ -52,13 +57,17 @@ export const {
 } = extendedApi;
 
 // selectors
-export const selectIssuesArray = (listId: number) =>
+type IssueSelector = { listId: number; projectId: number };
+
+export const selectIssuesArray = ({ listId, projectId }: IssueSelector) =>
   extendedApi.useIssuesQuery(
-    { projectId: 1 },
+    { projectId },
     {
-      selectFromResult: ({ data }) => ({
-        issues: data ? data[listId] : [],
-      }),
+      selectFromResult: ({ data }) => {
+        return {
+          issues: data ? data[listId] : [],
+        };
+      },
     }
   );
 

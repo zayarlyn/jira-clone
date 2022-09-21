@@ -1,12 +1,34 @@
+export interface User {
+  id: number;
+  username: string;
+  profileUrl: string;
+  lastLoggedIn: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface List {
   id: number;
   name: string;
   order: number;
+  projectId: number;
   // createdAt: string;
   // updatedAt: string;
 }
 
-export type CreateList = Omit<List, 'order'>;
+export interface CreateList {
+  projectId: number;
+}
+
+export interface UpdateList {
+  listId: number;
+  body: Partial<List>;
+}
+
+export interface DeleteList {
+  listId: number;
+  projectId: number;
+}
 
 export interface Issue {
   id: number;

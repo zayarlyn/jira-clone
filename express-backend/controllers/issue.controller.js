@@ -61,6 +61,12 @@ exports.updateIssue = async (req, res) => {
   res.end();
 };
 
+exports.deleteIssue = async (req, res) => {
+  const { id } = req.params;
+  const issue = await client.issue.delete({ where: { id: +id } });
+  res.json(issue).end();
+};
+
 exports.reorderIssues = async (req, res) => {
   const {
     id,

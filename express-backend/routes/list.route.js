@@ -9,8 +9,8 @@ const {
 
 // neon
 router.post('/create', createList);
-router.delete('/:listId/delete', deleteList);
-router.patch('/:listId/update', updateList);
+router.delete('/:id/delete', deleteList);
+router.patch('/:id/update', updateList);
 router.put('/reorder', reorderLists);
 
 module.exports = router;

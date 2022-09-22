@@ -20,17 +20,16 @@ exports.createList = async (req, res) => {
 };
 
 exports.updateList = async (req, res) => {
-  const { listId } = req.params;
+  const { id } = req.params;
   const { projectId, ...data } = req.body; //exclude projectId
-  const list = await client.list.update({ where: { id: +listId }, data });
+  const list = await client.list.update({ where: { id: +id }, data });
   res.json(list).end();
   res.end();
 };
 
 exports.deleteList = async (req, res) => {
-  const { listId } = req.params;
-  await client.issue.deleteMany({ where: { listId: +listId } }); // delete issues in the list
-  const list = await client.list.delete({ where: { id: +listId } });
+  const { id } = req.params;
+  const list = await client.list.delete({ where: { id: +id } });
   res.json(list).end();
 };
 

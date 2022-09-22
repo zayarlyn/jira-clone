@@ -21,12 +21,19 @@ const diffContainerReorder = async ({ id, s: { sId, order }, d: { dId, newOrder 
   const toBeUpdatedSource = updateOrder({ id: sId, order, type: 'source', model });
   const toBeUpdatedTarget = updateOrder({ id: dId, order: newOrder, type: 'target', model });
 
+  const nullAssignees = await client.assignee.findMany({
+    where: { issueId: id },
+  });
   const toBeDeleted = await model.delete({ where: { id } });
   const toBeInserted = model.create({
     data: { ...toBeDeleted, order: newOrder, listId: dId },
   });
 
-  return Promise.all([toBeUpdatedSource, toBeUpdatedTarget, toBeInserted]);
+  const reattatchAssignees = Promise.all(
+    nullAssignees.map((data) => client.assignee.create({ data }))
+  );
+
+  return Promise.all([toBeUpdatedSource, toBeUpdatedTarget, toBeInserted, reattatchAssignees]);
 };
 
 const updateOrder = async ({ id, order, type, model }) => {

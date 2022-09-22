@@ -23,8 +23,7 @@ exports.logIn = async (req, res) => {
   const isValidPwd = await bcrypt.compare(pwd, user.pwd);
   if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect' }).end();
   const token = generateJwt({ uid: user.id });
-  createCookie(res, token);
-  res.json(user).end();
+  createCookie(res, token).json(user).end();
 };
 
 exports.logOut = async (req, res) => {
@@ -56,4 +55,5 @@ const findUser = async (email) => client.user.findFirst({ where: { email } });
 const createCookie = (res, token) =>
   res.cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
+    expires: new Date(Date.now() + 1800000),
   });

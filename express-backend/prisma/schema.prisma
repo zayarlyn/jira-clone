@@ -68,7 +68,7 @@ model Issue {
   descr      String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now())
-  List       List?      @relation(fields: [listId], references: [id])
+  List       List?      @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId     Int?
   assignees  Assignee[]
 }
@@ -78,6 +78,6 @@ model Assignee {
   createdAt DateTime @default(now())
   User      User?    @relation(fields: [userId], references: [id])
   userId    Int?
-  Issue     Issue?   @relation(fields: [issueId], references: [id])
+  Issue     Issue?   @relation(fields: [issueId], references: [id], onDelete: Cascade)
   issueId   Int?
 }

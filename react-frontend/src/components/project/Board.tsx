@@ -18,9 +18,9 @@ const Board = (props: Props) => {
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
   const [createList] = useCreateListMutation();
-  const { projectId } = useParams();
+  const projectId = Number(useParams().projectId);
 
-  if (!lists || !issues) return null;
+  if (!lists) return null;
 
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
     if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
@@ -30,22 +30,23 @@ const Board = (props: Props) => {
           id: lists[s.index].id,
           order: s.index + 1, // change index to actual order
           newOrder: d.index + 1, // change index to actual order
-          projectId: 1,
+          projectId,
         })
-      : reorderIssues({
+      : // console.log('opeartion reorder');
+        reorderIssues({
           id: issues[parseId(s)][s.index].id,
           s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
           d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order
-          projectId: Number(projectId),
+          projectId,
         });
   };
 
-  const handleCreateList = async () => {
-    await createList();
+  const handleCreateList = () => {
+    createList({ projectId });
   };
 
   return (
-    <div className='grow px-10 min-w-max'>
+    <div className='grow px-10 min-w-max flex items-start'>
       <DragDropContext onDragEnd={onDragEnd}>
         <DroppableWrapper
           type='list'
@@ -53,16 +54,16 @@ const Board = (props: Props) => {
           droppableId='board-central'
           direction='horizontal'
         >
-          {lists.map((props, n) => (
-            <List key={props.id} index={n} issues={issues[props.id]} {...props} />
+          {lists.map((props, i) => (
+            <List key={props.id} idx={i} issues={issues?.[props.id]} {...props} />
           ))}
-          <button
-            onClick={handleCreateList}
-            className='bg-light-c-2 hover:bg-[#eef1f7] active:bg-blue-100 py-3 px-11 rounded-md flex items-center gap-5'
-          >
-            Create a list <Icon icon='ant-design:plus-outlined' />
-          </button>
         </DroppableWrapper>
+        <button
+          onClick={handleCreateList}
+          className='bg-light-c-2 hover:bg-[#eef1f7] active:bg-blue-100 py-3 px-14 rounded-md flex items-center gap-5'
+        >
+          Create a list <Icon icon='ant-design:plus-outlined' />
+        </button>
       </DragDropContext>
     </div>
   );

@@ -34,7 +34,7 @@ export const extendedApi = api.injectEndpoints({
     }),
     reorderLists: builder.mutation<void, ReorderList>({
       query: (body) => ({
-        url: 'api/list/reorder',
+        url: 'list/reorder',
         method: 'PUT',
         body,
         credentials: 'include',

@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const { handleSameListReorder } = require('./util');
+const { sameContainerReorder } = require('./util');
 
 const client = new PrismaClient();
 
@@ -36,7 +36,6 @@ exports.deleteList = async (req, res) => {
 
 exports.reorderLists = async (req, res) => {
   const { id, order, newOrder, projectId } = req.body;
-  await handleSameListReorder({ id, order, newOrder }, { projectId }, client.list);
+  await sameContainerReorder({ id, order, newOrder }, { projectId }, client.list);
   res.end();
 };
-client.list.update({ where: {}, data: {} });

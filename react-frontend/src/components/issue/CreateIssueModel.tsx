@@ -9,9 +9,10 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { useReducer, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import ResizeTextarea from 'react-textarea-autosize';
-import { CreateIssue } from '../../api/apiTypes';
+import { APIERROR, Assignee, CreateIssue, List } from '../../api/apiTypes';
+import { selectAuthUser } from '../../api/auth.endpoint';
 import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
@@ -20,16 +21,21 @@ import type { IssueModelProps } from './IssueModelHOC';
 
 const CreateIssueModel = (props: IssueModelProps) => {
   const { lists, members, types, priorities, handleClose } = props;
-  const [createIssue] = useCreateIssueMutation();
+  const { authUser } = selectAuthUser();
+  const [createIssue, { error }] = useCreateIssueMutation();
   const [form, dispatch] = useReducer(reducer, initial);
   const [isInvalid, setIsInvalid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { projectId } = useParams();
+  const projectId = Number(useParams().projectId);
+
+  if (!authUser) return null;
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   const handleCreateIssue = async () => {
-    if (!form.summary) return setIsInvalid(true);
+    if (!form.summary || !authUser) return setIsInvalid(true);
     setIsLoading(true);
-    await createIssue({ ...form, reporterId: 2, projectId: Number(projectId) }); //for now
+    await createIssue({ ...form, reporterId: authUser.id, projectId }); //for now
     setIsLoading(false);
     handleClose();
   };
@@ -86,7 +92,10 @@ const CreateIssueModel = (props: IssueModelProps) => {
               borderRadius={3}
               px={4}
             >
-              <Item {...members[2]} className='w-6 h-6 mr-4 rounded-full object-cover' />
+              <Item
+                {...members.filter(({ value: v }) => v === authUser.id)[0]}
+                className='w-6 h-6 mr-4 rounded-full object-cover'
+              />
             </Button>
           </FormWithLabel>
         )}
@@ -137,7 +146,7 @@ export type T = 'type' | 'summary' | 'descr' | 'assignee' | 'priority' | 'listId
 
 export type A = { type: T; value: number | number[] | string };
 
-const initial = {
+const initial: State = {
   descr: '',
   summary: '',
   priority: 0,

@@ -10,3 +10,8 @@ exports.getUsers = async (req, res) => {
   });
   res.json(users).end();
 };
+
+exports.getAuthUser = async (req, res) => {
+  const { pwd, ...user } = await client.user.findFirst({ where: { id: req.user.uid } });
+  res.json(user).end();
+};

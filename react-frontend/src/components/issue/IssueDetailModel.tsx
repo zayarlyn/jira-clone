@@ -2,11 +2,12 @@ import { Button, ChakraProvider, IconButton, ModalBody, ModalHeader } from '@cha
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { UpdateIssueType } from '../../api/apiTypes';
+import { selectAuthUser } from '../../api/auth.endpoint';
 import { selectIssuesArray, useUpdateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
-import type { IssueModelProps } from './IssueModelHOC';
+import type { IssueMetaData, IssueModelProps } from './IssueModelHOC';
 import TextInput from './TextInput';
 
 const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
@@ -17,13 +18,19 @@ const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware 
   return { type: newLen > oldLen ? 'addAssignee' : 'removeAssignee', value: userId };
 };
 
+// interface IDM extends IssueModelProps {
+//   issue: IssueMetaData;
+// }
 const IssueDetailModel = (props: IssueModelProps) => {
-  const { issue, members, lists, types, priorities, handleClose } = props;
-  const { issues } = selectIssuesArray(issue?.listId as number);
+  const { issue, projectId, members, lists, types, priorities, handleClose } = props;
+  const { issues } = selectIssuesArray({
+    listId: issue?.listId as number,
+    projectId,
+  });
+
   const { id, type, listId, priority, assignees, summary, descr } = issues[issue?.idx as number];
   const [updateIssue] = useUpdateIssueMutation();
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
-  const { projectId } = useParams();
 
   const dispatchMiddleware = (data: DispatchMiddleware) => {
     const assigneeIds = assignees.map(({ userId }) => userId);

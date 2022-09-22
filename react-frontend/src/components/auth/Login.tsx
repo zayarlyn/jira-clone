@@ -35,7 +35,7 @@ const LogIn = () => {
 
 export default LogIn;
 
-const logIn = async (body: {}) => {
+const logIn = async (body: FieldValues) => {
   const result = await axios.post('http://localhost:5000/auth/login', body, {
     withCredentials: true,
   });

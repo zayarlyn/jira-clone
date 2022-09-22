@@ -31,11 +31,8 @@ exports.logOut = async (req, res) => {
   res.clearCookie('jira-clone').end();
 };
 
-exports.getAuth = async (req, res) => {};
-
 exports.authMiddleware = (req, res, next) => {
   const cookie = req.cookies['jira-clone'];
-  console.log(req.cookies);
   if (!cookie)
     return res
       .status(401)
@@ -47,7 +44,6 @@ exports.authMiddleware = (req, res, next) => {
     req.user = payload;
     next();
   } catch (err) {
-    console.log(err);
     return res.clearCookie('jira-clone').status(401).json({ message: err.message }).end();
   }
 };

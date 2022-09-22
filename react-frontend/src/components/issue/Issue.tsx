@@ -6,14 +6,16 @@ import AssignedMembers from './AssignedMembers';
 import { useState } from 'react';
 import IssueModelHOC from './IssueModelHOC';
 import IssueDetailModel from './IssueDetailModel';
+import { useParams } from 'react-router-dom';
 
 const Issue = (props: Props) => {
-  const { listId, idx, summary, id, type, priority, assignees } = props;
+  const { listId, listIdx, idx, summary, id, type, priority, assignees } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const { members } = selectMembers(1);
+  const projectId = Number(useParams().projectId);
+  const { members } = selectMembers(projectId);
   const { icon, text } = priorities[priority];
 
-  if (!members || !assignees) return null;
+  if (!members) return null;
 
   return (
     <>
@@ -37,7 +39,7 @@ const Issue = (props: Props) => {
         <IssueModelHOC
           render={IssueDetailModel}
           {...{ isOpen, setIsOpen }}
-          issue={{ listId, idx }}
+          issue={{ listId, listIdx, idx }}
         />
       )}
     </>
@@ -48,5 +50,6 @@ export default Issue;
 
 interface Props extends JiraIssue {
   listId: number;
+  listIdx: number;
   idx: number;
 }

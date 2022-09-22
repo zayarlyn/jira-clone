@@ -2,9 +2,11 @@ import { Button, ChakraProvider, Input, InputGroup, InputLeftElement } from '@ch
 import { Icon } from '@iconify/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
+import { useAuthUserQuery } from '../../api/auth.endpoint';
 import { useProjectsQuery } from '../../api/project.endpoint';
 
 const ProjectCatalog = () => {
+  const { data: authUser } = useAuthUserQuery();
   const { data: projects, error } = useProjectsQuery(11);
   const navigate = useNavigate();
 

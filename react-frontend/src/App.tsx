@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Welcome from './components/auth/Welcome';
@@ -18,10 +18,9 @@ function App() {
               <Route path=':projectId' element={<Setting />} />
               <Route path=':projectId/board' element={<Project />} />
             </Route>
-            <Route path='/' element={<Welcome />}>
-              <Route path='register' element={<Register />} />
-              <Route path='login' element={<LogIn />} />
-            </Route>
+            <Route path='register' element={<Welcome children={Register} />} />
+            <Route path='login' element={<Welcome children={LogIn} />} />
+            <Route path='/' element={<Navigate to='/project' />} />
           </Routes>
         </BrowserRouter>
       </Provider>

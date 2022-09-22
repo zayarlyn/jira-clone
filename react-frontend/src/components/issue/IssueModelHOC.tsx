@@ -6,7 +6,7 @@ import { selectMembers } from '../../api/member.endpoint';
 import { types, priorities } from '../../category';
 import { Category } from '../util/DropDown';
 
-type IssueMetaData = { listId: number; idx: number };
+export type IssueMetaData = { listIdx: number; listId: number; idx: number };
 
 interface Props {
   isOpen: boolean;
@@ -17,19 +17,21 @@ interface Props {
 }
 
 function IssueModelHOC(props: Props) {
+  const projectId = Number(useParams().projectId);
   const { issue, size = 'responsive', isOpen, setIsOpen, render: Render } = props;
-  const { members: apiMembers } = selectMembers(1);
-  const { projectId } = useParams();
-  const { lists: apiLists } = selectLists(Number(projectId));
+  const { members: apiMembers } = selectMembers(projectId);
+  const { lists: apiLists } = selectLists(projectId);
 
-  if (!apiMembers || !apiLists) return null;
-
-  const members = apiMembers.map(({ username: u, profileUrl: p, userId }) => ({
-    text: u,
-    icon: p,
-    value: userId,
-  })) as Category[];
-  const lists = apiLists.map(({ id, name }) => ({ text: name, value: id })) as Category[];
+  const members = apiMembers
+    ? (apiMembers.map(({ username: u, profileUrl: p, userId }) => ({
+        text: u,
+        icon: p,
+        value: userId,
+      })) as Category[])
+    : [];
+  const lists = apiLists
+    ? (apiLists.map(({ id, name }) => ({ text: name, value: id })) as Category[])
+    : [];
 
   const handleClose = () => {
     setIsOpen(false);
@@ -37,7 +39,7 @@ function IssueModelHOC(props: Props) {
 
   return (
     <ChakraProvider>
-      <Modal isOpen={true} onClose={handleClose} autoFocus={false} isCentered size='xl'>
+      <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} isCentered size='xl'>
         <ModalOverlay bgColor='#0d67cc40' />
         <ModalContent
           borderRadius={2}
@@ -46,6 +48,7 @@ function IssueModelHOC(props: Props) {
         >
           <Render
             {...{
+              projectId,
               lists,
               members,
               types,
@@ -64,9 +67,8 @@ export default IssueModelHOC;
 
 export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
 
-// export type IssueModelAction = { type: T; value: number | number[] | string };
-
 export interface IssueModelProps {
+  projectId: number;
   issue?: IssueMetaData;
   members: Category[];
   lists: Category[];

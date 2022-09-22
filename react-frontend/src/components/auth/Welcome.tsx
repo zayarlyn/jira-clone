@@ -1,7 +1,12 @@
 import { Icon } from '@iconify/react';
 import { Outlet } from 'react-router-dom';
 
-const Welcome = () => {
+interface Props {
+  children: () => JSX.Element;
+}
+
+const Welcome = (props: Props) => {
+  const { children: Component } = props;
   return (
     <div className='flex w-full items-center h-sreen min-h-fit bg-gradient-to-r from-[#151642] to-[#321898]'>
       <div className='w-1/2 text-white tracking-wide'>
@@ -26,7 +31,7 @@ const Welcome = () => {
         </div>
       </div>
       <div className='w-1/2'>
-        <Outlet />
+        <Component />
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ exports.getListsInProject = async (req, res) => {
 exports.createList = async (req, res) => {
   const { projectId } = req.body;
   const { _count: order } = await client.list.aggregate({ where: { projectId }, _count: true });
-  const list = await client.list.create({ data: { projectId, order } });
+  const list = await client.list.create({ data: { projectId, order: order + 1 } });
   res.json(list).end();
 };
 

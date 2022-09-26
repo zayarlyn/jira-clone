@@ -1,4 +1,4 @@
-export interface User {
+export interface AuthUser {
   id: number;
   username: string;
   profileUrl: string;
@@ -70,7 +70,9 @@ export interface Project {
   userId: number;
 }
 
-export interface SearchedUser {
+export type CreateProject = Omit<Project, 'id'>;
+
+export interface PublicUser {
   id: number;
   username: string;
   email: string;
@@ -146,6 +148,11 @@ export interface UpdateIssue {
     value: string | number | number[];
     projectId: number;
   };
+}
+
+export interface DeleteIssue {
+  issueId: number;
+  projectId: number;
 }
 
 export interface IssueQuery {

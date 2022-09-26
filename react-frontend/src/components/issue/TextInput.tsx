@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import reactTextareaAutosize from 'react-textarea-autosize';
 import { UpdateIssueType } from '../../api/apiTypes';
 import FormWithLabel from '../util/FormWithLabel';
-import type { DispatchMiddleware } from './IssueDetailModel';
+import type { DispatchMiddleware } from './IssueDetailModal';
 
 interface Props {
   type: UpdateIssueType;

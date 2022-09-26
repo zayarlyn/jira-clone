@@ -1,16 +1,19 @@
 import { api } from './api';
-import { User } from './apiTypes';
+import { AuthUser, PublicUser } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    authUser: builder.query<User, void>({
+    authUser: builder.query<AuthUser, void>({
       query: () => ({ url: 'user/authUser', credentials: 'include' }),
+    }),
+    publicUser: builder.query<PublicUser, number>({
+      query: (id) => ({ url: `user/${id}`, credentials: 'include' }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useAuthUserQuery } = extendedApi;
+export const { useAuthUserQuery, usePublicUserQuery } = extendedApi;
 
 // selectors
 export const selectAuthUser = () =>

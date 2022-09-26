@@ -4,8 +4,8 @@ import { types, priorities } from '../../category';
 import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
 import { useState } from 'react';
-import IssueModelHOC from './IssueModelHOC';
-import IssueDetailModel from './IssueDetailModel';
+import IssueModalHOC from './IssueModalHOC';
+import IssueDetailModal from './IssueDetailModal';
 import { useParams } from 'react-router-dom';
 
 const Issue = (props: Props) => {
@@ -36,8 +36,8 @@ const Issue = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <IssueModelHOC
-          render={IssueDetailModel}
+        <IssueModalHOC
+          render={IssueDetailModal}
           {...{ isOpen, setIsOpen }}
           issue={{ listId, listIdx, idx }}
         />

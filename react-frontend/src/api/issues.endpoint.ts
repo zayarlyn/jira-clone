@@ -1,6 +1,7 @@
 import { api } from './api';
 import type {
   CreateIssue,
+  DeleteIssue,
   dndOrderData,
   IssueQuery,
   Issues,
@@ -30,6 +31,15 @@ export const extendedApi = api.injectEndpoints({
       }),
       invalidatesTags: ['Issues'],
     }),
+    deleteIssue: builder.mutation<void, DeleteIssue>({
+      query: ({ issueId, projectId }) => ({
+        url: `issue/${issueId}/delete`,
+        method: 'DELETE',
+        body: { projectId },
+        credentials: 'include',
+      }),
+      invalidatesTags: ['Issues'],
+    }),
     reorderIssues: builder.mutation<void, reorderIssues>({
       query: (body) => ({ url: 'issue/reorder', method: 'PUT', body, credentials: 'include' }),
       invalidatesTags: ['Issues'],
@@ -53,6 +63,7 @@ export const {
   useIssuesQuery,
   useCreateIssueMutation,
   useUpdateIssueMutation,
+  useDeleteIssueMutation,
   useReorderIssuesMutation,
 } = extendedApi;
 

@@ -9,7 +9,7 @@ const FormWithLabel = (props: Props) => {
   return (
     <div className='mb-5'>
       {label && (
-        <span className={'font-semibold text-[13px] text-gray-600 mb-1 block ' + labelClass}>
+        <span className={'font-medium text-[14px] text-gray-900 mb-1 block ' + labelClass}>
           {label}
         </span>
       )}

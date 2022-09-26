@@ -23,6 +23,14 @@ exports.getProject = async (req, res) => {
   res.json(project).end();
 };
 
+exports.createProject = async (req, res) => {
+  const project = await client.project.create({ data: req.body });
+  await client.member.create({
+    data: { projectId: project.id, userId: req.body.userId, isAdmin: true },
+  });
+  res.json(project).end();
+};
+
 exports.updateProject = async (req, res) => {
   const { projectId } = req.customParams;
   const updatedProject = await client.project.update({ where: { id: +projectId }, data: req.body });

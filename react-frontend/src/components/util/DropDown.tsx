@@ -1,7 +1,7 @@
 import { Badge } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { Dispatch, useEffect, useState } from 'react';
-import { A, T } from '../issue/CreateIssueModel';
+import { A, T } from '../issue/CreateIssueModal';
 import Item from './Item';
 
 type Prop = {
@@ -147,7 +147,6 @@ export default DropDown;
 export type Category = { text: string; icon?: string; value: number };
 
 // helper
-
 const modifyItems = (idx: number, list: Category[], resultList: Category[]) => {
   const clone = list.slice(0);
   const deleted = clone.splice(idx, 1)[0];

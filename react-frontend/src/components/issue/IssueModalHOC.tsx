@@ -12,11 +12,11 @@ interface Props {
   isOpen: boolean;
   size?: 'responsive' | 'fixed';
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  render: FC<IssueModelProps>;
+  render: FC<IssueModalProps>;
   issue?: IssueMetaData;
 }
 
-function IssueModelHOC(props: Props) {
+function IssueModalHOC(props: Props) {
   const projectId = Number(useParams().projectId);
   const { issue, size = 'responsive', isOpen, setIsOpen, render: Render } = props;
   const { members: apiMembers } = selectMembers(projectId);
@@ -63,11 +63,11 @@ function IssueModelHOC(props: Props) {
   );
 }
 
-export default IssueModelHOC;
+export default IssueModalHOC;
 
 export type T = 'TYPE' | 'SUMMARY' | 'DESCR' | 'ASSIGNEE' | 'PRIORITY' | 'LISTID';
 
-export interface IssueModelProps {
+export interface IssueModalProps {
   projectId: number;
   issue?: IssueMetaData;
   members: Category[];

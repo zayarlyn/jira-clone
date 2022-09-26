@@ -12,8 +12,8 @@ import {
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
-import CreateIssueModel from '../issue/CreateIssueModel';
-import IssueModelHOC from '../issue/IssueModelHOC';
+import CreateIssueModal from '../issue/CreateIssueModal';
+import IssueModalHOC from '../issue/IssueModalHOC';
 import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
 
@@ -62,7 +62,7 @@ const Filter = (props: Props) => {
             Only my issues
           </Button>
           <Button fontWeight='normal' fontSize={15}>
-            Recently uploaded
+            Completed Issue
           </Button>
           <Divider my={1} h={6} orientation='vertical' />
           {uid && (
@@ -84,7 +84,7 @@ const Filter = (props: Props) => {
           Create an issue
         </Button>
         {isOpen && (
-          <IssueModelHOC size='fixed' render={CreateIssueModel} {...{ isOpen, setIsOpen }} />
+          <IssueModalHOC size='fixed' render={CreateIssueModal} {...{ isOpen, setIsOpen }} />
         )}
       </ChakraProvider>
     </div>

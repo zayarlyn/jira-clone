@@ -17,9 +17,9 @@ import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import FormWithLabel from '../util/FormWithLabel';
 import Item from '../util/Item';
-import type { IssueModelProps } from './IssueModelHOC';
+import type { IssueModalProps } from './IssueModalHOC';
 
-const CreateIssueModel = (props: IssueModelProps) => {
+const CreateIssueModal = (props: IssueModalProps) => {
   const { lists, members, types, priorities, handleClose } = props;
   const { authUser } = selectAuthUser();
   const [createIssue, { error }] = useCreateIssueMutation();
@@ -140,7 +140,7 @@ const CreateIssueModel = (props: IssueModelProps) => {
   );
 };
 
-export default CreateIssueModel;
+export default CreateIssueModal;
 
 export type T = 'type' | 'summary' | 'descr' | 'assignee' | 'priority' | 'listId';
 

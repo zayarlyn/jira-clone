@@ -11,17 +11,19 @@ export const extendedApi = api.injectEndpoints({
       providesTags: ['Members'],
     }),
     removeMember: builder.mutation<void, AddRemoveMember>({
-      query: ({ userId, projectId }) => ({
-        url: `member/remove?userId=${userId}&projectId=${projectId}`,
+      query: (body) => ({
+        url: `member/remove`,
         method: 'DELETE',
+        body,
         credentials: 'include',
       }),
       invalidatesTags: ['Members'],
     }),
     addMember: builder.mutation<void, AddRemoveMember>({
-      query: ({ userId, projectId }) => ({
-        url: `member/add?userId=${userId}&projectId=${projectId}`,
+      query: (body) => ({
+        url: `member/add`,
         method: 'PUT',
+        body,
         credentials: 'include',
       }),
       invalidatesTags: ['Members'],

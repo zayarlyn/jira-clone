@@ -24,7 +24,7 @@ app.use(express.json());
 app.use('/auth', authRoute);
 app.use(authMiddleware);
 app.use('/api/user', userRoute);
-app.use('/api/project/:projectId', restrictProjectMiddleware, projectRoute);
+app.use('/api/project', projectRoute);
 app.use('/api/list', restrictProjectMiddleware, listRoute);
 app.use('/api/issue', restrictProjectMiddleware, issueRoute);
 app.use('/api/member', restrictProjectMiddleware, memberRoute);

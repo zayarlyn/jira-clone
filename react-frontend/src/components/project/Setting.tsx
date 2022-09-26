@@ -3,7 +3,7 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import { Icon } from '@iconify/react';
 import MemberInput from './MemberInput';
-import { selectCurrentProject, useEditProjectMutation } from '../../api/project.endpoint';
+import { selectCurrentProject, useUpdateProjectMutation } from '../../api/project.endpoint';
 import { useParams } from 'react-router-dom';
 
 const Setting = () => {
@@ -15,7 +15,7 @@ const Setting = () => {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm();
-  const [updateProject] = useEditProjectMutation();
+  const [updateProject] = useUpdateProjectMutation();
 
   if (!project) return null;
 
@@ -27,7 +27,10 @@ const Setting = () => {
 
   return (
     <ChakraProvider>
-      <div className='mt-8 px-10'>
+      <div className='mt-4 px-10'>
+        {/* <div className=''> */}
+        <h1 className='mb-4 text-xl font-semibold text-light-c-3'>Project Setting</h1>
+        {/* </div> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={4} maxW={480}>
             <InputWithValidation

@@ -1,9 +1,9 @@
 import { Avatar, Button, Text } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { SearchedUser } from '../../api/apiTypes';
+import { PublicUser } from '../../api/apiTypes';
 import { useAddMemberMutation } from '../../api/member.endpoint';
 
-interface Props extends SearchedUser {
+interface Props extends PublicUser {
   added: boolean;
   projectId: number;
   setInput: React.Dispatch<React.SetStateAction<string>>;

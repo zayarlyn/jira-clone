@@ -7,7 +7,7 @@ import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
-import FormWithLabel from '../util/FormWithLabel';
+import WithLabel from '../util/WithLabel';
 
 interface Props {
   register: UseFormRegister<FieldValues>;
@@ -45,7 +45,7 @@ const Form = (props: Props) => {
   return (
     <form onSubmit={submit}>
       <ChakraProvider>
-        <FormWithLabel label='Email' labelClass='text-[14px]'>
+        <WithLabel label='Email' labelClass='text-[14px]'>
           <>
             <Input
               {...register('email', {
@@ -61,9 +61,9 @@ const Form = (props: Props) => {
             />
             {errors.email && <ErrorMsg msg={errors.email.message as string} />}
           </>
-        </FormWithLabel>
+        </WithLabel>
         {type === 'SIGNUP' && (
-          <FormWithLabel label='Username' labelClass='text-[14px]'>
+          <WithLabel label='Username' labelClass='text-[14px]'>
             <>
               <Input
                 {...register('username', {
@@ -77,9 +77,9 @@ const Form = (props: Props) => {
               />
               {errors.username && <ErrorMsg msg={errors.username.message as string} />}
             </>
-          </FormWithLabel>
+          </WithLabel>
         )}
-        <FormWithLabel label='Password' labelClass='text-[14px]'>
+        <WithLabel label='Password' labelClass='text-[14px]'>
           <>
             <Input
               {...register('pwd', {
@@ -93,7 +93,7 @@ const Form = (props: Props) => {
             />
             {errors.pwd && <ErrorMsg msg={errors.pwd.message as string} />}
           </>
-        </FormWithLabel>
+        </WithLabel>
         <hr className='border-t-[.5px] border-gray-400' />
         <span className='text-[12px] text-gray-600 block mt-6'>
           By clicking below, you agree to the our

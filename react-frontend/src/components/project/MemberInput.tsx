@@ -64,7 +64,7 @@ const MemberInput = ({ projectId }: Props) => {
                     py={1}
                     cursor='pointer'
                     _hover={{ color: 'Highlight' }}
-                    onClick={() => setSelectedId((prev) => (isAdmin ? null : id))}
+                    onClick={() => setSelectedId(isAdmin ? null : id)}
                   >
                     {username + (isAdmin ? ' *' : '')}
                   </Badge>
@@ -121,8 +121,8 @@ const MemberInput = ({ projectId }: Props) => {
                       key={info.id}
                       projectId={projectId}
                       setInput={setInput}
-                      {...info}
                       added={members?.some(({ userId }) => userId === info.id) ?? false}
+                      {...info}
                     />
                   ))}
                 </Box>

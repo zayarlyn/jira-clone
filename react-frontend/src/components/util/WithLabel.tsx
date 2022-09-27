@@ -2,12 +2,13 @@ type Props = {
   label: string;
   labelClass?: string;
   children: JSX.Element;
+  margin?: string;
 };
 
-const FormWithLabel = (props: Props) => {
-  const { label, labelClass, children: Children } = props;
+const WithLabel = (props: Props) => {
+  const { label, margin, labelClass, children: Children } = props;
   return (
-    <div className='mb-5'>
+    <div className={margin ?? 'mt-5'}>
       {label && (
         <span className={'font-medium text-[14px] text-gray-900 mb-1 block ' + labelClass}>
           {label}
@@ -18,4 +19,4 @@ const FormWithLabel = (props: Props) => {
   );
 };
 
-export default FormWithLabel;
+export default WithLabel;

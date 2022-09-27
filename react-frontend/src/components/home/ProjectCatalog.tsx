@@ -15,7 +15,7 @@ const ProjectCatalog = () => {
 
   return (
     <>
-      <div className='bg-white w-full pt-12 px-10'>
+      <div className='bg-white w-full pt-12 px-10 z-10'>
         <div className='flex justify-between'>
           <span className='text-2xl tracking-wide font-semibold'>Projects</span>
           <ChakraProvider>

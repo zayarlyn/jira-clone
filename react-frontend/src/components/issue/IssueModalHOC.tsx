@@ -1,4 +1,4 @@
-import { ChakraProvider, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import { ChakraProvider, Modal, ModalContent, ModalOverlay, useToast } from '@chakra-ui/react';
 import { Dispatch, FC, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { selectLists } from '../../api/lists.endpoint';
@@ -21,6 +21,20 @@ function IssueModalHOC(props: Props) {
   const { issue, size = 'responsive', isOpen, setIsOpen, render: Render } = props;
   const { members: apiMembers } = selectMembers(projectId);
   const { lists: apiLists } = selectLists(projectId);
+  const toast = useToast();
+
+  console.log(apiLists);
+
+  if (apiLists && apiLists.length === 0) {
+    toast({
+      title: 'Please create a list before creating an issue',
+      position: 'top-right',
+      duration: 4000,
+      isClosable: true,
+    });
+    setIsOpen(false);
+    return <></>;
+  }
 
   const members = apiMembers
     ? (apiMembers.map(({ username: u, profileUrl: p, userId }) => ({

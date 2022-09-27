@@ -28,9 +28,7 @@ const Setting = () => {
   return (
     <ChakraProvider>
       <div className='mt-4 px-10'>
-        {/* <div className=''> */}
         <h1 className='mb-4 text-xl font-semibold text-light-c-3'>Project Setting</h1>
-        {/* </div> */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={4} maxW={480}>
             <InputWithValidation
@@ -46,18 +44,14 @@ const Setting = () => {
               defaultValue={descr}
               label='Description'
               placeholder='project description'
-              register={register('descr', {
-                // required: { value: true, message: 'description must not be empty' },
-              })}
+              register={register('descr')}
               error={errors.descr as FieldError}
             />
             <InputWithValidation
               defaultValue={repo}
               label='Repository'
               placeholder='github repo link'
-              register={register('repo', {
-                // required: { value: true, message: 'description must not be empty' },
-              })}
+              register={register('repo')}
               error={errors.repo as FieldError}
             />
             <MemberInput projectId={id} />

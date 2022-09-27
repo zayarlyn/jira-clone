@@ -1,37 +1,22 @@
 import {
   Button,
   ChakraProvider,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Text,
-  Textarea,
 } from '@chakra-ui/react';
-import { useReducer, useState } from 'react';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
-import MemberInput from '../project/MemberInput';
-import UserMember from '../project/UserMember';
-import FormWithLabel from '../util/FormWithLabel';
+import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { CreateProject } from '../../api/apiTypes';
 import { useCreateProjectMutation } from '../../api/project.endpoint';
-
-const reducer = (state: S, { type, value }: A): S => {
-  switch (type) {
-    case 'NAME':
-      return { ...state, name: value };
-    case 'DESCR':
-      return { ...state, descr: value };
-    case 'REPO':
-      return { ...state, repo: value };
-    default:
-      return state;
-  }
-};
+import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import InputWithValidation from '../util/InputWithValidation';
 
 interface Props {
   isOpen: boolean;
@@ -42,15 +27,16 @@ const CreateProjectModel = (props: Props) => {
   const { isOpen, onClose } = props;
   const { data: authUser } = useAuthUserQuery();
   const [createProject] = useCreateProjectMutation();
-  const [form, dispatch] = useReducer(reducer, {} as S);
-  const [loading, setLoading] = useState(false);
-  const [invalid, setInvalid] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting: loading },
+  } = useForm();
 
-  const handleCreateProject = async () => {
-    if (!form.name || !authUser) return setInvalid(true);
-    setLoading(true);
+  const handleCreateProject = async (form: FieldValues) => {
+    if (!authUser) return;
     try {
-      await createProject({ ...form, userId: authUser.id });
+      await createProject({ ...form, userId: authUser.id } as CreateProject);
       onClose();
     } catch (err) {}
   };
@@ -66,49 +52,27 @@ const CreateProjectModel = (props: Props) => {
             </Text>
           </ModalHeader>
           <ModalBody>
-            <FormWithLabel label='Project name'>
-              <>
-                <Input
-                  size='sm'
-                  variant='filled'
-                  borderWidth={1}
-                  borderColor='gray.300'
-                  _focus={{ borderWidth: 2 }}
-                  value={form.name ?? ''}
-                  onChange={(e) => dispatch({ type: 'NAME', value: e.target.value })}
-                  isRequired
-                />
-                {invalid && (
-                  <span className='text-[13px] text-red-500'>Project name must not be empty</span>
-                )}
-              </>
-            </FormWithLabel>
-            <FormWithLabel label='Short description'>
-              <Input
-                size='sm'
-                variant='filled'
-                borderWidth={1}
-                borderColor='gray.300'
-                _focus={{ borderWidth: 2 }}
-                value={form.descr}
-                onChange={(e) => dispatch({ type: 'DESCR', value: e.target.value })}
-                isRequired
+            <Stack spacing={4}>
+              <InputWithValidation
+                label='Project name'
+                register={register('name', {
+                  required: { value: true, message: 'Project name must not be empty' },
+                })}
+                error={errors.name as FieldError}
               />
-            </FormWithLabel>
-            <FormWithLabel label='Repository link'>
-              <Input
-                size='sm'
-                variant='filled'
-                borderWidth={1}
-                borderColor='gray.300'
-                _focus={{ borderWidth: 2 }}
-                value={form.repo}
-                onChange={(e) => dispatch({ type: 'REPO', value: e.target.value })}
-                isRequired
+              <InputWithValidation
+                label='Short description'
+                register={register('descr')}
+                error={errors.descr as FieldError}
               />
-            </FormWithLabel>
+              <InputWithValidation
+                label='Repository link'
+                register={register('repo')}
+                error={errors.repo as FieldError}
+              />
+            </Stack>
             {authUser && (
-              <FormWithLabel label='Members'>
+              <WithLabel label='Members'>
                 <>
                   <Button
                     display='flex'
@@ -130,7 +94,7 @@ const CreateProjectModel = (props: Props) => {
                     * you can add more members after creating the project *
                   </Text>
                 </>
-              </FormWithLabel>
+              </WithLabel>
             )}
           </ModalBody>
           <ModalFooter>
@@ -151,7 +115,7 @@ const CreateProjectModel = (props: Props) => {
               borderRadius={3}
               colorScheme='messenger'
               isLoading={loading}
-              onClick={handleCreateProject}
+              onClick={handleSubmit(handleCreateProject)}
             >
               create
             </Button>
@@ -163,7 +127,3 @@ const CreateProjectModel = (props: Props) => {
 };
 
 export default CreateProjectModel;
-
-type S = Omit<CreateProject, 'id'>;
-
-type A = { type: 'NAME' | 'DESCR' | 'REPO'; value: string };

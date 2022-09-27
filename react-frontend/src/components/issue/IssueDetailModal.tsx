@@ -9,7 +9,7 @@ import {
 } from '../../api/issues.endpoint';
 import ConfirmModel from '../util/ConfirmModel';
 import DropDown from '../util/DropDown';
-import FormWithLabel from '../util/FormWithLabel';
+import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { IssueModalProps } from './IssueModalHOC';
 import TextInput from './TextInput';
@@ -86,7 +86,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
               />
             </div>
             <div className='w-[15rem] shrink-0 mt-3'>
-              <FormWithLabel label='Status'>
+              <WithLabel label='Status'>
                 <DropDown
                   list={lists}
                   defaultValue={lists.findIndex(({ value: v }) => v === listId)}
@@ -95,9 +95,9 @@ const IssueDetailModal = (props: IssueModalProps) => {
                   type='normal'
                   variant='small'
                 />
-              </FormWithLabel>
+              </WithLabel>
               {members && (
-                <FormWithLabel label='Reporter'>
+                <WithLabel label='Reporter'>
                   <Button
                     borderColor='gray.300'
                     justifyContent='start'
@@ -113,10 +113,10 @@ const IssueDetailModal = (props: IssueModalProps) => {
                       className='w-6 h-6 mr-4 rounded-full object-cover'
                     />
                   </Button>
-                </FormWithLabel>
+                </WithLabel>
               )}
               {members && (
-                <FormWithLabel label='Assignee'>
+                <WithLabel label='Assignee'>
                   <DropDown
                     variant='small'
                     list={members}
@@ -125,9 +125,9 @@ const IssueDetailModal = (props: IssueModalProps) => {
                     actionType='assignee'
                     type='multiple'
                   />
-                </FormWithLabel>
+                </WithLabel>
               )}
-              <FormWithLabel label='Type'>
+              <WithLabel label='Type'>
                 <DropDown
                   variant='small'
                   list={types}
@@ -136,8 +136,8 @@ const IssueDetailModal = (props: IssueModalProps) => {
                   actionType='type'
                   type='normal'
                 />
-              </FormWithLabel>
-              <FormWithLabel label='Priority'>
+              </WithLabel>
+              <WithLabel label='Priority'>
                 <DropDown
                   variant='small'
                   list={priorities}
@@ -146,7 +146,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
                   actionType='priority'
                   type='normal'
                 />
-              </FormWithLabel>
+              </WithLabel>
               <hr className='border-t-[.5px] border-gray-400' />
               <div className='mt-4 text-sm text-gray-600'>
                 <span className='block mb-2'>Created - 13 days ago</span>

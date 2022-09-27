@@ -11,11 +11,11 @@ import {
 import { useReducer, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import ResizeTextarea from 'react-textarea-autosize';
-import { APIERROR, Assignee, CreateIssue, List } from '../../api/apiTypes';
+import { APIERROR, CreateIssue } from '../../api/apiTypes';
 import { selectAuthUser } from '../../api/auth.endpoint';
 import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
-import FormWithLabel from '../util/FormWithLabel';
+import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { IssueModalProps } from './IssueModalHOC';
 
@@ -31,6 +31,7 @@ const CreateIssueModal = (props: IssueModalProps) => {
   if (!authUser) return null;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  console.log(lists);
 
   const handleCreateIssue = async () => {
     if (!form.summary || !authUser) return setIsInvalid(true);
@@ -48,10 +49,10 @@ const CreateIssueModal = (props: IssueModalProps) => {
         </Text>
       </ModalHeader>
       <ModalBody>
-        <FormWithLabel label='Issue type'>
+        <WithLabel label='Issue type'>
           <DropDown list={types} dispatch={dispatch} actionType='type' type='normal' />
-        </FormWithLabel>
-        <FormWithLabel label='Short summary'>
+        </WithLabel>
+        <WithLabel label='Short summary'>
           <>
             <Input
               size='sm'
@@ -67,8 +68,8 @@ const CreateIssueModal = (props: IssueModalProps) => {
               <span className='text-[13px] text-red-500'>summary must not be empty</span>
             )}
           </>
-        </FormWithLabel>
-        <FormWithLabel label='Description'>
+        </WithLabel>
+        <WithLabel label='Description'>
           <Textarea
             minH='unset'
             overflow='hidden'
@@ -79,9 +80,9 @@ const CreateIssueModal = (props: IssueModalProps) => {
             value={form.descr}
             onChange={(e) => dispatch({ type: 'descr', value: e.target.value })}
           />
-        </FormWithLabel>
+        </WithLabel>
         {members && (
-          <FormWithLabel label='Reporter'>
+          <WithLabel label='Reporter'>
             <Button
               display='flex'
               justifyContent='start'
@@ -97,20 +98,20 @@ const CreateIssueModal = (props: IssueModalProps) => {
                 className='w-6 h-6 mr-4 rounded-full object-cover'
               />
             </Button>
-          </FormWithLabel>
+          </WithLabel>
         )}
         {members && (
-          <FormWithLabel label='Assignee'>
+          <WithLabel label='Assignee'>
             <DropDown list={members} dispatch={dispatch} actionType='assignee' type='multiple' />
-          </FormWithLabel>
+          </WithLabel>
         )}
-        <FormWithLabel label='Priority'>
+        <WithLabel label='Priority'>
           <DropDown list={priorities} dispatch={dispatch} actionType='priority' type='normal' />
-        </FormWithLabel>
+        </WithLabel>
         {lists && (
-          <FormWithLabel label='Status'>
+          <WithLabel label='Status'>
             <DropDown list={lists} dispatch={dispatch} actionType='listId' type='normal' />
-          </FormWithLabel>
+          </WithLabel>
         )}
       </ModalBody>
       <ModalFooter>

@@ -23,6 +23,10 @@ exports.logIn = async (req, res) => {
   const isValidPwd = await bcrypt.compare(pwd, user.pwd);
   if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect' }).end();
   const token = generateJwt({ uid: user.id });
+  await client.user.update({
+    where: { id: user.id },
+    data: { lastLoggedIn: new Date().toISOString() },
+  });
   createCookie(res, token).json(user).end();
 };
 

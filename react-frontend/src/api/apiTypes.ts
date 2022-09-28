@@ -8,6 +8,8 @@ export interface AuthUser {
   updatedAt: string;
 }
 
+export type updateAuthUser = Partial<Pick<AuthUser, 'username' | 'email' | 'profileUrl'>>;
+
 export interface List {
   id: number;
   name: string;

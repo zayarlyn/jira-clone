@@ -18,7 +18,7 @@ const Menubar = () => {
       initial={{ width: projectId ? 240 : 15 }}
       animate={{ width: projectId && on ? 240 : 15 }}
       transition={{ type: 'tween' }}
-      className='relative bg-white'
+      className='relative bg-light-c-2'
     >
       {projectId && (
         <div className='h-full w-[15rem] bg-light-c-2 px-4 py-6 text-light-c-3'>

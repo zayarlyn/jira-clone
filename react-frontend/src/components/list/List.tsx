@@ -36,51 +36,35 @@ const List = (props: Props) => {
         index={idx}
         draggableId={'list-' + id}
       >
-        <div className='relative mr-3 bg-light-c-2 p-3 shadow-light-list'>
+        <div className='relative mr-3 bg-c-2 p-3 shadow-list text-c-6'>
           <div className='mb-4 text-[15px] flex justify-between items-center'>
             <div className='flex item-center'>
               <div className='relative'>
                 {isEditing ? (
-                  <ChakraProvider>
-                    <Input
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      size='xs'
-                      fontSize={15}
-                      autoFocus
-                    />
-                  </ChakraProvider>
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                    className='bg-c-2 pl-2 w-36 border-[1.5px] text-[15px] focus:border-chakra-blue outline-none'
+                  />
                 ) : (
-                  <span className='pl-2 block font-medium border-[1px] border-transparent'>
+                  <span className='pl-2 block font-medium border-[1.5px] border-transparent'>
                     {name}
                   </span>
                 )}
               </div>
               <span className='mx-2 text-gray-500'>|</span>
-              <span className='font-bold text-gray-600 pt-[1px]'>{issues ? issues.length : 0}</span>
+              <span className='font-bold text-c-5 pt-[1px]'>{issues ? issues.length : 0}</span>
             </div>
             <div className='flex gap-2'>
-              <ChakraProvider>
-                {isEditing && (
-                  <IconButton
-                    p={1}
-                    minW='none'
-                    h='auto'
-                    ml={5}
-                    icon={<Icon icon='bx:trash' className='text-red-500' />}
-                    aria-label='delete list'
-                    onClick={() => setIsOpen(true)}
-                  />
-                )}
-                <IconButton
-                  p={1}
-                  minW='none'
-                  h='auto'
-                  icon={<Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />}
-                  aria-label='edit list'
-                  onClick={handleUpdateList}
-                />
-              </ChakraProvider>
+              {isEditing && (
+                <button onClick={() => setIsOpen(true)} className='ml-5 p-1'>
+                  <Icon icon='bx:trash' className='text-red-500' />
+                </button>
+              )}
+              <button onClick={handleUpdateList} className='p-1 hover:bg-c-7'>
+                <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
+              </button>
             </div>
           </div>
           <DroppableWrapper className='min-h-[3rem]' type='issue' droppableId={'list-' + id}>

@@ -13,7 +13,7 @@ const Breadcrumbs = () => {
     <ChakraProvider>
       <div className='mt-8 mb-4 px-10 min-w-max'>
         <Breadcrumb
-          className='text-light-c-3'
+          className='text-c-text-1'
           spacing='8px'
           separator={<Icon className='inline text-xl' icon='ei:chevron-right' />}
         >

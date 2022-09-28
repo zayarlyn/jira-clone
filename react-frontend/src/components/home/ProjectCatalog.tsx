@@ -6,6 +6,7 @@ import { APIERROR } from '../../api/apiTypes';
 import { useProjectsQuery } from '../../api/project.endpoint';
 import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
+import type { Theme } from '../../App';
 
 const ProjectCatalog = () => {
   const { data: projects, error } = useProjectsQuery(11);
@@ -15,7 +16,7 @@ const ProjectCatalog = () => {
 
   return (
     <>
-      <div className='bg-white w-full pt-12 px-10 z-10'>
+      <div className='bg-c-1 text-c-6 w-full pt-12 px-10 z-10'>
         <div className='flex justify-between'>
           <span className='text-2xl tracking-wide font-semibold'>Projects</span>
           <ChakraProvider>
@@ -47,7 +48,7 @@ const ProjectCatalog = () => {
           <div className='grow px-2'>Description</div>
           <div className='w-52 px-2'>Lead</div>
         </div>
-        <div className='mt-1 border-b-2'>
+        <div className='mt-1 border-b-2 border-c-4'>
           {projects?.map((data, i) => (
             <ProjectRow key={data.id} idx={i} {...data} />
           ))}

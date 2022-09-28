@@ -57,7 +57,7 @@ const generateJwt = (payload) =>
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 
 const createCookie = (res, token) =>
-  res.cookie('jira-clone', JSON.stringify({ token }), {
+  res.header('Cache-Control', 'no-cache').cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
-    expires: new Date(Date.now() + 1800000),
+    expires: new Date(Date.now() + 3600000),
   });

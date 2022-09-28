@@ -23,7 +23,6 @@ type APIERROR = { message: string };
 
 const Form = (props: Props) => {
   const { register, onSubmit, handleSubmit, errors, type } = props;
-  // const { handleSubmit } = useForm();
   const toast = useToast();
 
   const submit = handleSubmit(async (form) => {
@@ -49,7 +48,7 @@ const Form = (props: Props) => {
           <>
             <Input
               {...register('email', {
-                required: { value: true, message: 'must not be empty' },
+                required: { value: true, message: 'email must not be empty' },
                 pattern: {
                   value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
                   message: 'please provide a valid email',
@@ -67,7 +66,7 @@ const Form = (props: Props) => {
             <>
               <Input
                 {...register('username', {
-                  required: { value: true, message: 'must not be empty' },
+                  required: { value: true, message: 'username must not be empty' },
                   minLength: { value: 2, message: 'must be at least two characters long' },
                   pattern: { value: /^[A_Za-z0-9_]+$/, message: 'username can be a-z,A-Z,0-9,_' },
                 })}
@@ -83,7 +82,7 @@ const Form = (props: Props) => {
           <>
             <Input
               {...register('pwd', {
-                required: { value: true, message: 'must not be empty' },
+                required: { value: true, message: 'password must not be empty' },
                 minLength: { value: 4, message: 'must be at least 4 characters long' },
                 maxLength: { value: 14, message: 'must be under 15 characters' },
               })}
@@ -94,7 +93,7 @@ const Form = (props: Props) => {
             {errors.pwd && <ErrorMsg msg={errors.pwd.message as string} />}
           </>
         </WithLabel>
-        <hr className='border-t-[.5px] border-gray-400' />
+        <hr className='border-t-[.5px] border-gray-400 mt-3' />
         <span className='text-[12px] text-gray-600 block mt-6'>
           By clicking below, you agree to the our
           <span className='text-blue-800'> Privacy Policy.</span>
@@ -107,7 +106,7 @@ const Form = (props: Props) => {
           color='white'
           bgColor='#321898'
           borderRadius={3}
-          mt={6}
+          mt={4}
           py={5}
         >
           {type === 'SIGNUP' ? 'Join now' : 'Log In'}

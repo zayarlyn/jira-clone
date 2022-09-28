@@ -1,25 +1,18 @@
-import { Input, Text } from '@chakra-ui/react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 const InputWithValidation = (props: Props) => {
   const { register, error, placeholder, label, defaultValue, readonly } = props;
   return (
-    <div>
-      <Text as='label' fontSize='sm'>
-        {label}
-      </Text>
-      <Input
+    <div className='w-[16.5rem]'>
+      <label className='text-sm text-c-6'>{label}</label>
+      <input
         defaultValue={defaultValue ?? ''}
-        size='sm'
-        mt={1}
-        variant='filled'
         placeholder={placeholder}
-        {...register}
         readOnly={readonly}
+        className='block w-full mt-2 px-3 text-c-6 text-sm py-1 bg-c-7 border-2 outline-none border-transparent focus:border-chakra-blue duration-200 hover:bg-c-8 focus:bg-c-1'
+        {...register}
       />
-      <Text as='span' fontSize={13} color='red.400'>
-        {error?.message?.toString()}
-      </Text>
+      <span className='text-[13px] text-red-400'>{error?.message?.toString()}</span>
     </div>
   );
 };

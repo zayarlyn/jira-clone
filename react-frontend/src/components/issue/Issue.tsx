@@ -20,7 +20,7 @@ const Issue = (props: Props) => {
   return (
     <>
       <DraggableWrapper
-        className='mb-2 w-full rounded-sm bg-light-c-1 p-2 shadow-light-issue hover:bg-light-c-5'
+        className='mb-2 w-full rounded-sm bg-c-1 p-2 shadow-issue hover:bg-c-5'
         index={idx}
         draggableId={'issue-' + id}
       >

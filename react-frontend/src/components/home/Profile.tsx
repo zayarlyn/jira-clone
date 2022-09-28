@@ -1,7 +1,7 @@
 import { Avatar, Button, ChakraProvider, Stack, Text } from '@chakra-ui/react';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
-import { selectAuthUser, useUpdateAuthUserMutation } from '../api/auth.endpoint';
-import InputWithValidation from './util/InputWithValidation';
+import { selectAuthUser, useUpdateAuthUserMutation } from '../../api/auth.endpoint';
+import InputWithValidation from '../util/InputWithValidation';
 
 const Profile = () => {
   const { authUser: u } = selectAuthUser();
@@ -22,7 +22,7 @@ const Profile = () => {
   };
 
   return (
-    <div className='w-[320px] flex flex-col items-center bg-light-c-1 border-r-2 border-light-c-5 h-full p-6'>
+    <div className='w-[320px] flex flex-col items-center bg-c-1 border-r-2 border-c-4 h-full p-6'>
       {u ? (
         <ChakraProvider>
           <Avatar src={u?.profileUrl} name={u?.username} w={40} h={40} />
@@ -68,7 +68,7 @@ const Profile = () => {
           >
             Save Changes
           </Button>
-          <div className='mt-auto w-full'>
+          <div className='mt-auto w-full text-c-6'>
             <Text fontSize={16}>
               Last logged In
               <span className='tracking-wide font-semibold ml-3'>

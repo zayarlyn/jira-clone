@@ -34,7 +34,7 @@ const Project = () => {
   return (
     <div className='flex grow flex-col'>
       <div className='mx-10'>
-        <h1 className='mb-4 text-xl font-semibold text-light-c-3'>Kanban Board</h1>
+        <h1 className='mb-4 text-xl font-semibold text-c-text-1'>Kanban Board</h1>
       </div>
       <Filter {...{ issueQueryData, setIssueQueryData, projectId }} />
       <Board {...{ lists, issues }} />

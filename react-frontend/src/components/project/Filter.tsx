@@ -35,7 +35,7 @@ const Filter = (props: Props) => {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
-    <div className='mb-8 flex min-w-fit items-center px-10'>
+    <div className='mb-8 flex min-w-fit items-center px-10 text-c-6'>
       <ChakraProvider>
         <InputGroup size='sm' minW={160} w={160}>
           <InputLeftElement children={<IconIfy width={20} icon='ant-design:search-outlined' />} />
@@ -92,22 +92,3 @@ const Filter = (props: Props) => {
 };
 
 export default Filter;
-
-const accounts = [
-  {
-    name: 'Jugram Haschwalth',
-    src: 'https://i.pinimg.com/550x/6a/ba/57/6aba571046202190f7cee92fa0e2a036.jpg',
-  },
-  {
-    name: 'Yhwach',
-    src: 'http://img1.wikia.nocookie.net/__cb20150520013839/bleach/en/images/7/72/626Yhwach_reveals.png',
-  },
-  {
-    name: 'As Nodt',
-    src: 'https://pbs.twimg.com/media/E3UQWwZX0Ao9vBw.jpg',
-  },
-  {
-    name: 'Bambietta Basterbine',
-    src: 'https://i.pinimg.com/564x/38/d0/b3/38d0b3d24a5a235bd9cd40645b5b1e5d.jpg',
-  },
-];

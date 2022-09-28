@@ -60,7 +60,7 @@ const Board = (props: Props) => {
         </DroppableWrapper>
         <button
           onClick={handleCreateList}
-          className='bg-light-c-2 hover:bg-[#eef1f7] active:bg-blue-100 py-3 px-14 rounded-md flex items-center gap-5'
+          className='bg-c-2 text-c-6 hover:bg-c-7 active:bg-blue-100 py-3 px-14 rounded-md flex items-center gap-5'
         >
           Create a list <Icon icon='ant-design:plus-outlined' />
         </button>

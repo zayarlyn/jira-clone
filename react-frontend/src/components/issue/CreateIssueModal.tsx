@@ -31,7 +31,6 @@ const CreateIssueModal = (props: IssueModalProps) => {
   if (!authUser) return null;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
-  console.log(lists);
 
   const handleCreateIssue = async () => {
     if (!form.summary || !authUser) return setIsInvalid(true);

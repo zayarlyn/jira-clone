@@ -30,7 +30,8 @@ exports.logIn = async (req, res) => {
   createCookie(res, token).json(user).end();
 };
 
-exports.logOut = async (req, res) => {
+exports.logOut = (req, res) => {
+  console.log('logout');
   res.clearCookie('jira-clone').end();
 };
 
@@ -52,12 +53,12 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 const generateJwt = (payload) =>
-  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
 
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 
 const createCookie = (res, token) =>
   res.header('Cache-Control', 'no-cache').cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
-    expires: new Date(Date.now() + 3600000),
+    expires: new Date(Date.now() + 900000),
   });

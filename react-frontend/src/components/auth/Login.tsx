@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from './Form';
@@ -10,11 +11,13 @@ const LogIn = () => {
     handleSubmit,
   } = useForm();
   const navigate = useNavigate();
+  // const [cookieIsSet, setCookieIsSet] = useState(false);
 
   const handleLogIn = async (form: FieldValues) => {
     await logIn(form);
-    navigate('/project');
+    setTimeout(() => navigate('/project'), 1000);
   };
+  // setInterval(() => console.log(document.cookie), 1000);
 
   return (
     <div className='bg-white w-[22rem] rounded-md py-12 px-6'>

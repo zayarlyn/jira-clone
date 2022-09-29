@@ -36,7 +36,7 @@
 
 @layer components {
   .btn {
-    @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800;
+    @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 whitespace-nowrap;
   }
   .icon-btn {
     @apply p-1 hover:bg-c-7 rounded-[3px];

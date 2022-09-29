@@ -29,8 +29,6 @@ const diffContainerReorder = async ({ id, s: { sId, order }, d: { dId, newOrder 
     data: { ...toBeDeleted, order: newOrder, listId: dId },
   });
 
-  console.log(nullAssignees, toBeDeleted);
-
   const reattatchAssignees = Promise.all(
     nullAssignees.map((data) => client.assignee.create({ data }))
   );

@@ -44,7 +44,7 @@ const Form = (props: Props) => {
   return (
     <form onSubmit={submit}>
       <ChakraProvider>
-        <WithLabel label='Email' labelClass='text-[14px]'>
+        <WithLabel label='Email' labelClass='text-[14px] text-black'>
           <>
             <Input
               {...register('email', {
@@ -62,7 +62,7 @@ const Form = (props: Props) => {
           </>
         </WithLabel>
         {type === 'SIGNUP' && (
-          <WithLabel label='Username' labelClass='text-[14px]'>
+          <WithLabel label='Username' labelClass='text-[14px] text-black'>
             <>
               <Input
                 {...register('username', {
@@ -78,7 +78,7 @@ const Form = (props: Props) => {
             </>
           </WithLabel>
         )}
-        <WithLabel label='Password' labelClass='text-[14px]'>
+        <WithLabel label='Password' labelClass='text-[14px] text-black'>
           <>
             <Input
               {...register('pwd', {

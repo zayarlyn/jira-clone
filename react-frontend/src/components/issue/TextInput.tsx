@@ -8,6 +8,7 @@ import type { DispatchMiddleware } from './IssueDetailModal';
 interface Props {
   type: UpdateIssueType;
   label?: string;
+  placeholder?: string;
   defaultValue: string;
   fontSize?: number;
   fontWeight?: number;
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const TextInput = (props: Props) => {
-  const { type, label, defaultValue, apiFunc, fontSize: fs, fontWeight: fw } = props;
+  const { type, label, defaultValue, placeholder, apiFunc, fontSize: fs, fontWeight: fw } = props;
   const [value, setValue] = useState(defaultValue ?? '');
   const [isEditing, setIsEditing] = useState(false);
 
@@ -57,6 +58,7 @@ const TextInput = (props: Props) => {
             isRequired
             _hover={{ bg: 'gray.100' }}
             onChange={handleChange}
+            placeholder={placeholder}
           />
           {isEditing && (
             <>

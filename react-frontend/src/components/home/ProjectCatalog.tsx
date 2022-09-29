@@ -6,12 +6,10 @@ import { APIERROR } from '../../api/apiTypes';
 import { useProjectsQuery } from '../../api/project.endpoint';
 import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
-import type { Theme } from '../../App';
-import { AnimatePresence } from 'framer-motion';
 
 const ProjectCatalog = () => {
   const { data: projects, error } = useProjectsQuery(11);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
@@ -20,20 +18,9 @@ const ProjectCatalog = () => {
       <div className='bg-c-1 text-c-6 w-full pt-12 px-10 z-10'>
         <div className='flex justify-between'>
           <span className='text-2xl tracking-wide font-semibold'>Projects</span>
-          <ChakraProvider>
-            <Button
-              borderRadius={2}
-              size='sm'
-              ml={6}
-              colorScheme='messenger'
-              bgColor='#0052cc'
-              fontWeight='normal'
-              fontSize={15}
-              onClick={() => setIsOpen(true)}
-            >
-              Create a Project
-            </Button>
-          </ChakraProvider>
+          <button onClick={() => setIsOpen(true)} className='btn'>
+            Create Project
+          </button>
         </div>
         <div className='mt-8'>
           <ChakraProvider>

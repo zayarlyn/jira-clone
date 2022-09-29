@@ -58,11 +58,11 @@ const List = (props: Props) => {
             </div>
             <div className='flex gap-2'>
               {isEditing && (
-                <button onClick={() => setIsOpen(true)} className='ml-5 p-1'>
+                <button onClick={() => setIsOpen(true)} className='icon-btn ml-5'>
                   <Icon icon='bx:trash' className='text-red-500' />
                 </button>
               )}
-              <button onClick={handleUpdateList} className='p-1 hover:bg-c-7'>
+              <button onClick={handleUpdateList} className='icon-btn'>
                 <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
               </button>
             </div>

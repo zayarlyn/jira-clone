@@ -52,7 +52,7 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 const generateJwt = (payload) =>
-  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 

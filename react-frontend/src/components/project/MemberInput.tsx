@@ -92,16 +92,7 @@ const MemberInput = ({ projectId }: Props) => {
           )}
         </Box>
         {!input ? null : (
-          <Box
-            position='absolute'
-            zIndex={1}
-            top={0}
-            bgColor='white'
-            w='full'
-            shadow='sm'
-            borderWidth={1}
-            p='8px 12px 22px'
-          >
+          <div className='absolute top-0 bg-white w-full shadow-sm p-[8px_12px_22px] z-10 border-[1px]'>
             {loading ? (
               <Text textAlign='center' mt={2}>
                 searching ...
@@ -128,7 +119,7 @@ const MemberInput = ({ projectId }: Props) => {
                 </Box>
               </>
             )}
-          </Box>
+          </div>
         )}
       </Box>
     </div>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import {
   ChakraProvider,
   InputGroup,
@@ -9,31 +9,41 @@ import {
   Button,
   ButtonGroup,
   Divider,
+  useToast,
+  UseToastOptions,
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
 import CreateIssueModal from '../issue/CreateIssueModal';
-import IssueModalHOC from '../issue/IssueModalHOC';
+// import IssueModalHOC from '../issue/IssueModelHOC';
 import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
+import IssueModelHOC from '../issue/IssueModelHOC';
 
 interface Props {
   issueQueryData: Omit<IssueQuery, 'projectId'>;
   setIssueQueryData: Dispatch<SetStateAction<Omit<IssueQuery, 'projectId'>>>;
   projectId: number;
+  isEmpty: boolean;
 }
 
-const Filter = (props: Props) => {
+function Filter(props: Props) {
   const {
     issueQueryData: { userId: uid },
     setIssueQueryData,
     projectId,
+    isEmpty,
   } = props;
   const { data: members, error } = useMembersQuery(projectId);
   const [isOpen, setIsOpen] = useState(false);
+  const toast = useToast();
+
+  function handleClick() {
+    setIsOpen(true);
+    if (isEmpty) toast(toastConfig);
+  }
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
-
   return (
     <div className='mb-8 flex min-w-fit items-center px-10 text-c-6'>
       <ChakraProvider>
@@ -71,24 +81,22 @@ const Filter = (props: Props) => {
             </Button>
           )}
         </ButtonGroup>
-        <Button
-          borderRadius={2}
-          size='sm'
-          ml={6}
-          colorScheme='messenger'
-          bgColor='#0052cc'
-          fontWeight='normal'
-          fontSize={15}
-          onClick={() => setIsOpen(true)}
-        >
+        <button onClick={handleClick} className='btn ml-5'>
           Create an issue
-        </Button>
-        {isOpen && (
-          <IssueModalHOC size='fixed' render={CreateIssueModal} {...{ isOpen, setIsOpen }} />
+        </button>
+        {isOpen && !isEmpty && (
+          <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
         )}
       </ChakraProvider>
     </div>
   );
-};
+}
 
 export default Filter;
+
+const toastConfig: UseToastOptions = {
+  title: 'Please create a list before creating an issue',
+  position: 'top-right',
+  duration: 4000,
+  isClosable: true,
+};

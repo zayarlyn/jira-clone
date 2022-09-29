@@ -33,3 +33,12 @@
 }
 
 /* --c-text-1: #172b4d; */
+
+@layer components {
+  .btn {
+    @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800;
+  }
+  .icon-btn {
+    @apply p-1 hover:bg-c-7 rounded-[3px];
+  }
+}

@@ -25,15 +25,17 @@ const diffContainerReorder = async ({ id, s: { sId, order }, d: { dId, newOrder 
     where: { issueId: id },
   });
   const toBeDeleted = await model.delete({ where: { id } });
-  const toBeInserted = model.create({
+  await model.create({
     data: { ...toBeDeleted, order: newOrder, listId: dId },
   });
+
+  console.log(nullAssignees, toBeDeleted);
 
   const reattatchAssignees = Promise.all(
     nullAssignees.map((data) => client.assignee.create({ data }))
   );
 
-  return Promise.all([toBeUpdatedSource, toBeUpdatedTarget, toBeInserted, reattatchAssignees]);
+  return Promise.all([toBeUpdatedSource, toBeUpdatedTarget, reattatchAssignees]);
 };
 
 const updateOrder = async ({ id, order, type, model }) => {

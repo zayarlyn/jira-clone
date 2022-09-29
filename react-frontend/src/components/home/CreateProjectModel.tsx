@@ -6,6 +6,7 @@ import { useCreateProjectMutation } from '../../api/project.endpoint';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import { motion } from 'framer-motion';
+import Model from '../util/Model';
 
 interface Props {
   onClose: () => void;
@@ -30,13 +31,8 @@ const CreateProjectModel = (props: Props) => {
   };
 
   return (
-    <div className='fixed top-0 left-0 w-screen h-screen z-10'>
-      <div onClick={onClose} className='bg-[#565c6340] w-full h-full' />
-      <motion.div
-        className='absolute w-[31rem] top-1/2 left-1/2 rounded-[4px] bg-c-1 p-6'
-        initial={{ scale: 0.9, x: '-50%', y: '-50%' }}
-        animate={{ scale: 1 }}
-      >
+    <Model onClose={onClose} onSubmit={handleSubmit(handleCreateProject)}>
+      <>
         <div className='mb-8'>
           <span className='font-[600] text-[22px] text-c-text-1'>Create Project</span>
         </div>
@@ -79,19 +75,8 @@ const CreateProjectModel = (props: Props) => {
             </>
           </WithLabel>
         )}
-        <div className='flex justify-end mt-8 gap-x-3'>
-          <button onClick={onClose} className='px-3 py-1 rounded-[3px] text-c-text-1 hover:bg-c-4'>
-            cancel
-          </button>
-          <button
-            onClick={handleSubmit(handleCreateProject)}
-            className='px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700'
-          >
-            Create
-          </button>
-        </div>
-      </motion.div>
-    </div>
+      </>
+    </Model>
   );
 };
 

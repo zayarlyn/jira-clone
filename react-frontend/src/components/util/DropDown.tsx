@@ -1,4 +1,4 @@
-import { Badge } from '@chakra-ui/react';
+import { Badge, ChakraProvider } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { Dispatch, useEffect, useState } from 'react';
 import { A, T } from '../issue/CreateIssueModal';
@@ -80,24 +80,26 @@ const DropDown = (props: Prop) => {
           <div className='flex gap-2 flex-wrap'>
             {isMulti && typeof current === 'object' ? (
               current.length > 0 ? (
-                current.map((props, i) => (
-                  <Badge
-                    key={props.value}
-                    variant='outline'
-                    display='flex'
-                    alignItems='center'
-                    colorScheme='blue'
-                    columnGap={2}
-                    py={0.5}
-                    px={2}
-                    textColor='black'
-                    _hover={{ bg: 'highlight' }}
-                    onClick={(e) => handleDelete(e, i)}
-                  >
-                    <Item className='mr-3 w-5 h-5 object-cover rounded-full' {...props} />
-                    <Icon className='text-black' icon='akar-icons:cross' />
-                  </Badge>
-                ))
+                <ChakraProvider>
+                  {current.map((props, i) => (
+                    <Badge
+                      key={props.value}
+                      variant='outline'
+                      display='flex'
+                      alignItems='center'
+                      colorScheme='blue'
+                      columnGap={2}
+                      py={0.5}
+                      px={2}
+                      textColor='black'
+                      _hover={{ bg: 'highlight' }}
+                      onClick={(e) => handleDelete(e, i)}
+                    >
+                      <Item className='mr-3 w-5 h-5 object-cover rounded-full' {...props} />
+                      <Icon className='text-black' icon='akar-icons:cross' />
+                    </Badge>
+                  ))}
+                </ChakraProvider>
               ) : (
                 <>Select</>
               )
@@ -117,7 +119,7 @@ const DropDown = (props: Prop) => {
         </>
       </button>
       {on && (
-        <ul className='absolute  w-full bottom-0 z-10 translate-y-[calc(100%+5px)] bg-white py-2 rounded-[3px] shadow-md'>
+        <ul className='absolute w-full bottom-0 z-10 translate-y-[calc(100%+5px)] bg-white py-2 rounded-[3px] shadow-md'>
           {localList.length > 0 ? (
             localList.map((props, idx) => (
               <li

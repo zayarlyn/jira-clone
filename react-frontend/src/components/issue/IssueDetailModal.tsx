@@ -11,8 +11,9 @@ import ConfirmModel from '../util/ConfirmModel';
 import DropDown from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
-import type { IssueModalProps } from './IssueModalHOC';
+import type { IssueModalProps } from './IssueModelHOC';
 import TextInput from './TextInput';
+import Model from '../util/Model';
 
 const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
   const oldLen = OLD.length,
@@ -23,7 +24,7 @@ const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware 
 };
 
 const IssueDetailModal = (props: IssueModalProps) => {
-  const { issue, projectId, members, lists, types, priorities, handleClose } = props;
+  const { issue, projectId, members, lists, types, priorities, onClose } = props;
   const { issues } = selectIssuesArray({
     listId: issue?.listId as number,
     projectId,
@@ -44,126 +45,117 @@ const IssueDetailModal = (props: IssueModalProps) => {
   };
 
   return (
-    <>
-      <ChakraProvider>
-        <ModalHeader>
-          <div className='text-[16px] text-gray-600 px-3 mt-3 flex items-center justify-between'>
-            <Item className='mr-3 w-4 h-4' {...types[type]} text={'Issue-' + id} />
-            <div className='text-black'>
-              <IconButton
-                size='sm'
-                variant='ghost'
-                aria-label='delete issue'
-                icon={<Icon className='text-xl' icon='bx:trash' />}
-                onClick={() => setIsOpen(true)}
-              />
-              <IconButton
-                size='sm'
-                variant='ghost'
-                ml={3}
-                aria-label='close issue detail'
-                onClick={handleClose}
-                icon={<Icon className='text-lg' icon='akar-icons:cross' />}
-              />
-            </div>
+    <Model onClose={onClose} className='max-w-[55rem]'>
+      <>
+        <div className='text-[16px] text-gray-600 px-3 mt-3 flex items-center justify-between'>
+          <Item className='mr-3 w-4 h-4' {...types[type]} text={'Issue-' + id} />
+          <div className='text-black'>
+            <button onClick={() => setIsOpen(true)} className='icon-btn text-xl'>
+              <Icon icon='bx:trash' />
+            </button>
+            <button onClick={onClose} className='icon-btn text-lg ml-4'>
+              <Icon icon='akar-icons:cross' />
+            </button>
           </div>
-        </ModalHeader>
-        <ModalBody>
-          <div className='flex mb-8'>
-            <div className='w-full pr-6'>
+        </div>
+        <div className='flex mb-8'>
+          <div className='w-full pr-6'>
+            <ChakraProvider>
               <TextInput
                 type='summary'
                 defaultValue={summary}
                 apiFunc={dispatchMiddleware}
                 fontWeight={600}
                 fontSize={22}
+                placeholder='title'
               />
               <TextInput
                 label='Description'
                 type='descr'
                 defaultValue={descr}
                 apiFunc={dispatchMiddleware}
+                placeholder='add a description'
               />
-            </div>
-            <div className='w-[15rem] shrink-0 mt-3'>
-              <WithLabel label='Status'>
-                <DropDown
-                  list={lists}
-                  defaultValue={lists.findIndex(({ value: v }) => v === listId)}
-                  dispatch={dispatchMiddleware}
-                  actionType='listId'
-                  type='normal'
-                  variant='small'
-                />
-              </WithLabel>
-              {members && (
-                <WithLabel label='Reporter'>
-                  <Button
-                    borderColor='gray.300'
-                    justifyContent='start'
-                    borderRadius={3}
-                    display='flex'
-                    size='sm'
-                    w='fit'
-                    px={4}
-                    mb={7}
-                  >
-                    <Item
-                      {...members.filter(({ value }) => value === reporterId)[0]}
-                      className='w-6 h-6 mr-4 rounded-full object-cover'
-                    />
-                  </Button>
-                </WithLabel>
-              )}
-              {members && (
-                <WithLabel label='Assignee'>
-                  <DropDown
-                    variant='small'
-                    list={members}
-                    defaultValue={assignees.map(({ userId }) => memberObj[userId])}
-                    dispatch={dispatchMiddleware}
-                    actionType='assignee'
-                    type='multiple'
+            </ChakraProvider>
+          </div>
+          <div className='w-[15rem] shrink-0 mt-3'>
+            <WithLabel label='Status'>
+              <DropDown
+                list={lists}
+                defaultValue={lists.findIndex(({ value: v }) => v === listId)}
+                dispatch={dispatchMiddleware}
+                actionType='listId'
+                type='normal'
+                variant='small'
+              />
+            </WithLabel>
+            {members && (
+              <WithLabel label='Reporter'>
+                <Button
+                  borderColor='gray.300'
+                  justifyContent='start'
+                  borderRadius={3}
+                  display='flex'
+                  size='sm'
+                  w='fit'
+                  px={4}
+                  mb={7}
+                >
+                  <Item
+                    {...members.filter(({ value }) => value === reporterId)[0]}
+                    className='w-6 h-6 mr-4 rounded-full object-cover'
                   />
-                </WithLabel>
-              )}
-              <WithLabel label='Type'>
+                </Button>
+              </WithLabel>
+            )}
+            {members && (
+              <WithLabel label='Assignee'>
                 <DropDown
                   variant='small'
-                  list={types}
-                  defaultValue={types.findIndex(({ value: v }) => v === type)}
+                  list={members}
+                  defaultValue={assignees.map(({ userId }) => memberObj[userId])}
                   dispatch={dispatchMiddleware}
-                  actionType='type'
-                  type='normal'
+                  actionType='assignee'
+                  type='multiple'
                 />
               </WithLabel>
-              <WithLabel label='Priority'>
-                <DropDown
-                  variant='small'
-                  list={priorities}
-                  defaultValue={priority as number}
-                  dispatch={dispatchMiddleware}
-                  actionType='priority'
-                  type='normal'
-                />
-              </WithLabel>
-              <hr className='border-t-[.5px] border-gray-400' />
-              <div className='mt-4 text-sm text-gray-600'>
-                <span className='block mb-2'>Created - 13 days ago</span>
-                <span>Updated - 3 days ago</span>
-              </div>
+            )}
+            <WithLabel label='Type'>
+              <DropDown
+                variant='small'
+                list={types}
+                defaultValue={types.findIndex(({ value: v }) => v === type)}
+                dispatch={dispatchMiddleware}
+                actionType='type'
+                type='normal'
+              />
+            </WithLabel>
+            <WithLabel label='Priority'>
+              <DropDown
+                variant='small'
+                list={priorities}
+                defaultValue={priority as number}
+                dispatch={dispatchMiddleware}
+                actionType='priority'
+                type='normal'
+              />
+            </WithLabel>
+            <hr className='border-t-[.5px] border-gray-400' />
+            <div className='mt-4 text-sm text-gray-600'>
+              <span className='block mb-2'>Created - 13 days ago</span>
+              <span>Updated - 3 days ago</span>
             </div>
           </div>
-        </ModalBody>
-      </ChakraProvider>
-      {isOpen && (
-        <ConfirmModel
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          onSubmit={() => deleteIssue({ issueId: id, projectId })}
-        />
-      )}
-    </>
+        </div>
+        {isOpen && (
+          <ConfirmModel
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            onSubmit={() => deleteIssue({ issueId: id, projectId })}
+          />
+        )}
+      </>
+    </Model>
   );
 };
 

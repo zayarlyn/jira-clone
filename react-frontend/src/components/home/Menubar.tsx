@@ -47,7 +47,7 @@ const Menubar = () => {
       )}
       <button
         onClick={() => setOn((p) => !p)}
-        className={`group peer absolute -right-[14px] top-8 z-20 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text-100 bg-c-1 hover:border-secondary hover:bg-secondary ${
+        className={`group peer absolute -right-[14px] z-[20] top-8 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text-100 bg-c-1 hover:border-secondary hover:bg-secondary ${
           projectId && project ? '' : 'pointer-events-none'
         }`}
       >

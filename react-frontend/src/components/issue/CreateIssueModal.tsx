@@ -1,13 +1,4 @@
-import {
-  Button,
-  ChakraProvider,
-  Input,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
+import { Button, Input, Text, Textarea } from '@chakra-ui/react';
 import { useReducer, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import ResizeTextarea from 'react-textarea-autosize';
@@ -17,10 +8,11 @@ import { useCreateIssueMutation } from '../../api/issues.endpoint';
 import DropDown from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
-import type { IssueModalProps } from './IssueModalHOC';
+import type { IssueModalProps } from './IssueModelHOC';
+import Model from '../util/Model';
 
-const CreateIssueModal = (props: IssueModalProps) => {
-  const { lists, members, types, priorities, handleClose } = props;
+const CreateIssueModel = (props: IssueModalProps) => {
+  const { lists, members, types, priorities, onClose } = props;
   const { authUser } = selectAuthUser();
   const [createIssue, { error }] = useCreateIssueMutation();
   const [form, dispatch] = useReducer(reducer, initial);
@@ -37,17 +29,15 @@ const CreateIssueModal = (props: IssueModalProps) => {
     setIsLoading(true);
     await createIssue({ ...form, reporterId: authUser.id, projectId }); //for now
     setIsLoading(false);
-    handleClose();
+    onClose();
   };
 
   return (
-    <ChakraProvider>
-      <ModalHeader>
+    <Model onClose={onClose} onSubmit={handleCreateIssue} className='max-w-[35rem]'>
+      <>
         <Text fontWeight={500} fontSize={19}>
           Create Issue
         </Text>
-      </ModalHeader>
-      <ModalBody>
         <WithLabel label='Issue type'>
           <DropDown list={types} dispatch={dispatch} actionType='type' type='normal' />
         </WithLabel>
@@ -112,35 +102,12 @@ const CreateIssueModal = (props: IssueModalProps) => {
             <DropDown list={lists} dispatch={dispatch} actionType='listId' type='normal' />
           </WithLabel>
         )}
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          size='sm'
-          fontSize={16}
-          fontWeight={500}
-          variant='ghost'
-          mr={4}
-          onClick={handleClose}
-        >
-          cancel
-        </Button>
-        <Button
-          size='sm'
-          fontSize={16}
-          fontWeight={500}
-          borderRadius={3}
-          colorScheme='messenger'
-          isLoading={isLoading}
-          onClick={handleCreateIssue} // 2 for now
-        >
-          create
-        </Button>
-      </ModalFooter>
-    </ChakraProvider>
+      </>
+    </Model>
   );
 };
 
-export default CreateIssueModal;
+export default CreateIssueModel;
 
 export type T = 'type' | 'summary' | 'descr' | 'assignee' | 'priority' | 'listId';
 

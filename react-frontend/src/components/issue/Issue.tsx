@@ -4,9 +4,10 @@ import { types, priorities } from '../../category';
 import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
 import { useState } from 'react';
-import IssueModalHOC from './IssueModalHOC';
+import IssueModelHOC from './IssueModelHOC';
 import IssueDetailModal from './IssueDetailModal';
 import { useParams } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 
 const Issue = (props: Props) => {
   const { listId, listIdx, idx, summary, id, type, priority, assignees } = props;
@@ -35,13 +36,15 @@ const Issue = (props: Props) => {
           </div>
         </div>
       </DraggableWrapper>
-      {isOpen && (
-        <IssueModalHOC
-          render={IssueDetailModal}
-          {...{ isOpen, setIsOpen }}
-          issue={{ listId, listIdx, idx }}
-        />
-      )}
+      {isOpen &&
+        createPortal(
+          <IssueModelHOC
+            children={IssueDetailModal}
+            onClose={() => setIsOpen(false)}
+            issue={{ listId, listIdx, idx }}
+          />,
+          document.getElementById('portal') as Element
+        )}
     </>
   );
 };

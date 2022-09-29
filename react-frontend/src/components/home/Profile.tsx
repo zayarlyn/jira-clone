@@ -54,20 +54,9 @@ const Profile = () => {
               error={errors.profileUrl as FieldError}
             />
           </Stack>
-          <Button
-            borderRadius={2}
-            size='sm'
-            mt={10}
-            colorScheme='messenger'
-            bgColor='#0052cc'
-            fontWeight='normal'
-            fontSize={15}
-            w='full'
-            isLoading={loading}
-            onClick={handleSubmit(handleUpdate)}
-          >
+          <button onClick={handleSubmit(handleUpdate)} className='btn w-full mt-10'>
             Save Changes
-          </Button>
+          </button>
           <div className='mt-auto w-full text-c-6'>
             <Text fontSize={16}>
               Last logged In

@@ -36,7 +36,7 @@ const Project = () => {
       <div className='mx-10'>
         <h1 className='mb-4 text-xl font-semibold text-c-text-1'>Kanban Board</h1>
       </div>
-      <Filter {...{ issueQueryData, setIssueQueryData, projectId }} />
+      <Filter isEmpty={lists?.length === 0} {...{ issueQueryData, setIssueQueryData, projectId }} />
       <Board {...{ lists, issues }} />
     </div>
   );

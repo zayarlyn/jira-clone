@@ -26,7 +26,7 @@ const Profile = () => {
       {u ? (
         <ChakraProvider>
           <Avatar src={u?.profileUrl} name={u?.username} w={40} h={40} />
-          <Stack spacing={4} mt={8}>
+          <Stack spacing={4} mt={8} width='16.5rem'>
             <InputWithValidation
               label='Username'
               placeholder='username'
@@ -44,7 +44,7 @@ const Profile = () => {
                 required: { value: true, message: 'username must not be empty' },
               })}
               error={errors.email as FieldError}
-              readonly
+              readOnly
             />
             <InputWithValidation
               label='Photo Url'

@@ -7,10 +7,11 @@ import { useProjectsQuery } from '../../api/project.endpoint';
 import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
 import type { Theme } from '../../App';
+import { AnimatePresence } from 'framer-motion';
 
 const ProjectCatalog = () => {
   const { data: projects, error } = useProjectsQuery(11);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
@@ -54,7 +55,7 @@ const ProjectCatalog = () => {
           ))}
         </div>
       </div>
-      {isOpen && <CreateProjectModel isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+      {isOpen && <CreateProjectModel onClose={() => setIsOpen(false)} />}
     </>
   );
 };

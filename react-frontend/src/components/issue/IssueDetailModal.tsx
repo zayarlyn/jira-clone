@@ -91,21 +91,12 @@ const IssueDetailModal = (props: IssueModalProps) => {
             </WithLabel>
             {members && (
               <WithLabel label='Reporter'>
-                <Button
-                  borderColor='gray.300'
-                  justifyContent='start'
-                  borderRadius={3}
-                  display='flex'
-                  size='sm'
-                  w='fit'
-                  px={4}
-                  mb={7}
-                >
+                <div className='bg-[#f4f5f7] px-3 py-[5px] rounded-sm'>
                   <Item
                     {...members.filter(({ value }) => value === reporterId)[0]}
                     className='w-6 h-6 mr-4 rounded-full object-cover'
                   />
-                </Button>
+                </div>
               </WithLabel>
             )}
             {members && (

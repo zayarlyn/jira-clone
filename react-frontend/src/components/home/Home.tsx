@@ -6,16 +6,17 @@ import Sidebar from './Sidebar';
 import type { Theme } from '../../App';
 
 interface Props {
+  theme: Theme;
   toggleTheme: () => void;
 }
 
 const Home = (props: Props) => {
-  const { toggleTheme } = props;
+  const { theme, toggleTheme } = props;
   const outlet = useOutlet();
 
   return (
     <>
-      <Sidebar toggleTheme={toggleTheme} />
+      <Sidebar {...{ theme, toggleTheme }} />
       <Menubar />
       {outlet ? (
         <>

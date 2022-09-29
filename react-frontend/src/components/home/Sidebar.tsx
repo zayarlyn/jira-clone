@@ -4,15 +4,30 @@ import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
 import { motion } from 'framer-motion';
 import Profile from './Profile';
+import type { Theme } from '../../App';
 
 interface Props {
+  theme: Theme;
   toggleTheme: () => void;
 }
 
-const Sidebar = (props: Props) => {
-  const { toggleTheme } = props;
+function Sidebar(props: Props) {
+  const {
+    theme: { mode },
+    toggleTheme,
+  } = props;
   const { data: authUser } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    toggleTheme();
+    localStorage.setItem(
+      'jira-clone-theme',
+      JSON.stringify({
+        mode: mode === 'light' ? 'dark' : 'light',
+      })
+    );
+  };
 
   return (
     <div className='flex shrink-0'>
@@ -35,7 +50,7 @@ const Sidebar = (props: Props) => {
               _hover={{ borderColor: 'tomato' }}
               onClick={() => setIsOpen((p) => !p)}
             />
-            <Switch onChange={toggleTheme} />
+            <Switch onChange={handleToggle} />
           </ChakraProvider>
         </div>
       </div>
@@ -48,6 +63,6 @@ const Sidebar = (props: Props) => {
       </motion.div>
     </div>
   );
-};
+}
 
 export default Sidebar;

@@ -10,20 +10,20 @@ import Register from './components/auth/Register';
 import { useState } from 'react';
 
 function App() {
-  const [{ mode }, setTheme] = useState<Theme>(getTheme());
+  const [theme, setTheme] = useState<Theme>(getTheme());
 
   const toggleTheme = () => setTheme(({ mode }) => ({ mode: mode === 'light' ? 'dark' : 'light' }));
 
   return (
     <main
       className={`flex h-screen bg-c-111 bg-gray-500 ${
-        mode === 'light' ? 'light-theme' : 'dark-theme'
+        theme.mode === 'light' ? 'light-theme' : 'dark-theme'
       }`}
     >
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path='/project' element={<Home toggleTheme={toggleTheme} />}>
+            <Route path='/project' element={<Home theme={theme} toggleTheme={toggleTheme} />}>
               <Route path=':projectId' element={<Setting />} />
               <Route path=':projectId/board' element={<Project />} />
             </Route>
@@ -41,6 +41,7 @@ export default App;
 
 function getTheme() {
   const localTheme = localStorage.getItem('jira-clone-theme');
+  console.log(localTheme);
   return localTheme ? JSON.parse(localTheme) : { mode: 'light' };
 }
 

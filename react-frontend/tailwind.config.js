@@ -10,7 +10,7 @@ module.exports = {
         'c-5': 'var(--c-5',
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',
-        'chakra-blue': 'var(--chakra-blue)',
+        'chakra-blue': '#0061cc',
         'c-4': 'var(--c-4)',
         'c-6': 'var(--c-6)',
         'c-7': 'var(--c-7)',

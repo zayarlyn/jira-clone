@@ -43,8 +43,8 @@ export const extendedApi = api.injectEndpoints({
     reorderIssues: builder.mutation<void, reorderIssues>({
       query: (body) => ({ url: 'issue/reorder', method: 'PUT', body, credentials: 'include' }),
       invalidatesTags: ['Issues'],
-      async onQueryStarted({ s, d, projectId }, { dispatch, queryFulfilled }) {
-        const result = dispatch(
+      async onQueryStarted({ s, d, projectId }, { dispatch }) {
+        dispatch(
           extendedApi.util.updateQueryData('issues', { projectId }, (oldIssues) =>
             updateIssueOrderLocally(oldIssues, {
               s: { sId: s.sId, index: s.order - 1 },
@@ -74,11 +74,9 @@ export const selectIssuesArray = ({ listId, projectId }: IssueSelector) =>
   extendedApi.useIssuesQuery(
     { projectId },
     {
-      selectFromResult: ({ data }) => {
-        return {
-          issues: data ? data[listId] : [],
-        };
-      },
+      selectFromResult: ({ data }) => ({
+        issues: data ? data[listId] : [],
+      }),
     }
   );
 

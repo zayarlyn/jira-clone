@@ -21,8 +21,8 @@ export const extendedApi = api.injectEndpoints({
     updateProject: builder.mutation<void, EditProject>({
       query: (body) => ({ url: `project/${body.id}`, method: 'PUT', body, credentials: 'include' }),
       invalidatesTags: ['Project'],
-      async onQueryStarted({ id, ...newData }, { dispatch, queryFulfilled }) {
-        const result = dispatch(
+      async onQueryStarted({ id, ...newData }, { dispatch }) {
+        dispatch(
           extendedApi.util.updateQueryData('project', id, (oldData) => ({ ...oldData, ...newData }))
         );
       },

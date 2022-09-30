@@ -1,4 +1,4 @@
-import { Button, ChakraProvider, IconButton, ModalBody, ModalHeader } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { UpdateIssueType } from '../../api/apiTypes';
@@ -75,9 +75,9 @@ const IssueDetailModal = (props: IssueModalProps) => {
                 type='summary'
                 defaultValue={summary}
                 apiFunc={dispatchMiddleware}
-                fontWeight={600}
-                fontSize={22}
+                className='text-[22px] font-semibold'
                 placeholder='title'
+                isRequired
               />
               <TextInput
                 label='Description'

@@ -40,8 +40,8 @@ export const extendedApi = api.injectEndpoints({
         credentials: 'include',
       }),
       invalidatesTags: ['Lists'],
-      async onQueryStarted({ order, newOrder, projectId }, { dispatch, queryFulfilled }) {
-        const result = dispatch(
+      async onQueryStarted({ order, newOrder, projectId }, { dispatch }) {
+        dispatch(
           extendedApi.util.updateQueryData('lists', projectId, (oldLists) =>
             updateListOrderLocally(oldLists, { s: order - 1, d: newOrder - 1 })
           )

@@ -1,6 +1,6 @@
-import { Button, Textarea } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
-import reactTextareaAutosize from 'react-textarea-autosize';
+import RTAutosize from 'react-textarea-autosize';
 import { UpdateIssueType } from '../../api/apiTypes';
 import WithLabel from '../util/WithLabel';
 import type { DispatchMiddleware } from './IssueDetailModal';
@@ -10,13 +10,13 @@ interface Props {
   label?: string;
   placeholder?: string;
   defaultValue: string;
-  fontSize?: number;
-  fontWeight?: number;
+  className?: string;
+  isRequired?: boolean;
   apiFunc: (data: DispatchMiddleware) => void;
 }
 
 const TextInput = (props: Props) => {
-  const { type, label, defaultValue, placeholder, apiFunc, fontSize: fs, fontWeight: fw } = props;
+  const { type, label, defaultValue, placeholder, apiFunc, className, isRequired } = props;
   const [value, setValue] = useState(defaultValue ?? '');
   const [isEditing, setIsEditing] = useState(false);
 
@@ -33,7 +33,7 @@ const TextInput = (props: Props) => {
 
   const handleSave = () => {
     setIsEditing(false);
-    if (value === defaultValue) return;
+    if (value === defaultValue || (!value && isRequired)) return;
     apiFunc({ type, value });
   };
 
@@ -41,24 +41,13 @@ const TextInput = (props: Props) => {
     <div>
       <WithLabel label={label ?? ''} labelClass='ml-3'>
         <>
-          <Textarea
-            borderColor='transparent'
-            textColor='blackAlpha.900'
-            overflow='hidden'
-            borderRadius={2}
-            fontWeight={fw || 500}
-            fontSize={fs || 18}
-            borderWidth={1}
-            resize='none'
-            minH='unset'
+          <RTAutosize
+            className={`px-3 py-2 w-full border-2 border-transparent resize-none hover:bg-[#f4f5f7] rounded-[3px] outline-none focus:border-chakra-blue ${
+              className ?? 'text-[18px] font-medium'
+            }`}
             minRows={1}
-            size='sm'
-            as={reactTextareaAutosize}
-            value={value}
-            isRequired
-            _hover={{ bg: 'gray.100' }}
             onChange={handleChange}
-            placeholder={placeholder}
+            {...{ value, placeholder }}
           />
           {isEditing && (
             <>

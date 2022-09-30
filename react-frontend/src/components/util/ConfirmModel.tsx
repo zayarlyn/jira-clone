@@ -1,23 +1,13 @@
-import {
-  Button,
-  ButtonGroup,
-  ChakraProvider,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  Text,
-} from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
+import Model from './Model';
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
   onSubmit: () => Promise<any>;
 }
 
 const ConfirmModel = (props: Props) => {
-  const { isOpen, onClose, onSubmit } = props;
+  const { onClose, onSubmit } = props;
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -28,22 +18,19 @@ const ConfirmModel = (props: Props) => {
   };
 
   return (
-    <ChakraProvider>
-      <Modal {...{ isOpen, onClose }} isCentered size='xs'>
-        <ModalOverlay bgColor='#0d67cc40' />
-        <ModalContent borderRadius={4}>
-          <ModalBody py={8}>
-            <Text textAlign='center'>Are you sure you want to delete?</Text>
-            <ButtonGroup size='sm' mt={6} w='full' justifyContent='center' gap={3}>
-              <Button onClick={onClose}>Cancel</Button>
-              <Button onClick={handleDelete} isLoading={loading} colorScheme='red'>
-                Delete
-              </Button>
-            </ButtonGroup>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </ChakraProvider>
+    <Model onClose={onClose} className='max-w-[18rem]'>
+      <>
+        <span>Are you sure you want to delete?</span>
+        <div className='flex justify-center gap-x-6 mt-8'>
+          <button onClick={onClose} className='btn bg-transparent text-black hover:bg-green-100'>
+            cancel
+          </button>
+          <button onClick={handleDelete} className='btn bg-red-600 hover:bg-red-700'>
+            Delete
+          </button>
+        </div>
+      </>
+    </Model>
   );
 };
 

@@ -7,7 +7,7 @@ const InputWithValidation = (props: Props) => {
       <label className='text-sm text-c-6 tracking-wide'>{label}</label>
       <input
         defaultValue={defaultValue ?? ''}
-        className='block w-full mt-2 px-3 text-c-1 rounded-sm text-sm py-[3px] bg-c-7 border-2 outline-none border-transparent focus:border-chakra-blue duration-200 hover:bg-c-8 focus:bg-c-1'
+        className='block w-full mt-2 px-3 text-c-text-1 rounded-sm text-sm py-[3px] bg-c-7 border-2 outline-none border-transparent focus:border-chakra-blue duration-200 hover:bg-c-8 focus:bg-c-1'
         {...{ placeholder, readOnly, autoFocus }}
         {...register}
       />

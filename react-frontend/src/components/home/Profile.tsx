@@ -55,7 +55,7 @@ const Profile = () => {
             />
           </Stack>
           <button onClick={handleSubmit(handleUpdate)} className='btn w-full mt-10'>
-            Save Changes
+            {loading ? 'saving ...' : 'Save Changes'}
           </button>
           <div className='mt-auto w-full text-c-6'>
             <Text fontSize={16}>

@@ -33,7 +33,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
   };
 
   return (
-    <Model onClose={onClose} onSubmit={handleCreateIssue} className='max-w-[35rem]'>
+    <Model onSubmit={handleCreateIssue} {...{ onClose, isLoading }} className='max-w-[35rem]'>
       <>
         <span className='font-[600] text-[22px] text-c-1'>Create Issue</span>
         <WithLabel label='Issue type'>

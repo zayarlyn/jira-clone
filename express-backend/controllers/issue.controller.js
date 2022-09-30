@@ -48,7 +48,7 @@ exports.updateIssue = async (req, res) => {
         where: { listId: value },
         _count: true,
       });
-      await client.issue.update({ where: { id: +id }, data: { [type]: value, order } });
+      await client.issue.update({ where: { id: +id }, data: { [type]: value, order: order + 1 } });
       break;
     case 'addAssignee':
       await client.assignee.create({ data: { issueId: +id, userId: value } });

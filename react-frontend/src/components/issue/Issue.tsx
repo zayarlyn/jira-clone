@@ -36,15 +36,13 @@ const Issue = (props: Props) => {
           </div>
         </div>
       </DraggableWrapper>
-      {isOpen &&
-        createPortal(
-          <IssueModelHOC
-            children={IssueDetailModal}
-            onClose={() => setIsOpen(false)}
-            issue={{ listId, listIdx, idx }}
-          />,
-          document.getElementById('portal') as Element
-        )}
+      {isOpen && (
+        <IssueModelHOC
+          children={IssueDetailModal}
+          onClose={() => setIsOpen(false)}
+          issue={{ listId, listIdx, idx }}
+        />
+      )}
     </>
   );
 };

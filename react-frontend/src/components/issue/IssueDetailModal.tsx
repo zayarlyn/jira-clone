@@ -29,8 +29,18 @@ const IssueDetailModal = (props: IssueModalProps) => {
     listId: issue?.listId as number,
     projectId,
   });
-  const { id, type, listId, reporterId, priority, assignees, summary, descr } =
-    issues[issue?.idx as number];
+  const {
+    id,
+    type,
+    listId,
+    reporterId,
+    priority,
+    assignees,
+    summary,
+    descr,
+    createdAt,
+    updatedAt,
+  } = issues[issue?.idx as number];
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
   const [updateIssue] = useUpdateIssueMutation();
   const [deleteIssue] = useDeleteIssueMutation();
@@ -132,15 +142,16 @@ const IssueDetailModal = (props: IssueModalProps) => {
               />
             </WithLabel>
             <hr className='border-t-[.5px] border-gray-400' />
-            <div className='mt-4 text-sm text-gray-600'>
-              <span className='block mb-2'>Created - 13 days ago</span>
-              <span>Updated - 3 days ago</span>
+            <div className='mt-4 text-sm text-gray-700'>
+              {createdAt && (
+                <span className='block mb-2'>Created - {new Date(createdAt).toLocaleString()}</span>
+              )}
+              {updatedAt && <span>Updated - {new Date(updatedAt).toLocaleString()}</span>}
             </div>
           </div>
         </div>
         {isOpen && (
           <ConfirmModel
-            isOpen={isOpen}
             onClose={() => setIsOpen(false)}
             onSubmit={() => deleteIssue({ issueId: id, projectId })}
           />

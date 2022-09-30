@@ -3,10 +3,10 @@ import { AxiosError } from 'axios';
 import {
   FieldErrorsImpl,
   FieldValues,
-  useForm,
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import WithLabel from '../util/WithLabel';
 
 interface Props {
@@ -21,17 +21,19 @@ interface Props {
 
 type APIERROR = { message: string };
 
-const Form = (props: Props) => {
+function Form(props: Props) {
   const { register, onSubmit, handleSubmit, errors, type } = props;
+  const navigate = useNavigate();
   const toast = useToast();
 
   const submit = handleSubmit(async (form) => {
     try {
-      onSubmit(form);
+      await onSubmit(form);
+      navigate('/project');
     } catch (error) {
       const err = (error as AxiosError).response?.data as APIERROR;
       toast({
-        title: 'Resiger error',
+        title: 'Authentication error',
         description: err.message,
         status: 'error',
         isClosable: true,
@@ -98,23 +100,13 @@ const Form = (props: Props) => {
           By clicking below, you agree to the our
           <span className='text-blue-800'> Privacy Policy.</span>
         </span>
-        <Button
-          type='submit'
-          size='sm'
-          width='full'
-          colorScheme='blue'
-          color='white'
-          bgColor='#321898'
-          borderRadius={3}
-          mt={4}
-          py={5}
-        >
+        <button type='submit' className='btn w-full mt-4 py-2 bg-[#321898]'>
           {type === 'SIGNUP' ? 'Join now' : 'Log In'}
-        </Button>
+        </button>
       </ChakraProvider>
     </form>
   );
-};
+}
 
 export default Form;
 

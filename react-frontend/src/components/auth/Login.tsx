@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from './Form';
 
 const LogIn = () => {
@@ -10,18 +9,12 @@ const LogIn = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const navigate = useNavigate();
-
-  const handleLogIn = async (form: FieldValues) => {
-    await logIn(form);
-    setTimeout(() => navigate('/project'), 1000);
-  };
 
   return (
     <div className='bg-white w-[22rem] rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Welcome back</h3>
       <h4 className='text-center mb-5 text-[15px] text-gray-600'>Free for testing</h4>
-      <Form type='LOGIN' onSubmit={handleLogIn} {...{ errors, handleSubmit, register }} />
+      <Form type='LOGIN' onSubmit={logIn} {...{ errors, handleSubmit, register }} />
       <div className='flex items-center'>
         <hr className='border-t-[.5px] grow border-gray-400' />
         <span className='text-center block my-3 bg-white w-fit px-2'>OR</span>

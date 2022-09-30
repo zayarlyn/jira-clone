@@ -51,6 +51,7 @@ export interface Assignee {
   id: number;
   userId: number;
   issueId: number;
+  projectId: number;
   // createdAt: string
 }
 
@@ -110,9 +111,13 @@ export interface reorderIssues {
   projectId: number;
 }
 
-export interface AddRemoveMember {
-  userId: number;
+export interface AddMember {
   projectId: number;
+  userId: number;
+}
+
+export interface RemoveMember extends AddMember {
+  memberId: number;
 }
 
 export interface dndOrderData {

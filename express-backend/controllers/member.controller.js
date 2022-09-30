@@ -17,17 +17,17 @@ exports.getMembersInProject = async (req, res) => {
 };
 
 exports.addMember = async (req, res) => {
-  const { userId, projectId } = req.body;
-  const result = await client.member.create({ data: { userId: +userId, projectId: +projectId } });
+  const { projectId, userId } = req.body;
+  const result = await client.member.create({
+    data: { userId, projectId: +projectId },
+  });
   res.json(result).end();
 };
 
 exports.removeMember = async (req, res) => {
-  const { userId, projectId } = req.body;
-  const result = await client.member.deleteMany({
-    where: {
-      AND: [{ userId: +userId }, { projectId: +projectId }],
-    },
-  });
-  res.json(result).end();
+  const { memberId: id, projectId, userId } = req.body;
+  const member = client.member.delete({ where: { id } });
+  const removeAssignees = client.assignee.deleteMany({ where: { AND: { userId, projectId } } });
+  await Promise.all([member, removeAssignees]);
+  res.json(member).end();
 };

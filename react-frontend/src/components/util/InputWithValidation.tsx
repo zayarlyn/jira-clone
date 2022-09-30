@@ -1,13 +1,28 @@
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 const InputWithValidation = (props: Props) => {
-  const { register, error, placeholder, label, defaultValue, readOnly, autoFocus } = props;
+  const {
+    register,
+    error,
+    placeholder,
+    label,
+    defaultValue,
+    readOnly,
+    autoFocus,
+    darkEnabled = true,
+  } = props;
   return (
-    <div className=''>
-      <label className='text-sm text-c-6 tracking-wide'>{label}</label>
+    <div>
+      <label className={`text-sm tracking-wide ${darkEnabled ? 'text-c-6' : 'text-gray-800'}`}>
+        {label}
+      </label>
       <input
         defaultValue={defaultValue ?? ''}
-        className='block w-full mt-2 px-3 text-c-text-1 rounded-sm text-sm py-[3px] bg-c-7 border-2 outline-none border-transparent focus:border-chakra-blue duration-200 hover:bg-c-8 focus:bg-c-1'
+        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent ${
+          darkEnabled
+            ? 'hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
+            : 'border-gray-600 hover:border-gray-400'
+        }`}
         {...{ placeholder, readOnly, autoFocus }}
         {...register}
       />
@@ -26,4 +41,5 @@ type Props = {
   defaultValue?: string;
   readOnly?: boolean;
   autoFocus?: boolean;
+  darkEnabled?: boolean;
 };

@@ -1,6 +1,6 @@
 import { ChakraProvider, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useProjectQuery } from '../../api/project.endpoint';
 
 const Breadcrumbs = () => {
@@ -19,21 +19,25 @@ const Breadcrumbs = () => {
         >
           {fragments[0] && (
             <BreadcrumbItem>
-              <BreadcrumbLink href='/project'>project</BreadcrumbLink>
+              <Link to='/project/' className='hover:underline'>
+                project
+              </Link>
             </BreadcrumbItem>
           )}
 
           {fragments[1] && (
             <BreadcrumbItem>
-              <BreadcrumbLink href={'/project/' + fragments[1]}>
+              <Link to={'/project/' + fragments[1]} className='hover:underline'>
                 {project?.name ?? 'undefined'}
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
           )}
 
           {fragments[2] && (
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink href={`/project/${fragments[1]}/board`}>Kanban board</BreadcrumbLink>
+              <Link to={`/project/${fragments[1]}/board`} className='hover:underline'>
+                Kanban board
+              </Link>
             </BreadcrumbItem>
           )}
         </Breadcrumb>

@@ -17,12 +17,13 @@ const MemberInput = ({ projectId }: Props) => {
   const [input, setInput] = useState('');
   const [users, setUsers] = useState<PublicUser[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
   const handleRemoveMember = () => {
-    if (!selectedId) return;
-    removeMember({ projectId, userId: selectedId });
-    setSelectedId(null);
+    if (!selectedIdx || !members) return;
+    const member = members[selectedIdx];
+    removeMember({ projectId, memberId: member.id, userId: member.userId });
+    setSelectedIdx(null);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,55 +40,50 @@ const MemberInput = ({ projectId }: Props) => {
 
   return (
     <div>
-      <Text as='label' fontSize='sm'>
-        Members
-      </Text>
-      <Input
+      <label className='text-sm tracking-wide text-c-6'>Members</label>
+      <input
         value={input}
         onChange={handleInputChange}
-        size='sm'
-        mt={1}
-        variant='filled'
-        placeholder='username or email'
+        placeholder='username'
+        className='block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
       />
       <Box position='relative'>
         <Box>
           <Flex wrap='wrap' gap={1} mt={3}>
             {members
-              ? members.map(({ username, id, isAdmin }) => (
+              ? members.map(({ username, id, isAdmin }, idx) => (
                   <Badge
                     key={id}
                     variant={isAdmin ? 'solid' : 'outline'}
-                    colorScheme={selectedId === id ? 'green' : 'blue'}
+                    colorScheme={selectedIdx === id ? 'green' : 'blue'}
                     gap={1}
                     px={2}
                     py={1}
                     cursor='pointer'
                     _hover={{ color: 'Highlight' }}
-                    onClick={() => setSelectedId(isAdmin ? null : id)}
+                    onClick={() => setSelectedIdx(isAdmin ? null : idx)}
                   >
                     {username + (isAdmin ? ' *' : '')}
                   </Badge>
                 ))
               : 'loading ...'}
           </Flex>
-          {selectedId && (
+          {selectedIdx && (
             <>
-              <hr className='border-t-[.5px] border-gray-400 mt-3' />
-              <Flex justifyContent='right' mt={3}>
-                <Button
-                  onClick={() => setSelectedId(null)}
-                  size='xs'
-                  borderRadius={3}
-                  variant='ghost'
-                  mr={3}
+              <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
+                <button
+                  onClick={() => setSelectedIdx(null)}
+                  className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text-1'
                 >
                   cancel
-                </Button>
-                <Button onClick={handleRemoveMember} size='xs' borderRadius={3} colorScheme='red'>
-                  remove member
-                </Button>
-              </Flex>
+                </button>
+                <button
+                  onClick={handleRemoveMember}
+                  className='btn text-[13px] tracking-wide bg-red-500 hover:bg-red-600'
+                >
+                  Remove member
+                </button>
+              </div>
             </>
           )}
         </Box>

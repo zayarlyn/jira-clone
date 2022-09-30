@@ -8,7 +8,6 @@ import Project from './components/project/Project';
 import Home from './components/home/Home';
 import Register from './components/auth/Register';
 import { useState } from 'react';
-import Authenticated from './components/auth/Authenticated';
 
 function App() {
   const [theme, setTheme] = useState<Theme>(getTheme());
@@ -30,7 +29,6 @@ function App() {
             </Route>
             <Route path='/register/*' element={<Welcome children={Register} />} />
             <Route path='/login/*' element={<Welcome children={LogIn} />} />
-            {/* <Route path='/authenticated' element={<Authenticated />} /> */}
             <Route path='/' element={<Navigate to='/project' />} />
           </Routes>
         </BrowserRouter>

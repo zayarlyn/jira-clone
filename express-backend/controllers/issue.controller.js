@@ -27,20 +27,20 @@ exports.getIssuesInProject = async (req, res) => {
 
 exports.createIssue = async (req, res) => {
   const { projectId, listId, assignees, ...data } = req.body; // opt out projectId
-  // get the number of issues and set it as the order column/attribute
   const { _count: order } = await client.issue.aggregate({ where: { listId }, _count: true });
-  // create issue [summary, descr, priority, type, reporter,  list, order*]
   const { id: issueId } = await client.issue.create({
     data: { ...data, order: order + 1, listId },
   });
   // create assignee[] rows with new issue id
-  await client.assignee.createMany({ data: assignees.map((userId) => ({ issueId, userId })) });
+  await client.assignee.createMany({
+    data: assignees.map((userId) => ({ issueId, userId, projectId })),
+  });
   res.json({ msg: 'issue is created' }).end();
 };
 
 exports.updateIssue = async (req, res) => {
   const { id } = req.params;
-  const { type, value } = req.body;
+  const { type, value, projectId } = req.body;
 
   switch (type) {
     case 'listId':
@@ -51,7 +51,7 @@ exports.updateIssue = async (req, res) => {
       await client.issue.update({ where: { id: +id }, data: { [type]: value, order: order + 1 } });
       break;
     case 'addAssignee':
-      await client.assignee.create({ data: { issueId: +id, userId: value } });
+      await client.assignee.create({ data: { issueId: +id, userId: value, projectId } });
       break;
     case 'removeAssignee':
       await client.assignee.deleteMany({ where: { AND: { issueId: +id, userId: value } } });

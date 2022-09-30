@@ -18,8 +18,9 @@ const AssignedMembers = (props: Props) => {
     <ChakraProvider>
       <AvatarGroup size='sm'>
         {assignees.map(({ id, userId }) => {
-          const { username, profileUrl } = membersObj[userId];
-          return <Avatar key={id} name={username} src={profileUrl} />;
+          const assignee = membersObj[userId];
+          if (!assignee) return null;
+          return <Avatar key={id} name={assignee.username} src={assignee.profileUrl} />;
         })}
       </AvatarGroup>
     </ChakraProvider>

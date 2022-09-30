@@ -35,16 +35,17 @@ model Member {
 }
 
 model Project {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
-  descr     String?  @db.VarChar(300)
+  descr     String?    @db.VarChar(300)
   repo      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   members   Member[]
   lists     List[]
-  User      User?    @relation(fields: [userId], references: [id])
+  User      User?      @relation(fields: [userId], references: [id])
   userId    Int?
+  assignees Assignee[]
 }
 
 model List {
@@ -80,4 +81,6 @@ model Assignee {
   userId    Int?
   Issue     Issue?   @relation(fields: [issueId], references: [id], onDelete: Cascade)
   issueId   Int?
+  Project   Project? @relation(fields: [projectId], references: [id])
+  projectId Int?
 }

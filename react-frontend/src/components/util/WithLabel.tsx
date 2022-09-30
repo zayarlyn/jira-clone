@@ -10,9 +10,7 @@ const WithLabel = (props: Props) => {
   return (
     <div className={margin ?? 'mt-5'}>
       {label && (
-        <span className={'font-medium text-[14px] text-c-text-1 mb-2 block ' + labelClass}>
-          {label}
-        </span>
+        <span className={'font-medium text-[14px] text-c-1 mb-2 block ' + labelClass}>{label}</span>
       )}
       {Children}
     </div>

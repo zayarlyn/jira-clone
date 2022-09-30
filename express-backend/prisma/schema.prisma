@@ -18,7 +18,7 @@ model User {
   profileUrl   String     @default("")
   lastLoggedIn DateTime   @default(now())
   createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   members      Member[]
   assignees    Assignee[]
   projects     Project[]
@@ -40,7 +40,7 @@ model Project {
   descr     String?  @db.VarChar(300)
   repo      String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   members   Member[]
   lists     List[]
   User      User?    @relation(fields: [userId], references: [id])
@@ -52,7 +52,7 @@ model List {
   name      String   @default("unnamed list")
   order     Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   issues    Issue[]
   Project   Project? @relation(fields: [projectId], references: [id])
   projectId Int?
@@ -67,7 +67,7 @@ model Issue {
   summary    String
   descr      String
   createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   List       List?      @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId     Int?
   assignees  Assignee[]

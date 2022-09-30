@@ -31,7 +31,6 @@ exports.logIn = async (req, res) => {
 };
 
 exports.logOut = (req, res) => {
-  console.log('logout');
   res.clearCookie('jira-clone').end();
 };
 

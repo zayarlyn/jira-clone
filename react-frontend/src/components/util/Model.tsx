@@ -23,10 +23,7 @@ const Model = (props: Props) => {
         {ModelBody}
         {onSubmit && (
           <div className='flex justify-end mt-8 gap-x-3'>
-            <button
-              onClick={onClose}
-              className='px-3 py-1 rounded-[3px] text-c-text-1 hover:bg-c-4'
-            >
+            <button onClick={onClose} className='px-3 py-1 rounded-[3px] text-c-1 hover:bg-c-4'>
               cancel
             </button>
             <button onClick={onSubmit} className='btn'>

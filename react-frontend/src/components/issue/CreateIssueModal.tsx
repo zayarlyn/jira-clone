@@ -35,9 +35,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
   return (
     <Model onClose={onClose} onSubmit={handleCreateIssue} className='max-w-[35rem]'>
       <>
-        <Text fontWeight={500} fontSize={19}>
-          Create Issue
-        </Text>
+        <span className='font-[600] text-[22px] text-c-1'>Create Issue</span>
         <WithLabel label='Issue type'>
           <DropDown list={types} dispatch={dispatch} actionType='type' type='normal' />
         </WithLabel>
@@ -50,6 +48,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
               borderColor='gray.300'
               _focus={{ borderWidth: 2 }}
               value={form.summary}
+              color='black'
               onChange={(e) => dispatch({ type: 'summary', value: e.target.value })}
               isRequired
             />
@@ -67,6 +66,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
             as={ResizeTextarea}
             borderRadius={2}
             value={form.descr}
+            color='black'
             onChange={(e) => dispatch({ type: 'descr', value: e.target.value })}
           />
         </WithLabel>

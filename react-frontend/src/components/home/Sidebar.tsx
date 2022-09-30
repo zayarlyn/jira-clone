@@ -41,7 +41,7 @@ function Sidebar(props: Props) {
     <div className='flex shrink-0'>
       <div className='flex flex-col justify-between items-center w-14 py-6 bg-primary'>
         <div className='flex flex-col gap-y-3'>
-          <button className='w-8'>
+          <button onClick={() => navigate('/project')} className='w-8'>
             <img src='/assets/jira.svg' alt='jira-clone' />
           </button>
           <IconBtn icon='ant-design:search-outlined' />

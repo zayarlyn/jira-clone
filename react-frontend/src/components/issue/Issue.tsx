@@ -1,12 +1,12 @@
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import { Issue as JiraIssue } from '../../api/apiTypes';
 import { types, priorities } from '../../category';
-import { selectMembers, useMembersQuery } from '../../api/member.endpoint';
+import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
-import { useState } from 'react';
-import IssueModelHOC from './IssueModelHOC';
-import IssueDetailModal from './IssueDetailModal';
+import { lazy, Suspense, useState } from 'react';
 import { useParams } from 'react-router-dom';
+const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
+const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
 
 const Issue = (props: Props) => {
   const { listId, listIdx, idx, summary, id, type, priority, assignees } = props;
@@ -36,11 +36,13 @@ const Issue = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <IssueModelHOC
-          children={IssueDetailModal}
-          onClose={() => setIsOpen(false)}
-          issue={{ listId, listIdx, idx }}
-        />
+        <Suspense fallback={null}>
+          <IssueModelHOC
+            children={IssueDetailModal}
+            onClose={() => setIsOpen(false)}
+            issue={{ listId, listIdx, idx }}
+          />
+        </Suspense>
       )}
     </>
   );

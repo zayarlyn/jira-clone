@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Avatar, ChakraProvider, Switch } from '@chakra-ui/react';
+import { lazy, useState } from 'react';
+import { Avatar, ChakraProvider as CP, Switch } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import axios from 'axios';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
-import { motion } from 'framer-motion';
-import Profile from './Profile';
 import type { Theme } from '../../App';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+const Profile = lazy(() => import('./Profile'));
 
 interface Props {
   theme: Theme;
@@ -46,12 +46,12 @@ function Sidebar(props: Props) {
           </button>
           <IconBtn icon='ant-design:search-outlined' />
           {/* <IconBtn icon='ant-design:plus-outlined' /> */}
-          <ChakraProvider>
+          <CP>
             <Switch isChecked={mode === 'dark'} onChange={handleToggle} />
-          </ChakraProvider>
+          </CP>
         </div>
         <div className='flex flex-col gap-6'>
-          <ChakraProvider>
+          <CP>
             <Avatar
               src={authUser?.profileUrl}
               name={authUser?.username}
@@ -61,7 +61,7 @@ function Sidebar(props: Props) {
               _hover={{ borderColor: 'tomato' }}
               onClick={() => setIsOpen((p) => !p)}
             />
-          </ChakraProvider>
+          </CP>
           <IconBtn onClick={handleLogOut} icon='charm:sign-out' />
         </div>
       </div>
@@ -79,12 +79,8 @@ function Sidebar(props: Props) {
 export default Sidebar;
 
 async function logOut() {
-  const result = await axios.post(
-    'http://localhost:5000/auth/logout',
-    {},
-    {
-      withCredentials: true,
-    }
-  );
+  const result = await axios.post('http://localhost:5000/auth/logout', null, {
+    withCredentials: true,
+  });
   return result.data;
 }

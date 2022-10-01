@@ -1,19 +1,19 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { UpdateIssueType } from '../../api/apiTypes';
 import {
   selectIssuesArray,
   useDeleteIssueMutation,
   useUpdateIssueMutation,
 } from '../../api/issues.endpoint';
-import ConfirmModel from '../util/ConfirmModel';
 import DropDown from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { IssueModalProps } from './IssueModelHOC';
 import TextInput from './TextInput';
 import Model from '../util/Model';
+const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
   const oldLen = OLD.length,
@@ -151,10 +151,12 @@ const IssueDetailModal = (props: IssueModalProps) => {
           </div>
         </div>
         {isOpen && (
-          <ConfirmModel
-            onClose={() => setIsOpen(false)}
-            onSubmit={() => deleteIssue({ issueId: id, projectId })}
-          />
+          <Suspense fallback={null}>
+            <ConfirmModel
+              onClose={() => setIsOpen(false)}
+              onSubmit={() => deleteIssue({ issueId: id, projectId })}
+            />
+          </Suspense>
         )}
       </>
     </Model>

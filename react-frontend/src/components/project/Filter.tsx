@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, lazy, SetStateAction, Suspense, useState } from 'react';
 import {
   ChakraProvider,
   InputGroup,
@@ -14,11 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
-import CreateIssueModal from '../issue/CreateIssueModal';
-// import IssueModalHOC from '../issue/IssueModelHOC';
 import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
-import IssueModelHOC from '../issue/IssueModelHOC';
+const IssueModelHOC = lazy(() => import('../issue/IssueModelHOC'));
+const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 
 interface Props {
   issueQueryData: Omit<IssueQuery, 'projectId'>;
@@ -85,7 +84,9 @@ function Filter(props: Props) {
           Create an issue
         </button>
         {isOpen && !isEmpty && (
-          <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
+          <Suspense fallback={null}>
+            <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
+          </Suspense>
         )}
       </ChakraProvider>
     </div>

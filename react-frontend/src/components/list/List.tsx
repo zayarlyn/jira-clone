@@ -2,11 +2,10 @@ import Issue from '../issue/Issue';
 import DroppableWrapper from '../dnd/DroppableWrapper';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import type { Issue as ApiIssue, List as LIST } from '../../api/apiTypes';
-import { ChakraProvider, IconButton, Input } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { useDeleteListMutation, useUpdateListMutation } from '../../api/lists.endpoint';
-import ConfirmModel from '../util/ConfirmModel';
+const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props extends LIST {
   idx: number;
@@ -75,10 +74,12 @@ const List = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <ConfirmModel
-          onClose={() => setIsOpen(false)}
-          onSubmit={() => deleteList({ listId: id, projectId })}
-        />
+        <Suspense fallback={null}>
+          <ConfirmModel
+            onClose={() => setIsOpen(false)}
+            onSubmit={() => deleteList({ listId: id, projectId })}
+          />
+        </Suspense>
       )}
     </>
   );

@@ -1,9 +1,9 @@
-import { Badge, Box, Button, Flex, Input, Text } from '@chakra-ui/react';
+import { ChangeEvent, lazy, memo, Suspense, useState } from 'react';
 import axios from 'axios';
-import { ChangeEvent, memo, useState } from 'react';
-import { PublicUser } from '../../api/apiTypes';
 import { selectMembers, useRemoveMemberMutation } from '../../api/member.endpoint';
+import { PublicUser } from '../../api/apiTypes';
 import UserMember from './UserMember';
+const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props {
   projectId: number;
@@ -14,12 +14,13 @@ let unsubscribe: NodeJS.Timeout;
 const MemberInput = ({ projectId }: Props) => {
   const { members } = selectMembers(projectId);
   const [removeMember] = useRemoveMemberMutation();
-  const [input, setInput] = useState('');
-  const [users, setUsers] = useState<PublicUser[]>([]);
-  const [loading, setLoading] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [users, setUsers] = useState<PublicUser[]>([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleRemoveMember = () => {
+  const handleRemoveMember = async () => {
     if (!selectedIdx || !members) return;
     const member = members[selectedIdx];
     removeMember({ projectId, memberId: member.id, userId: member.userId });
@@ -47,77 +48,75 @@ const MemberInput = ({ projectId }: Props) => {
         placeholder='username'
         className='block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
       />
-      <Box position='relative'>
-        <Box>
-          <Flex wrap='wrap' gap={1} mt={3}>
+      <div className='relative'>
+        <div>
+          <div className='flex flex-wrap gap-1 mt-3'>
             {members
               ? members.map(({ username, id, isAdmin }, idx) => (
-                  <Badge
-                    key={id}
-                    variant={isAdmin ? 'solid' : 'outline'}
-                    colorScheme={selectedIdx === id ? 'green' : 'blue'}
-                    gap={1}
-                    px={2}
-                    py={1}
-                    cursor='pointer'
-                    _hover={{ color: 'Highlight' }}
+                  <div
                     onClick={() => setSelectedIdx(isAdmin ? null : idx)}
+                    className={`px-2 tracking-wide font-semibold text-sm border-[1px]  ${
+                      isAdmin
+                        ? 'bg-blue-500 text-white'
+                        : 'text-blue-400 hover:opacity-90 cursor-pointer'
+                    } ${
+                      selectedIdx === idx ? 'border-green-400 text-green-400' : 'border-blue-400'
+                    }`}
                   >
                     {username + (isAdmin ? ' *' : '')}
-                  </Badge>
+                  </div>
                 ))
               : 'loading ...'}
-          </Flex>
+          </div>
           {selectedIdx && (
-            <>
-              <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
-                <button
-                  onClick={() => setSelectedIdx(null)}
-                  className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text-1'
-                >
-                  cancel
-                </button>
-                <button
-                  onClick={handleRemoveMember}
-                  className='btn text-[13px] tracking-wide bg-red-500 hover:bg-red-600'
-                >
-                  Remove member
-                </button>
-              </div>
-            </>
+            <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
+              <button
+                onClick={() => setSelectedIdx(null)}
+                className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text-1'
+              >
+                cancel
+              </button>
+              <button
+                onClick={() => setIsOpen(true)}
+                className='btn text-[13px] tracking-wide bg-red-500 hover:bg-red-600'
+              >
+                Remove member
+              </button>
+            </div>
           )}
-        </Box>
+        </div>
         {!input ? null : (
-          <div className='absolute top-0 bg-white w-full shadow-sm p-[8px_12px_22px] z-10 border-[1px]'>
+          <div className='absolute top-0 rounded-[3px] bg-white w-full shadow-sm p-[8px_12px_22px] z-10 border-[1px]'>
             {loading ? (
-              <Text textAlign='center' mt={2}>
-                searching ...
-              </Text>
+              <span className='text-center block mt-2'>searching ...</span>
             ) : users.length === 0 ? (
-              <Text textAlign='center' mt={2}>
-                not user was found :(
-              </Text>
+              <span className='text-center block mt-2'>not user was found :(</span>
             ) : (
               <>
-                <Text fontSize={13} mb={2}>
-                  Is this the one?
-                </Text>
-                <Box>
-                  {users.map((info) => (
-                    <UserMember
-                      key={info.id}
-                      projectId={projectId}
-                      setInput={setInput}
-                      added={members?.some(({ userId }) => userId === info.id) ?? false}
-                      {...info}
-                    />
-                  ))}
-                </Box>
+                <span className='text-sm mb-2 block'>Is this the one?</span>
+                {users.map((info) => (
+                  <UserMember
+                    key={info.id}
+                    projectId={projectId}
+                    setInput={setInput}
+                    added={members?.some(({ userId }) => userId === info.id) ?? false}
+                    {...info}
+                  />
+                ))}
               </>
             )}
           </div>
         )}
-      </Box>
+      </div>
+      {isOpen && (
+        <Suspense fallback={null}>
+          <ConfirmModel
+            msg={'remove ' + members?.[selectedIdx as number].username}
+            onClose={() => setIsOpen(false)}
+            onSubmit={handleRemoveMember}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ exports.logIn = async (req, res) => {
   if (!user)
     return res.status(409).json({ message: 'no account was registered with this email' }).end();
   const isValidPwd = await bcrypt.compare(pwd, user.pwd);
-  if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect' }).end();
+  if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect :(' }).end();
   const token = generateJwt({ uid: user.id });
   await client.user.update({
     where: { id: user.id },
@@ -32,6 +32,17 @@ exports.logIn = async (req, res) => {
 
 exports.logOut = (req, res) => {
   res.clearCookie('jira-clone').end();
+};
+
+exports.changePwd = async (req, res) => {
+  const { oldPwd, newPwd } = req.body;
+  const id = +req.user.uid;
+  const user = await client.user.findFirst({ where: { id } });
+  const isValidPwd = await bcrypt.compare(oldPwd, user.pwd);
+  if (!isValidPwd) return res.status(401).json({ message: 'old password is incorrect :(' }).end();
+  const pwd = await bcrypt.hash(newPwd, 10);
+  await client.user.update({ where: { id }, data: { pwd } });
+  res.json({ message: 'Password changed successfully' });
 };
 
 exports.authMiddleware = (req, res, next) => {

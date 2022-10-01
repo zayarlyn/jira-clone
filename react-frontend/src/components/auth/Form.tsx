@@ -1,5 +1,5 @@
-import { ChakraProvider, Input, useToast } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
+import { useState } from 'react';
 import {
   FieldError,
   FieldErrorsImpl,
@@ -7,9 +7,7 @@ import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import InputWithValidation from '../util/InputWithValidation';
-import WithLabel from '../util/WithLabel';
 
 interface Props {
   register: UseFormRegister<FieldValues>;
@@ -25,24 +23,14 @@ type APIERROR = { message: string };
 
 function Form(props: Props) {
   const { register, onSubmit, handleSubmit, errors, type } = props;
-  const navigate = useNavigate();
-  const toast = useToast();
+  const [error, setError] = useState('');
 
   const submit = handleSubmit(async (form) => {
     try {
       await onSubmit(form);
-      // navigate('/project');
-      window.location.replace('http://localhost:3000/project');
+      window.location.replace('http://localhost:3000/project'); //with refresh
     } catch (error) {
-      const err = (error as AxiosError).response?.data as APIERROR;
-      toast({
-        title: 'Authentication error',
-        description: err.message,
-        status: 'error',
-        isClosable: true,
-        position: 'top-right',
-        duration: null,
-      });
+      setError(((error as AxiosError).response?.data as APIERROR).message);
     }
   });
 
@@ -85,6 +73,7 @@ function Form(props: Props) {
           error={errors.pwd as FieldError}
         />
       </div>
+      {error && <span className='text-red-400 block mt-3'>{error}</span>}
       <hr className='border-t-[.5px] border-gray-400 mt-3' />
       <span className='text-[12px] text-gray-600 block mt-6'>
         By clicking below, you agree to the our
@@ -98,7 +87,3 @@ function Form(props: Props) {
 }
 
 export default Form;
-
-const ErrorMsg = ({ msg }: { msg: string }) => (
-  <span className='text-[13px] text-red-500'>{msg}</span>
-);

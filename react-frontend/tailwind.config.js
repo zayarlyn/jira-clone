@@ -16,6 +16,10 @@ module.exports = {
         'c-7': 'var(--c-7)',
         'c-8': 'var(--c-8)',
         'c-9': 'var(--c-9)',
+        'very-pale-blue': '#edf2f7',
+        'pale-blue': '#dbeafe',
+        'very-pale-gray': '#555',
+        'pale-gray': '#444',
       },
       boxShadow: {
         issue: '0 1px 2px 0 #091e4240',

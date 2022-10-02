@@ -9,7 +9,8 @@ const InputWithValidation = (props: Props) => {
     defaultValue,
     readOnly,
     autoFocus,
-    darkEnabled = true,
+    darkEnabled = false,
+    inputClass,
   } = props;
   return (
     <div>
@@ -21,8 +22,8 @@ const InputWithValidation = (props: Props) => {
         className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent ${
           darkEnabled
             ? 'hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
-            : 'border-gray-600 bg-slate-100 hover:border-gray-400'
-        }`}
+            : 'bg-slate-100 hover:border-gray-400'
+        } ${inputClass ?? ''}`}
         {...{ placeholder, readOnly, autoFocus }}
         {...register}
       />
@@ -42,4 +43,5 @@ type Props = {
   readOnly?: boolean;
   autoFocus?: boolean;
   darkEnabled?: boolean;
+  inputClass?: string;
 };

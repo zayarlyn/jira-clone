@@ -34,7 +34,6 @@ const DropDown = (props: Prop) => {
 
   useEffect(() => {
     if (defaultValue !== undefined) return;
-    console.log('default', defaultValue);
     const initialValue = list[0].value;
     dispatch({ type: actionType, value: isMulti ? [initialValue] : initialValue });
   }, []);

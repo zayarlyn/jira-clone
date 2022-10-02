@@ -39,6 +39,7 @@ function ChangePwd() {
                 required: { value: true, message: 'password must not be empty' },
               })}
               error={errors.oldPwd as FieldError}
+              darkEnabled
             />
             <InputWithValidation
               label='New password'
@@ -49,6 +50,7 @@ function ChangePwd() {
                 maxLength: { value: 14, message: 'must be under 15 characters' },
               })}
               error={errors.newPwd as FieldError}
+              darkEnabled
             />
           </div>
           {error && <span className='text-red-400 block mt-4 text-left'>{error}</span>}

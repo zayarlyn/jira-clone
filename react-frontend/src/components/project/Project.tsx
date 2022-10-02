@@ -19,8 +19,6 @@ const Project = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  console.log({ listError, issueError });
-
   if (listError && issueError) {
     if ((listError as APIERROR).status === 401 || (issueError as APIERROR).status === 401)
       return <Navigate to='/login' />;

@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Welcome from './components/auth/Welcome';
@@ -7,10 +8,10 @@ import Setting from './components/project/Setting';
 import Project from './components/project/Project';
 import Home from './components/home/Home';
 import Register from './components/auth/Register';
-import { useState } from 'react';
+import { getTheme } from './utils';
 
 function App() {
-  const [theme, setTheme] = useState<Theme>(getTheme());
+  const [theme, setTheme] = useState(getTheme());
 
   const toggleTheme = () => setTheme(({ mode }) => ({ mode: mode === 'light' ? 'dark' : 'light' }));
 
@@ -38,10 +39,3 @@ function App() {
 }
 
 export default App;
-
-function getTheme() {
-  const localTheme = localStorage.getItem('jira-clone-theme');
-  return localTheme ? JSON.parse(localTheme) : { mode: 'light' };
-}
-
-export type Theme = { mode: 'light' | 'dark' };

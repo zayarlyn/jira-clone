@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
-import type { Theme } from '../../App';
+import type { Theme } from '../../utils';
 const Profile = lazy(() => import('./Profile'));
 
 interface Props {

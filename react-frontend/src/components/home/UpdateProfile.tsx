@@ -31,6 +31,7 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
             required: { value: true, message: 'username must not be empty' },
           })}
           error={errors.username as FieldError}
+          darkEnabled
         />
         <InputWithValidation
           label='Email'
@@ -41,6 +42,7 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
           })}
           error={errors.email as FieldError}
           readOnly
+          darkEnabled
         />
         <InputWithValidation
           label='Photo Url'
@@ -48,6 +50,7 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
           defaultValue={u.profileUrl}
           register={register('profileUrl')}
           error={errors.profileUrl as FieldError}
+          darkEnabled
         />
       </div>
       <button onClick={handleSubmit(handleUpdate)} className='btn w-full mt-10'>

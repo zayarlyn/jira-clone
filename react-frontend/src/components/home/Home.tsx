@@ -3,7 +3,7 @@ import Breadcrumbs from './Breadcrumbs';
 import Menubar from './Menubar';
 import ProjectCatalog from './ProjectCatalog';
 import Sidebar from './Sidebar';
-import type { Theme } from '../../App';
+import type { Theme } from '../../utils';
 
 interface Props {
   theme: Theme;

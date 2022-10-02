@@ -32,8 +32,7 @@ const Board = (props: Props) => {
           newOrder: d.index + 1, // change index to actual order
           projectId,
         })
-      : // console.log('opeartion reorder');
-        reorderIssues({
+      : reorderIssues({
           id: issues[parseId(s)][s.index].id,
           s: { sId: parseId(s), order: s.index + 1 }, // change index to actual order
           d: { dId: parseId(d), newOrder: d.index + 1 }, // change index to actual order

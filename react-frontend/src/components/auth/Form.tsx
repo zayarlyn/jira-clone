@@ -47,9 +47,9 @@ function Form(props: Props) {
               message: 'please provide a valid email',
             },
           })}
-          autoFocus
-          darkEnabled={false}
           error={errors.email as FieldError}
+          inputClass='border-gray-500'
+          autoFocus
         />
         {type === 'SIGNUP' && (
           <InputWithValidation
@@ -59,8 +59,8 @@ function Form(props: Props) {
               minLength: { value: 2, message: 'must be at least two characters long' },
               pattern: { value: /^[A-Za-z0-9_]+$/g, message: 'username can be a-z,A-Z,0-9,_' },
             })}
-            darkEnabled={false}
             error={errors.username as FieldError}
+            inputClass='border-gray-500'
           />
         )}
         <InputWithValidation
@@ -70,8 +70,8 @@ function Form(props: Props) {
             minLength: { value: 4, message: 'must be at least 4 characters long' },
             maxLength: { value: 14, message: 'must be under 15 characters' },
           })}
-          darkEnabled={false}
           error={errors.pwd as FieldError}
+          inputClass='border-gray-500'
         />
       </div>
       {error && <span className='text-red-400 block mt-3'>{error}</span>}

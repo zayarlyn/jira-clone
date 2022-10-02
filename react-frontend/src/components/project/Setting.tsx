@@ -39,6 +39,7 @@ const Setting = () => {
                 required: { value: true, message: 'name must not be empty' },
               })}
               error={errors.name as FieldError}
+              darkEnabled
             />
             <InputWithValidation
               defaultValue={descr}
@@ -46,6 +47,7 @@ const Setting = () => {
               placeholder='project description'
               register={register('descr')}
               error={errors.descr as FieldError}
+              darkEnabled
             />
             <InputWithValidation
               defaultValue={repo}
@@ -53,6 +55,7 @@ const Setting = () => {
               placeholder='github repo link'
               register={register('repo')}
               error={errors.repo as FieldError}
+              darkEnabled
             />
             <MemberInput projectId={id} />
           </Stack>

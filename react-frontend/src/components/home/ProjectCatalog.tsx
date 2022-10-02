@@ -14,7 +14,6 @@ const ProjectCatalog = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
-  console.log(error);
 
   if (!authUser) return null;
 

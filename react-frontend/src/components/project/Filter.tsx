@@ -1,13 +1,11 @@
 import { Dispatch, lazy, SetStateAction, Suspense, useState } from 'react';
 import {
-  ChakraProvider,
+  ChakraProvider as CP,
   InputGroup,
   InputLeftElement,
   Input,
   Avatar,
   AvatarGroup,
-  Button,
-  ButtonGroup,
   Divider,
   useToast,
   UseToastOptions,
@@ -16,6 +14,7 @@ import { Icon as IconIfy } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
 import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
+import { useAuthUserQuery } from '../../api/auth.endpoint';
 const IssueModelHOC = lazy(() => import('../issue/IssueModelHOC'));
 const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 
@@ -34,8 +33,11 @@ function Filter(props: Props) {
     isEmpty,
   } = props;
   const { data: members, error } = useMembersQuery(projectId);
+  const { data: authUser } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
+
+  if (!authUser || !members) return null;
 
   function handleClick() {
     if (isEmpty) return toast(toastConfig);
@@ -43,9 +45,10 @@ function Filter(props: Props) {
   }
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+
   return (
     <div className='mb-8 flex min-w-fit items-center px-10 text-c-6'>
-      <ChakraProvider>
+      <CP>
         <InputGroup size='sm' minW={160} w={160}>
           <InputLeftElement children={<IconIfy width={20} icon='ant-design:search-outlined' />} />
           <Input size='sm' placeholder='Search issues'></Input>
@@ -66,20 +69,16 @@ function Filter(props: Props) {
             />
           ))}
         </AvatarGroup>
-        <ButtonGroup size='sm' variant='ghost'>
-          <Button fontWeight='normal' fontSize={15}>
-            Only my issues
-          </Button>
-          <Button fontWeight='normal' fontSize={15}>
-            Completed Issue
-          </Button>
-          <Divider my={1} h={6} orientation='vertical' />
-          {uid && (
-            <Button fontWeight='normal' fontSize={15} onClick={() => setIssueQueryData({})}>
-              Clear all
-            </Button>
-          )}
-        </ButtonGroup>
+        <button className='btn-crystal' onClick={() => setIssueQueryData({ userId: authUser.id })}>
+          Only my issues
+        </button>
+        <button className='btn-crystal'>Completed Issue</button>
+        <Divider my={1} h={6} orientation='vertical' />
+        {uid && (
+          <button className='btn-crystal' onClick={() => setIssueQueryData({})}>
+            Clear all
+          </button>
+        )}
         <button onClick={handleClick} className='btn ml-5'>
           Create an issue
         </button>
@@ -88,7 +87,7 @@ function Filter(props: Props) {
             <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
           </Suspense>
         )}
-      </ChakraProvider>
+      </CP>
     </div>
   );
 }

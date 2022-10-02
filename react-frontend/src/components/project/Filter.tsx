@@ -38,7 +38,7 @@ function Filter(props: Props) {
   const toast = useToast();
 
   function handleClick() {
-    if (isEmpty) toast(toastConfig);
+    if (isEmpty) return toast(toastConfig);
     setIsOpen(true);
   }
 

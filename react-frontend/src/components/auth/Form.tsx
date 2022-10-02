@@ -57,7 +57,7 @@ function Form(props: Props) {
             register={register('username', {
               required: { value: true, message: 'username must not be empty' },
               minLength: { value: 2, message: 'must be at least two characters long' },
-              pattern: { value: /^[A_Za-z0-9_]+$/, message: 'username can be a-z,A-Z,0-9,_' },
+              pattern: { value: /^[A-Za-z0-9_]+$/g, message: 'username can be a-z,A-Z,0-9,_' },
             })}
             darkEnabled={false}
             error={errors.username as FieldError}

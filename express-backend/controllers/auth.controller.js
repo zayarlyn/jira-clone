@@ -11,8 +11,7 @@ exports.register = async (req, res) => {
   const pwd = await bcrypt.hash(req.body.pwd, 10);
   const user = await client.user.create({ data: { ...req.body, pwd } });
   const token = generateJwt({ uid: user.id });
-  createCookie(res, token);
-  res.json(user).end(); // send back newly created user obj
+  createCookie(res, token).json(user).end(); // send back newly created user obj
 };
 
 exports.logIn = async (req, res) => {
@@ -68,7 +67,7 @@ const generateJwt = (payload) =>
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 
 const createCookie = (res, token) =>
-  res.header('Cache-Control', 'no-cache').cookie('jira-clone', JSON.stringify({ token }), {
+  res.cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
     expires: new Date(Date.now() + 900000),
   });

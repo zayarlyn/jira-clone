@@ -14,10 +14,9 @@ import Model from '../util/Model';
 const CreateIssueModel = (props: IssueModalProps) => {
   const { lists, members, types, priorities, onClose } = props;
   const { authUser } = selectAuthUser();
-  const [createIssue, { error }] = useCreateIssueMutation();
+  const [createIssue, { error, isLoading }] = useCreateIssueMutation();
   const [form, dispatch] = useReducer(reducer, initial);
   const [isInvalid, setIsInvalid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const projectId = Number(useParams().projectId);
 
   if (!authUser) return null;
@@ -26,9 +25,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
 
   const handleCreateIssue = async () => {
     if (!form.summary || !authUser) return setIsInvalid(true);
-    setIsLoading(true);
     await createIssue({ ...form, reporterId: authUser.id, projectId }); //for now
-    setIsLoading(false);
     onClose();
   };
 

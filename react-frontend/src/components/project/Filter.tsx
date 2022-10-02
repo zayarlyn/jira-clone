@@ -38,8 +38,8 @@ function Filter(props: Props) {
   const toast = useToast();
 
   function handleClick() {
-    setIsOpen(true);
     if (isEmpty) toast(toastConfig);
+    setIsOpen(true);
   }
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;

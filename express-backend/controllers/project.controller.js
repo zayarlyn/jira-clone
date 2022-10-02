@@ -4,7 +4,7 @@ const client = new PrismaClient();
 
 exports.getProjects = async (req, res) => {
   if (+req.params.userId !== req.user.uid)
-    return res.status(401).json({ message: "you can't access other people's projects" });
+    return res.status(401).json({ message: "you can't access other people's projects" }).end();
   const userId = Number(req.params.userId);
   const members = await client.member.findMany({ where: { userId } });
   const projectIds = members.map(({ projectId: pid }) => pid);
@@ -33,7 +33,23 @@ exports.createProject = async (req, res) => {
 
 exports.updateProject = async (req, res) => {
   const { projectId } = req.customParams;
-  const updatedProject = await client.project.update({ where: { id: +projectId }, data: req.body });
-  res.json(updatedProject).end();
-  res.end();
+  const project = await client.project.update({ where: { id: +projectId }, data: req.body });
+  res.json(project).end();
+};
+
+exports.deleteProject = async (req, res) => {
+  const { projectId } = req.customParams;
+  await client.project.delete({ where: { id: +projectId } });
+  res.json({ message: 'The project is deleted successfully' }).end();
+};
+
+exports.leaveProject = async (req, res) => {
+  const { projectId } = req.customParams;
+  const { userId, memberId } = req.body;
+  const member = client.member.deleteMany({ where: { id: memberId } });
+  const assignee = client.assignee.deleteMany({
+    where: { AND: { userId: userId, projectId: +projectId } },
+  });
+  await Promise.all([member, assignee]);
+  res.json({ message: 'The project is deleted successfully' }).end();
 };

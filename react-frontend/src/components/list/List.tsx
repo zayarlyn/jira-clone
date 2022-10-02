@@ -61,7 +61,7 @@ const List = (props: Props) => {
                   <Icon icon='bx:trash' className='text-red-500' />
                 </button>
               )}
-              <button onClick={handleUpdateList} className='icon-btn'>
+              <button onClick={handleUpdateList} className='icon-btn hover:bg-c-4'>
                 <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
               </button>
             </div>

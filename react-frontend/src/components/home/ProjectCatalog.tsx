@@ -3,15 +3,20 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
+import { selectAuthUser } from '../../api/auth.endpoint';
 import { useProjectsQuery } from '../../api/project.endpoint';
 import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
 
 const ProjectCatalog = () => {
   const { data: projects, error } = useProjectsQuery(11);
+  const { authUser } = selectAuthUser();
   const [isOpen, setIsOpen] = useState(false);
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  console.log(error);
+
+  if (!authUser) return null;
 
   return (
     <>
@@ -36,9 +41,9 @@ const ProjectCatalog = () => {
           <div className='grow px-2'>Description</div>
           <div className='w-52 px-2'>Lead</div>
         </div>
-        <div className='mt-1 border-b-2 border-c-4'>
+        <div className='mt-1 border-t-2 border-c-4'>
           {projects?.map((data, i) => (
-            <ProjectRow key={data.id} idx={i} {...data} />
+            <ProjectRow key={data.id} idx={i} authUserId={authUser.id} {...data} />
           ))}
         </div>
       </div>

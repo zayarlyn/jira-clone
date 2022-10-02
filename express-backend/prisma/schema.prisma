@@ -28,7 +28,7 @@ model Member {
   id        Int      @id @default(autoincrement())
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
-  Project   Project? @relation(fields: [projectId], references: [id])
+  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int?
   User      User?    @relation(fields: [userId], references: [id])
   userId    Int?
@@ -55,7 +55,7 @@ model List {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   issues    Issue[]
-  Project   Project? @relation(fields: [projectId], references: [id])
+  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId Int?
 }
 

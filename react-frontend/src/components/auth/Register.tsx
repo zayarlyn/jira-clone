@@ -6,7 +6,7 @@ import Form from './Form';
 const Register = () => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting: loading },
     handleSubmit,
   } = useForm();
 
@@ -14,7 +14,11 @@ const Register = () => {
     <div className='bg-white w-[22rem] rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Get Started</h3>
       <h4 className='text-center mb-5 text-[15px] text-gray-600'>Free for testing</h4>
-      <Form type='SIGNUP' onSubmit={registerUser} {...{ errors, handleSubmit, register }} />
+      <Form
+        type='SIGNUP'
+        onSubmit={registerUser}
+        {...{ errors, handleSubmit, register, loading }}
+      />
       <div className='flex items-center'>
         <hr className='border-t-[.5px] grow border-gray-400' />
         <span className='text-center block my-3 bg-white w-fit px-2'>OR</span>

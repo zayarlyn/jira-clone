@@ -22,11 +22,9 @@ function ChangePwd() {
     }
   };
 
-  console.log(errors);
-
   return (
     <>
-      <h2 className='text-c-text-1 mt-10 text-2xl'>Reset Password</h2>
+      <h2 className='text-c-text-1 mt-10 text-2xl'>Change Password</h2>
       {success && !error ? (
         <div className='grid place-items-center font-semibold h-40 mt-5 text-c-text-1 text-xl text-center'>
           Password changed successfully 🚀

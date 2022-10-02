@@ -17,12 +17,13 @@ interface Props {
   onSubmit: (body: {}) => Promise<any>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   type: 'LOGIN' | 'SIGNUP';
+  loading: boolean;
 }
 
 type APIERROR = { message: string };
 
 function Form(props: Props) {
-  const { register, onSubmit, handleSubmit, errors, type } = props;
+  const { register, onSubmit, handleSubmit, errors, loading, type } = props;
   const [error, setError] = useState('');
 
   const submit = handleSubmit(async (form) => {
@@ -80,7 +81,13 @@ function Form(props: Props) {
         <span className='text-blue-800'> Privacy Policy.</span>
       </span>
       <button type='submit' className='btn w-full mt-4 py-2 bg-[#321898]'>
-        {type === 'SIGNUP' ? 'Join now' : 'Log In'}
+        {type === 'SIGNUP'
+          ? loading
+            ? 'registering ...'
+            : 'Join now'
+          : loading
+          ? 'logging in ...'
+          : 'Log In'}
       </button>
     </form>
   );

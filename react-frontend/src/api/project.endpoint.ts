@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { CreateProject, EditProject, Project } from './apiTypes';
+import type { CreateProject, EditProject, LeaveProject, Project } from './apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,6 +16,23 @@ export const extendedApi = api.injectEndpoints({
     }),
     createProject: builder.mutation<Project, CreateProject>({
       query: (body) => ({ url: 'project/create', method: 'POST', body, credentials: 'include' }),
+      invalidatesTags: ['Project'],
+    }),
+    deleteProject: builder.mutation<void, number>({
+      query: (projectId) => ({
+        url: `project/${projectId}/delete`,
+        method: 'DELETE',
+        credentials: 'include',
+      }),
+      invalidatesTags: ['Project'],
+    }),
+    leaveProject: builder.mutation<void, LeaveProject>({
+      query: ({ projectId, ...body }) => ({
+        url: `project/${projectId}/leave`,
+        method: 'DELETE',
+        body,
+        credentials: 'include',
+      }),
       invalidatesTags: ['Project'],
     }),
     updateProject: builder.mutation<void, EditProject>({
@@ -36,6 +53,8 @@ export const {
   useProjectQuery,
   useCreateProjectMutation,
   useUpdateProjectMutation,
+  useLeaveProjectMutation,
+  useDeleteProjectMutation,
 } = extendedApi;
 
 // selectors

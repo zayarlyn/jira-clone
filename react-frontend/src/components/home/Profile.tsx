@@ -26,7 +26,7 @@ const Profile = () => {
             onClick={() => setIsNormal((p) => !p)}
             className='text-center text-c-text-1 underline mt-5'
           >
-            {isNormal ? 'Change password' : 'Cancel'}
+            {isNormal ? 'Change password' : 'Go back'}
           </button>
           <div className='mt-auto w-full text-c-6'>
             <Metadata text='Last logged In' date={u.lastLoggedIn} />

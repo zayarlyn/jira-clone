@@ -76,6 +76,12 @@ export interface Project {
 
 export type CreateProject = Omit<Project, 'id'>;
 
+export interface LeaveProject {
+  projectId: number;
+  userId: number;
+  memberId: number;
+}
+
 export interface PublicUser {
   id: number;
   username: string;

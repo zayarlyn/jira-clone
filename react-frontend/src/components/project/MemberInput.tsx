@@ -54,6 +54,7 @@ const MemberInput = ({ projectId }: Props) => {
             {members
               ? members.map(({ username, id, isAdmin }, idx) => (
                   <div
+                    key={id}
                     onClick={() => setSelectedIdx(isAdmin ? null : idx)}
                     className={`px-2 tracking-wide font-semibold text-sm border-[1px]  ${
                       isAdmin

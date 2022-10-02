@@ -5,7 +5,6 @@ import type { CreateProject } from '../../api/apiTypes';
 import { useCreateProjectMutation } from '../../api/project.endpoint';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
-import { motion } from 'framer-motion';
 import Model from '../util/Model';
 
 interface Props {

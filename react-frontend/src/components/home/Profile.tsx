@@ -19,7 +19,7 @@ const Profile = () => {
           {isNormal ? (
             <UpdateProfile user={u} />
           ) : (
-            <Suspense fallback={null}>
+            <Suspense>
               <ChangePwd />
             </Suspense>
           )}

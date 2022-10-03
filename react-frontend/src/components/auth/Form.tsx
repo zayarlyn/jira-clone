@@ -71,6 +71,7 @@ function Form(props: Props) {
           })}
           error={errors.pwd as FieldError}
           inputClass='border-gray-500'
+          type='password'
         />
       </div>
       {error && <span className='text-red-400 block mt-3'>{error}</span>}

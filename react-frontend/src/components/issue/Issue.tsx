@@ -36,7 +36,7 @@ const Issue = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <Suspense fallback={null}>
+        <Suspense>
           <IssueModelHOC
             children={IssueDetailModal}
             onClose={() => setIsOpen(false)}

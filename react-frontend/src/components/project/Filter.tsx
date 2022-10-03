@@ -72,7 +72,7 @@ function Filter(props: Props) {
         <button className='btn-crystal' onClick={() => setIssueQueryData({ userId: authUser.id })}>
           Only my issues
         </button>
-        <button className='btn-crystal'>Completed Issue</button>
+        {/* <button className='btn-crystal'>Completed Issue</button> */}
         <Divider my={1} h={6} orientation='vertical' />
         {uid && (
           <button className='btn-crystal' onClick={() => setIssueQueryData({})}>
@@ -83,7 +83,7 @@ function Filter(props: Props) {
           Create an issue
         </button>
         {isOpen && !isEmpty && (
-          <Suspense fallback={null}>
+          <Suspense>
             <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
           </Suspense>
         )}

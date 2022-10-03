@@ -1,11 +1,14 @@
+import { lazy, Suspense } from 'react';
 import { Icon } from '@iconify/react';
+const LogIn = lazy(() => import('../auth/Login'));
+const Register = lazy(() => import('../auth/Register'));
 
 interface Props {
-  children: () => JSX.Element;
+  type: 'LOGIN' | 'REGISTER';
 }
 
 const Welcome = (props: Props) => {
-  const { children: Component } = props;
+  const { type } = props;
   return (
     <div className='flex w-full items-center h-sreen min-h-fit bg-gradient-to-r from-[#151642] to-[#321898]'>
       <div className='w-1/2 text-white tracking-wide'>
@@ -30,7 +33,7 @@ const Welcome = (props: Props) => {
         </div>
       </div>
       <div className='w-1/2'>
-        <Component />
+        <Suspense>{type === 'LOGIN' ? <LogIn /> : <Register />}</Suspense>
       </div>
     </div>
   );

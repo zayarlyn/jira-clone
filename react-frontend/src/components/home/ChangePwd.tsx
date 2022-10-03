@@ -41,6 +41,7 @@ function ChangePwd() {
               })}
               error={errors.oldPwd as FieldError}
               darkEnabled
+              type='password'
             />
             <InputWithValidation
               label='New password'
@@ -52,6 +53,7 @@ function ChangePwd() {
               })}
               error={errors.newPwd as FieldError}
               darkEnabled
+              type='password'
             />
           </div>
           {error && <span className='text-red-400 block mt-4 text-left'>{error}</span>}

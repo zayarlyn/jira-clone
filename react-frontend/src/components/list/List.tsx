@@ -74,7 +74,7 @@ const List = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <Suspense fallback={null}>
+        <Suspense>
           <ConfirmModel
             onClose={() => setIsOpen(false)}
             onSubmit={() => deleteList({ listId: id, projectId })}

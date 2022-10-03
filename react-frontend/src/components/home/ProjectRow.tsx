@@ -49,7 +49,7 @@ const ProjectRow = (props: Props) => {
         </button>
       </div>
       {on && publicUser && (
-        <Suspense fallback={null}>
+        <Suspense>
           <DeleteProject
             projectId={id}
             {...{ name, authUserId, memberId, isAdmin }}

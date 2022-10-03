@@ -15,8 +15,6 @@ export interface List {
   name: string;
   order: number;
   projectId: number;
-  // createdAt: string;
-  // updatedAt: string;
 }
 
 export interface CreateList {
@@ -52,7 +50,6 @@ export interface Assignee {
   userId: number;
   issueId: number;
   projectId: number;
-  // createdAt: string
 }
 
 export interface Member {
@@ -63,7 +60,6 @@ export interface Member {
   isAdmin: boolean;
   projectId: number;
   userId: number;
-  // createdAt: string
 }
 
 export interface Project {

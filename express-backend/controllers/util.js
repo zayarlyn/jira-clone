@@ -41,4 +41,6 @@ const updateOrder = async ({ id, order, type, model }) => {
   });
 };
 
+exports.badRequest = (res) => res.status(400).end();
+
 module.exports = { sameContainerReorder, diffContainerReorder };

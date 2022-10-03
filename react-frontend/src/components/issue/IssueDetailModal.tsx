@@ -151,7 +151,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
           </div>
         </div>
         {isOpen && (
-          <Suspense fallback={null}>
+          <Suspense>
             <ConfirmModel
               onClose={() => setIsOpen(false)}
               onSubmit={() => deleteIssue({ issueId: id, projectId })}

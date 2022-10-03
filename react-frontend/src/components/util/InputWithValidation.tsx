@@ -2,6 +2,7 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 const InputWithValidation = (props: Props) => {
   const {
+    darkEnabled = false,
     register,
     error,
     placeholder,
@@ -9,8 +10,8 @@ const InputWithValidation = (props: Props) => {
     defaultValue,
     readOnly,
     autoFocus,
-    darkEnabled = false,
     inputClass,
+    type,
   } = props;
   return (
     <div>
@@ -24,7 +25,7 @@ const InputWithValidation = (props: Props) => {
             ? 'hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text'
             : 'bg-slate-100 hover:border-gray-400'
         } ${inputClass ?? ' border-transparent'} ${readOnly ? 'pointer-events-none' : ''}`}
-        {...{ placeholder, readOnly, autoFocus }}
+        {...{ placeholder, readOnly, autoFocus, type }}
         {...register}
       />
       <span className='text-[13px] text-red-400'>{error?.message?.toString()}</span>
@@ -44,4 +45,5 @@ type Props = {
   autoFocus?: boolean;
   darkEnabled?: boolean;
   inputClass?: string;
+  type?: string;
 };

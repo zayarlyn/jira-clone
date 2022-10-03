@@ -25,6 +25,7 @@ const MemberInput = ({ projectId }: Props) => {
     const member = members[selectedIdx];
     removeMember({ projectId, memberId: member.id, userId: member.userId });
     setSelectedIdx(null);
+    setIsOpen(false);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,7 +111,7 @@ const MemberInput = ({ projectId }: Props) => {
         )}
       </div>
       {isOpen && (
-        <Suspense fallback={null}>
+        <Suspense>
           <ConfirmModel
             msg={'remove ' + members?.[selectedIdx as number].username}
             onClose={() => setIsOpen(false)}

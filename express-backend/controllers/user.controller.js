@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcrypt');
 
 const client = new PrismaClient();
 
@@ -19,6 +20,15 @@ exports.getAuthUser = async (req, res) => {
 exports.updateAuthUser = async (req, res) => {
   const user = await client.user.update({ where: { id: req.user.uid }, data: req.body });
   res.json(user).end();
+};
+
+exports.deleteAuthUser = async (req, res) => {
+  const { pwd } = req.body;
+  const user = await client.user.findFirst({ where: { id: req.user.uid } });
+  const isValidPwd = await bcrypt.compare(pwd, user.pwd);
+  if (!isValidPwd) return res.status(401).json({ message: 'password is incorrect :(' }).end();
+  const result = await client.user.delete({ where: { id: req.user.uid } });
+  res.clearCookie('jira-clone').json(result).end();
 };
 
 exports.getUser = async (req, res) => {

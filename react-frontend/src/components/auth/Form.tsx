@@ -7,6 +7,7 @@ import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
+import { APIERROR } from '../../api/apiTypes';
 import InputWithValidation from '../util/InputWithValidation';
 
 interface Props {
@@ -19,8 +20,6 @@ interface Props {
   type: 'LOGIN' | 'SIGNUP';
   loading: boolean;
 }
-
-type APIERROR = { message: string };
 
 function Form(props: Props) {
   const { register, onSubmit, handleSubmit, errors, loading, type } = props;

@@ -10,7 +10,7 @@ exports.getProjects = async (req, res) => {
   const projectIds = members.map(({ projectId: pid }) => pid);
   const projects = await client.project.findMany({
     where: { id: { in: projectIds } },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { updatedAt: 'asc' },
   });
   res.json(projects).end();
 };

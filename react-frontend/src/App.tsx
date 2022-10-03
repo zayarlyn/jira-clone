@@ -9,6 +9,7 @@ import Project from './components/project/Project';
 import Home from './components/home/Home';
 import Register from './components/auth/Register';
 import { getTheme } from './utils';
+import Adios from './components/auth/Adios';
 
 function App() {
   const [theme, setTheme] = useState(getTheme());
@@ -28,8 +29,9 @@ function App() {
               <Route path=':projectId' element={<Setting />} />
               <Route path=':projectId/board' element={<Project />} />
             </Route>
-            <Route path='/register/*' element={<Welcome children={Register} />} />
-            <Route path='/login/*' element={<Welcome children={LogIn} />} />
+            <Route path='/register' element={<Welcome children={Register} />} />
+            <Route path='/login' element={<Welcome children={LogIn} />} />
+            <Route path='/adios' element={<Adios />} />
             <Route path='/' element={<Navigate to='/project' />} />
           </Routes>
         </BrowserRouter>

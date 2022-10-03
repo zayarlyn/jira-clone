@@ -1,5 +1,6 @@
 import { Avatar, ChakraProvider as CP } from '@chakra-ui/react';
 import { lazy, memo, Suspense, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../api/auth.endpoint';
 import UpdateProfile from './UpdateProfile';
 const ChangePwd = lazy(() => import('./ChangePwd'));
@@ -32,6 +33,9 @@ const Profile = () => {
             <Metadata text='Last logged In' date={u.lastLoggedIn} />
             <Metadata text='Joined At' date={u.createdAt} />
           </div>
+          <Link to='/adios' className='btn-alert w-full mt-3 text-center'>
+            Delete account
+          </Link>
         </>
       ) : null}
     </div>

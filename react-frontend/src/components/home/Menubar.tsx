@@ -3,15 +3,12 @@ import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import BtnWithIcon from '../util/BtnWithIcon';
 import { useProjectQuery } from '../../api/project.endpoint';
-import { useParams, Navigate } from 'react-router-dom';
-import type { APIERROR } from '../../api/apiTypes';
+import { useParams } from 'react-router-dom';
 
 const Menubar = () => {
-  const { projectId } = useParams();
+  const projectId = Number(useParams().projectId);
   const [on, setOn] = useState(true);
-  const { data: project, error } = useProjectQuery(Number(projectId) ?? -1);
-
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  const { data: project } = useProjectQuery(projectId, { skip: !projectId });
 
   return (
     <motion.div
@@ -20,7 +17,7 @@ const Menubar = () => {
       transition={{ type: 'tween' }}
       className='relative bg-c-2'
     >
-      {projectId && (
+      {projectId ? (
         <div className='h-full w-[15rem] bg-c-2 px-4 py-6'>
           <div className='flex'>
             <div className='h-10 w-10 shrink-0 bg-cyan-500'></div>
@@ -44,7 +41,7 @@ const Menubar = () => {
           <hr className='border-t-[.5px] border-gray-400' />
           <div className='my-5'></div>
         </div>
-      )}
+      ) : null}
       <button
         onClick={() => setOn((p) => !p)}
         className={`group peer absolute -right-[14px] z-[20] top-8 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text-100 bg-c-1 hover:border-secondary hover:bg-secondary ${

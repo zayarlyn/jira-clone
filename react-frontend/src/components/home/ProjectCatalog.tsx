@@ -48,7 +48,7 @@ const ProjectCatalog = () => {
           </div>
         ) : (
           <div className='text-3xl grid place-items-center mt-[30vh]'>
-            You haven't created or joined any project yet!! 🚀
+            You haven't created any project yet!! 🚀
           </div>
         )}
       </div>

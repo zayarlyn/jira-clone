@@ -1,11 +1,12 @@
 import { lazy, useState } from 'react';
 import { Avatar, ChakraProvider as CP, Switch } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
 import type { Theme } from '../../utils';
+import { APIERROR } from '../../api/apiTypes';
 const Profile = lazy(() => import('./Profile'));
 
 interface Props {
@@ -18,9 +19,11 @@ function Sidebar(props: Props) {
     theme: { mode },
     toggleTheme,
   } = props;
-  const { data: authUser } = useAuthUserQuery();
+  const { data: authUser, error } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   const handleToggle = () => {
     toggleTheme();

@@ -43,7 +43,7 @@ model Project {
   updatedAt DateTime   @updatedAt
   members   Member[]
   lists     List[]
-  User      User?      @relation(fields: [userId], references: [id])
+  User      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int?
   assignees Assignee[]
 }

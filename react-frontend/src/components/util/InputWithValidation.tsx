@@ -14,16 +14,16 @@ const InputWithValidation = (props: Props) => {
   } = props;
   return (
     <div>
-      <label className={`text-sm tracking-wide ${darkEnabled ? 'text-c-6' : 'text-gray-800'}`}>
+      <label className={`text-sm tracking-wide ${darkEnabled ? 'text-c-5' : 'text-gray-800'}`}>
         {label}
       </label>
       <input
         defaultValue={defaultValue ?? ''}
         className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none ${
           darkEnabled
-            ? 'hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
+            ? 'hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text'
             : 'bg-slate-100 hover:border-gray-400'
-        } ${inputClass ?? ' border-transparent'}`}
+        } ${inputClass ?? ' border-transparent'} ${readOnly ? 'pointer-events-none' : ''}`}
         {...{ placeholder, readOnly, autoFocus }}
         {...register}
       />

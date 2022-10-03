@@ -35,7 +35,7 @@ const List = (props: Props) => {
         index={idx}
         draggableId={'list-' + id}
       >
-        <div className='relative mr-3 bg-c-2 p-3 shadow-list text-c-6'>
+        <div className='relative mr-3 bg-c-2 p-3 shadow-list text-c-5'>
           <div className='mb-4 text-[15px] flex justify-between items-center'>
             <div className='flex item-center'>
               <div className='relative'>
@@ -53,7 +53,7 @@ const List = (props: Props) => {
                 )}
               </div>
               <span className='mx-2 text-gray-500'>|</span>
-              <span className='font-bold text-c-5 pt-[1px]'>{issues ? issues.length : 0}</span>
+              <span className='font-bold text-c-4 pt-[1px]'>{issues ? issues.length : 0}</span>
             </div>
             <div className='flex gap-2'>
               {isEditing && (
@@ -61,7 +61,7 @@ const List = (props: Props) => {
                   <Icon icon='bx:trash' className='text-red-500' />
                 </button>
               )}
-              <button onClick={handleUpdateList} className='icon-btn hover:bg-c-4'>
+              <button onClick={handleUpdateList} className='icon-btn hover:bg-c-3'>
                 <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
               </button>
             </div>

@@ -19,7 +19,7 @@ const ProjectCatalog = () => {
 
   return (
     <>
-      <div className='bg-c-1 text-c-6 w-full pt-12 px-10 z-10'>
+      <div className='bg-c-1 text-c-5 w-full pt-12 px-10 z-10'>
         <div className='flex justify-between'>
           <span className='text-2xl tracking-wide font-semibold'>Projects</span>
           <button onClick={() => setIsOpen(true)} className='btn'>
@@ -41,7 +41,7 @@ const ProjectCatalog = () => {
           <div className='w-52 px-2'>Lead</div>
         </div>
         {projects && projects.length !== 0 ? (
-          <div className='mt-1 border-t-2 border-c-4'>
+          <div className='mt-1 border-t-2 border-c-3'>
             {projects.map((data, i) => (
               <ProjectRow key={data.id} idx={i} authUserId={authUser.id} {...data} />
             ))}

@@ -31,7 +31,7 @@ const ProjectRow = (props: Props) => {
     <div>
       <div
         key={id}
-        className='flex border-c-4 border-y-2 relative group border-t-transparent py-1 cursor-pointer hover:border-blue-400 hover:border-t-2'
+        className='flex border-c-3 border-y-2 relative group border-t-transparent py-1 cursor-pointer hover:border-blue-400 hover:border-t-2'
         onClick={() => navigate(id + '/board')}
       >
         <div className='text-center w-8'>{idx + 1}</div>

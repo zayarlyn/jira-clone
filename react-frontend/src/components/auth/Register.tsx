@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import axiosDf from '../../api/axios';
 import Form from './Form';
 
 const Register = () => {
@@ -34,8 +34,6 @@ const Register = () => {
 export default Register;
 
 const registerUser = async (body: {}) => {
-  const result = await axios.post('http://localhost:5000/auth/register', body, {
-    withCredentials: true,
-  });
+  const result = await axiosDf.post('auth/register', body);
   return result.data;
 };

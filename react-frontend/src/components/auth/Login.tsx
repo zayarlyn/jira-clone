@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { FieldValues, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import axiosDf from '../../api/axios';
 import Form from './Form';
 
 const LogIn = () => {
@@ -30,8 +30,6 @@ const LogIn = () => {
 export default LogIn;
 
 const logIn = async (body: FieldValues) => {
-  const result = await axios.post('http://localhost:5000/auth/login', body, {
-    withCredentials: true,
-  });
+  const result = await axiosDf.post('auth/login', body);
   return result.data;
 };

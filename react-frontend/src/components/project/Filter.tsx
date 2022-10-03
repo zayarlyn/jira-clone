@@ -47,7 +47,7 @@ function Filter(props: Props) {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
-    <div className='mb-8 flex min-w-fit items-center px-10 text-c-6'>
+    <div className='mb-8 flex min-w-fit items-center px-10 text-c-5'>
       <CP>
         <InputGroup size='sm' minW={160} w={160}>
           <InputLeftElement children={<IconIfy width={20} icon='ant-design:search-outlined' />} />

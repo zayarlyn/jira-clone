@@ -1,10 +1,10 @@
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import InputWithValidation from '../util/InputWithValidation';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
-import { useState } from 'react';
 
 function Adios() {
   const {
@@ -67,6 +67,13 @@ function Adios() {
             {submitError && <span className='text-red-500'>{submitError}</span>}
             <button className='btn mt-2 w-full'>
               {loading ? 'deleting ...' : 'Delete my account'}
+            </button>
+            <button
+              type='button'
+              onClick={() => navigate(-1)}
+              className='btn-crystal w-full hover:bg-slate-100 mt-3 underline'
+            >
+              go back
             </button>
           </div>
         </form>

@@ -1,6 +1,5 @@
-import { Badge, ChakraProvider } from '@chakra-ui/react';
-import { Icon } from '@iconify/react';
 import { Dispatch, useEffect, useState } from 'react';
+import { Icon } from '@iconify/react';
 import { A, T } from '../issue/CreateIssueModal';
 import Item from './Item';
 
@@ -13,27 +12,18 @@ type Prop = {
   actionType: T;
 };
 
-const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
-
-const DropDown = (props: Prop) => {
-  const { list, defaultValue, type, variant = 'normal', dispatch, actionType } = props;
+function DropDown(props: Prop) {
+  const { list, defaultValue: dv, type, variant = 'normal', dispatch, actionType } = props;
   const isMulti = type === 'multiple';
   const [localList, setLocalList] = useState<Category[]>(
-    isMulti
-      ? defaultValue
-        ? list.filter(
-            ({ value }) => !(defaultValue as Category[]).some(({ value: v }) => v === value)
-          )
-        : list.slice(1)
-      : list
+    isMulti ? (dv ? multiDefault(list, dv as Category[]) : list.slice(1)) : list
   );
-  const [current, setCurrent] = useState<Category[] | number>(
-    defaultValue || (isMulti ? [list[0]] : 0)
-  );
+
+  const [current, setCurrent] = useState<Category[] | number>(dv || (isMulti ? [list[0]] : 0));
   const [on, setOn] = useState(false);
 
   useEffect(() => {
-    if (defaultValue !== undefined) return;
+    if (dv !== undefined) return;
     const initialValue = list[0].value;
     dispatch({ type: actionType, value: isMulti ? [initialValue] : initialValue });
   }, []);
@@ -79,36 +69,20 @@ const DropDown = (props: Prop) => {
           <div className='flex gap-2 flex-wrap'>
             {isMulti && typeof current === 'object' ? (
               current.length > 0 ? (
-                <ChakraProvider>
-                  {current.map((props, i) => (
-                    <Badge
-                      key={props.value}
-                      variant='outline'
-                      display='flex'
-                      alignItems='center'
-                      colorScheme='blue'
-                      columnGap={2}
-                      py={0.5}
-                      px={2}
-                      textColor='black'
-                      _hover={{ bg: 'highlight' }}
-                      onClick={(e) => handleDelete(e, i)}
-                    >
-                      <Item className='mr-3 w-5 h-5 object-cover rounded-full' {...props} />
-                      <Icon className='text-black' icon='akar-icons:cross' />
-                    </Badge>
-                  ))}
-                </ChakraProvider>
+                current.map((props, i) => (
+                  <div
+                    className='flex items-center gap-2 border-[1.5px] border-blue-500 px-2 hover:border-green-500'
+                    onClick={(e) => handleDelete(e, i)}
+                  >
+                    <Item className='mr-3 w-5 h-5 object-cover rounded-full' {...props} />
+                    <Icon className='text-black' icon='akar-icons:cross' />
+                  </div>
+                ))
               ) : (
                 <>Select</>
               )
             ) : (
-              <Item
-                className={
-                  type === 'normal' ? 'mr-4 w-4 h-4' : 'mr-4 w-6 h-6 object-cover rounded-full'
-                }
-                {...list[current as number]}
-              />
+              <Item className={itemClass(type)} {...list[current as number]} />
             )}
           </div>
           <Icon
@@ -122,16 +96,11 @@ const DropDown = (props: Prop) => {
           {localList.length > 0 ? (
             localList.map((props, idx) => (
               <li
-                key={props.value}
-                onClick={(isMulti ? handleSelect : handleClick)(idx)}
                 className='px-4 py-2 hover:bg-[#e2e8f0] cursor-pointer'
+                onClick={(isMulti ? handleSelect : handleClick)(idx)}
+                key={props.value}
               >
-                <Item
-                  className={
-                    type === 'normal' ? 'mr-4 w-4 h-4' : 'mr-4 w-6 h-6 object-cover rounded-full'
-                  }
-                  {...props}
-                />
+                <Item className={itemClass(type)} {...list[current as number]} {...props} />
               </li>
             ))
           ) : (
@@ -141,16 +110,24 @@ const DropDown = (props: Prop) => {
       )}
     </div>
   );
-};
+}
 
 export default DropDown;
 
 export type Category = { text: string; icon?: string; value: number };
 
-// helper
+// helpers
 const modifyItems = (idx: number, list: Category[], resultList: Category[]) => {
   const clone = list.slice(0);
   const deleted = clone.splice(idx, 1)[0];
   const result = [...resultList, deleted];
   return [clone, result];
 };
+
+const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
+
+const multiDefault = (list: Category[], dv: Category[]) =>
+  list.filter(({ value: V }) => !(dv as Category[]).some(({ value: v }) => v === V));
+
+const itemClass = (type: string) =>
+  type === 'normal' ? 'mr-4 w-4 h-4' : 'mr-4 w-6 h-6 object-cover rounded-full';

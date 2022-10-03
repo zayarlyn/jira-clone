@@ -1,7 +1,8 @@
-import { FieldError, FieldValues, useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
-import InputWithValidation from '../util/InputWithValidation';
 import { useState } from 'react';
+import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import type { AxiosError } from 'axios';
+import InputWithValidation from '../util/InputWithValidation';
+import axiosDf from '../../api/axios';
 
 type APIERROR = { message: string };
 
@@ -24,9 +25,9 @@ function ChangePwd() {
 
   return (
     <>
-      <h2 className='text-c-text-1 mt-10 text-2xl'>Change Password</h2>
+      <h2 className='text-c-text mt-10 text-2xl'>Change Password</h2>
       {success && !error ? (
-        <div className='grid place-items-center font-semibold h-40 mt-5 text-c-text-1 text-xl text-center'>
+        <div className='grid place-items-center font-semibold h-40 mt-5 text-c-text text-xl text-center'>
           Password changed successfully 🚀
         </div>
       ) : (
@@ -66,8 +67,6 @@ function ChangePwd() {
 export default ChangePwd;
 
 async function changePwd(body: FieldValues) {
-  const result = await axios.put('http://localhost:5000/auth/changePwd', body, {
-    withCredentials: true,
-  });
+  const result = await axiosDf.put('auth/changePwd', body);
   return result.data;
 }

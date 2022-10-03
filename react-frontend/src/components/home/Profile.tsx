@@ -10,7 +10,7 @@ const Profile = () => {
   const { authUser: u } = selectAuthUser();
 
   return (
-    <div className='w-[320px] flex flex-col items-center bg-c-1 border-r-2 border-c-4 h-full p-6'>
+    <div className='w-[320px] flex flex-col items-center bg-c-1 border-r-2 border-c-3 h-full p-6'>
       {u ? (
         <>
           <CP>
@@ -25,11 +25,11 @@ const Profile = () => {
           )}
           <button
             onClick={() => setIsNormal((p) => !p)}
-            className='text-center text-c-text-1 underline mt-5'
+            className='text-center text-c-text underline mt-5'
           >
             {isNormal ? 'Change password' : 'Go back'}
           </button>
-          <div className='mt-auto w-full text-c-6'>
+          <div className='mt-auto w-full text-c-5'>
             <Metadata text='Last logged In' date={u.lastLoggedIn} />
             <Metadata text='Joined At' date={u.createdAt} />
           </div>

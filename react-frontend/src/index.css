@@ -2,49 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --very-pale-blue: #edf2f7;
-  --pale-blue: #dbeafe;
-  --very-pale-gray: #444;
-  --pale-gray: #555;
-}
-
 .light-theme {
   --c-1: #fff;
   --c-2: #f4f5f7;
-  --c-5: #ebecf0;
-  --c-4: #ddd;
-  --c-7: #edf2f7;
-  --c-8: #dbeafe;
-  --c-9: #fff;
-  --c-text-1: #172b4d;
+  --c-4: #ebecf0;
+  --c-3: #ddd;
+  --c-6: #edf2f7;
+  --c-7: #dbeafe;
+  --c-text: #172b4d;
   --primary: #3920a9;
   --secondary: #439aff;
-  --c-6: #000;
+  --c-5: #000;
 }
 
 .dark-theme {
   --c-1: #222;
   --c-2: #363737;
-  --c-9: #222;
-  --c-text-1: #e2e2e2;
-  --c-4: #888;
-  --c-6: #fff;
-  --c-5: #ebecf0;
-  --c-7: #555;
-  --c-8: #444;
+  --c-text: #e2e2e2;
+  --c-3: #888;
+  --c-5: #fff;
+  --c-4: #ebecf0;
+  --c-6: #555;
+  --c-7: #444;
   --primary: #3920a9;
   --secondary: #439aff;
 }
 
-/* --c-text-1: #172b4d; */
+/* --c-text: #172b4d; */
 
 @layer components {
   .btn {
     @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 whitespace-nowrap;
   }
   .btn-crystal {
-    @apply px-3 py-1 rounded-[3px] hover:bg-c-7 active:bg-c-8;
+    @apply px-3 py-1 rounded-[3px] hover:bg-c-6 active:bg-c-7;
   }
   .btn-alert {
     @apply px-3 py-1 rounded-[3px] bg-red-500 text-white hover:bg-red-600 active:bg-red-700 whitespace-nowrap;

@@ -33,7 +33,7 @@ const CreateProjectModel = (props: Props) => {
     <Model onClose={onClose} onSubmit={handleSubmit(handleCreateProject)}>
       <>
         <div className='mb-8'>
-          <span className='font-[600] text-[22px] text-c-text-1'>Create Project</span>
+          <span className='font-[600] text-[22px] text-c-text'>Create Project</span>
         </div>
         <div className='flex flex-col gap-4'>
           <InputWithValidation
@@ -61,14 +61,14 @@ const CreateProjectModel = (props: Props) => {
         {authUser && (
           <WithLabel label='Members'>
             <>
-              <div className='bg-c-7 mb-2 py-[2px] px-3 text-sm border-[1px] rounded-sm border-gray-300 text-c-text-1'>
+              <div className='bg-c-6 mb-2 py-[2px] px-3 text-sm border-[1px] rounded-sm border-gray-300 text-c-text'>
                 <Item
                   text={authUser.username}
                   icon={authUser.profileUrl}
                   className='w-6 h-6 mr-4 rounded-full object-cover'
                 />
               </div>
-              <span className='text-sm text-c-text-1'>
+              <span className='text-sm text-c-text'>
                 * you can add more members after creating the project *
               </span>
             </>

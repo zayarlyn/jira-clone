@@ -2,11 +2,11 @@ import { lazy, useState } from 'react';
 import { Avatar, ChakraProvider as CP, Switch } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
 import type { Theme } from '../../utils';
 import { APIERROR } from '../../api/apiTypes';
+import axiosDf from '../../api/axios';
 const Profile = lazy(() => import('./Profile'));
 
 interface Props {
@@ -82,8 +82,6 @@ function Sidebar(props: Props) {
 export default Sidebar;
 
 async function logOut() {
-  const result = await axios.post('http://localhost:5000/auth/logout', null, {
-    withCredentials: true,
-  });
+  const result = await axiosDf.post('auth/logout');
   return result.data;
 }

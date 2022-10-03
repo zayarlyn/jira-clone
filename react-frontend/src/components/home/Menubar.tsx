@@ -22,10 +22,10 @@ const Menubar = () => {
           <div className='flex'>
             <div className='h-10 w-10 shrink-0 bg-cyan-500'></div>
             <div className='ml-2 w-40'>
-              <span className='block text-sm font-medium truncate text-c-6'>
+              <span className='block text-sm font-medium truncate text-c-5'>
                 {project?.name ?? 'loading...'}
               </span>
-              <span className='text-[13px] text-c-text-1'>Project Planning</span>
+              <span className='text-[13px] text-c-text'>Project Planning</span>
             </div>
           </div>
           <div className='my-5'>
@@ -44,7 +44,7 @@ const Menubar = () => {
       ) : null}
       <button
         onClick={() => setOn((p) => !p)}
-        className={`group peer absolute -right-[14px] z-[20] top-8 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text-100 bg-c-1 hover:border-secondary hover:bg-secondary ${
+        className={`group peer absolute -right-[14px] z-[20] top-8 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text00 bg-c-1 hover:border-secondary hover:bg-secondary ${
           projectId && project ? '' : 'pointer-events-none'
         }`}
       >
@@ -53,7 +53,7 @@ const Menubar = () => {
           icon={on ? 'fa-solid:angle-left' : 'fa-solid:angle-right'}
         />
       </button>
-      <div className='absolute top-0 right-0 h-full w-[2px] bg-c-4 peer-hover:bg-secondary' />
+      <div className='absolute top-0 right-0 h-full w-[2px] bg-c-3 peer-hover:bg-secondary' />
     </motion.div>
   );
 };

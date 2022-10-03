@@ -1,8 +1,8 @@
 import { ChangeEvent, lazy, memo, Suspense, useState } from 'react';
-import axios from 'axios';
 import { selectMembers, useRemoveMemberMutation } from '../../api/member.endpoint';
 import { PublicUser } from '../../api/apiTypes';
 import UserMember from './UserMember';
+import axiosDf from '../../api/axios';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props {
@@ -41,12 +41,12 @@ const MemberInput = ({ projectId }: Props) => {
 
   return (
     <div>
-      <label className='text-sm tracking-wide text-c-6'>Members</label>
+      <label className='text-sm tracking-wide text-c-5'>Members</label>
       <input
         value={input}
         onChange={handleInputChange}
         placeholder='username'
-        className='block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
+        className='block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text'
       />
       <div className='relative'>
         <div>
@@ -73,7 +73,7 @@ const MemberInput = ({ projectId }: Props) => {
             <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
               <button
                 onClick={() => setSelectedIdx(null)}
-                className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text-1'
+                className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text'
               >
                 cancel
               </button>
@@ -125,8 +125,6 @@ const MemberInput = ({ projectId }: Props) => {
 export default memo(MemberInput);
 
 const searchUsers = async (q: string) => {
-  const result = await axios.get('http://localhost:5000/api/user/search?q=' + q, {
-    withCredentials: true,
-  });
+  const result = await axiosDf.get('api/user/search?q=' + q);
   return result.data;
 };

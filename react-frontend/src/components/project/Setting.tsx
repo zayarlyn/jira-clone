@@ -28,7 +28,7 @@ const Setting = () => {
   return (
     <ChakraProvider>
       <div className='mt-4 px-10'>
-        <h1 className='mb-4 text-xl font-semibold text-c-text-1'>Project Setting</h1>
+        <h1 className='mb-4 text-xl font-semibold text-c-text'>Project Setting</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={4} maxW={480}>
             <InputWithValidation

@@ -44,12 +44,16 @@ exports.deleteProject = async (req, res) => {
 };
 
 exports.leaveProject = async (req, res) => {
-  const { projectId } = req.customParams;
+  const projectId = +req.customParams.projectId;
   const { userId, memberId } = req.body;
-  const member = client.member.deleteMany({ where: { id: memberId } });
-  const assignee = client.assignee.deleteMany({
-    where: { AND: { userId: userId, projectId: +projectId } },
+  const member = client.member.delete({ where: { id: memberId } });
+  const assignees = client.assignee.deleteMany({ where: { userId, projectId } });
+  const relatedIssues = client.list.findMany({
+    where: { projectId },
+    select: { issues: { where: { reporterId: userId }, select: { id: true } } },
   });
-  await Promise.all([member, assignee]);
-  res.json({ message: 'The project is deleted successfully' }).end();
+  const [issues] = await Promise.all([relatedIssues, assignees, member]);
+  const issueIds = issues.reduce((t, { issues: i }) => t.concat(i), []).map(({ id }) => id);
+  await client.issue.deleteMany({ where: { id: { in: issueIds } } });
+  res.json({ message: 'You left from this project successfully' }).end();
 };

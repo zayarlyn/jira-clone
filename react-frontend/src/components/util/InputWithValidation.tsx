@@ -19,11 +19,11 @@ const InputWithValidation = (props: Props) => {
       </label>
       <input
         defaultValue={defaultValue ?? ''}
-        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent ${
+        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none ${
           darkEnabled
             ? 'hover:bg-c-8 focus:bg-c-1 bg-c-7 text-c-text-1'
             : 'bg-slate-100 hover:border-gray-400'
-        } ${inputClass ?? ''}`}
+        } ${inputClass ?? ' border-transparent'}`}
         {...{ placeholder, readOnly, autoFocus }}
         {...register}
       />

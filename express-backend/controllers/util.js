@@ -28,10 +28,7 @@ const diffContainerReorder = async ({ id, s: { sId, order }, d: { dId, newOrder 
   await model.create({
     data: { ...toBeDeleted, order: newOrder, listId: dId },
   });
-
-  const reattatchAssignees = Promise.all(
-    nullAssignees.map((data) => client.assignee.create({ data }))
-  );
+  const reattatchAssignees = client.assignee.createMany({ data: nullAssignees });
 
   return Promise.all([toBeUpdatedSource, toBeUpdatedTarget, reattatchAssignees]);
 };

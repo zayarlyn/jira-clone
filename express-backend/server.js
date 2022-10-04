@@ -14,7 +14,7 @@ const { restrictProjectMiddleware } = require('./utils/restrictProjectMiddleware
 
 const corOptions = {
   credentials: true,
-  origin: 'http://localhost:3000',
+  origin: 'https://jira-replica.netlify.app/project',
 };
 
 app.use(cors(corOptions));

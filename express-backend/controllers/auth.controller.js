@@ -74,12 +74,12 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 const generateJwt = (payload) =>
-  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+  jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '15d' });
 
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 
 const createCookie = (res, token) =>
   res.cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
-    expires: new Date(Date.now() + 900000),
+    expires: new Date(Date.now() + 1296000), // 15 days
   });

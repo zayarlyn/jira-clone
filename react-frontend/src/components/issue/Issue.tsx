@@ -9,7 +9,7 @@ const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
 const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
 
 const Issue = (props: Props) => {
-  const { listId, listIdx, idx, summary, id, type, priority, assignees } = props;
+  const { listId, listIdx, idx, summary, id, type, priority, assignees, isDragDisabled } = props;
   const [isOpen, setIsOpen] = useState(false);
   const projectId = Number(useParams().projectId);
   const { members } = selectMembers(projectId);
@@ -23,6 +23,7 @@ const Issue = (props: Props) => {
         className='mb-2 w-full rounded-sm bg-c-1 p-2 shadow-issue hover:bg-c-4'
         index={idx}
         draggableId={'issue-' + id}
+        isDragDisabled={isDragDisabled}
       >
         <div onClick={() => setIsOpen(true)}>
           <span className=''>{summary}</span>
@@ -54,4 +55,5 @@ interface Props extends JiraIssue {
   listId: number;
   listIdx: number;
   idx: number;
+  isDragDisabled: boolean;
 }

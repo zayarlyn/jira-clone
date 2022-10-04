@@ -16,6 +16,7 @@ const ProjectCatalog = () => {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   if (!authUser) return null;
+  console.log(projects);
 
   return (
     <>
@@ -40,17 +41,19 @@ const ProjectCatalog = () => {
           <div className='grow px-2'>Description</div>
           <div className='w-52 px-2'>Lead</div>
         </div>
-        {projects && projects.length !== 0 ? (
-          <div className='mt-1 border-t-2 border-c-3'>
-            {projects.map((data, i) => (
-              <ProjectRow key={data.id} idx={i} authUserId={authUser.id} {...data} />
-            ))}
-          </div>
-        ) : (
-          <div className='text-3xl grid place-items-center mt-[30vh]'>
-            You haven't created any project yet!! 🚀
-          </div>
-        )}
+        {projects ? (
+          projects.length !== 0 ? (
+            <div className='mt-1 border-t-2 border-c-3'>
+              {projects.map((data, i) => (
+                <ProjectRow key={data.id} idx={i} authUserId={authUser.id} {...data} />
+              ))}
+            </div>
+          ) : (
+            <div className='text-3xl grid place-items-center mt-[30vh]'>
+              You haven't created any project yet!! 🚀
+            </div>
+          )
+        ) : null}
       </div>
       {isOpen && <CreateProjectModel onClose={() => setIsOpen(false)} />}
     </>

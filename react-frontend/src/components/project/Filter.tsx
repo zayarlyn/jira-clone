@@ -21,6 +21,7 @@ const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 interface Props {
   issueQueryData: Omit<IssueQuery, 'projectId'>;
   setIssueQueryData: Dispatch<SetStateAction<Omit<IssueQuery, 'projectId'>>>;
+  setIsDragDisabled: Dispatch<SetStateAction<boolean>>;
   projectId: number;
   isEmpty: boolean;
 }
@@ -31,11 +32,14 @@ function Filter(props: Props) {
     setIssueQueryData,
     projectId,
     isEmpty,
+    setIsDragDisabled,
   } = props;
   const { data: members, error } = useMembersQuery(projectId);
   const { data: authUser } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
+
+  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   if (!authUser || !members) return null;
 
@@ -44,7 +48,10 @@ function Filter(props: Props) {
     setIsOpen(true);
   }
 
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
+  const handleSetQuery = (query: { userId?: number }) => () => {
+    setIssueQueryData(query);
+    setIsDragDisabled(!!query.userId);
+  };
 
   return (
     <div className='mb-8 flex min-w-fit items-center px-10 text-c-5'>
@@ -58,6 +65,7 @@ function Filter(props: Props) {
             <Avatar
               key={id}
               name={username}
+              title={username}
               src={profileUrl}
               h={'43px'}
               w={'43px'}
@@ -65,17 +73,17 @@ function Filter(props: Props) {
               transitionDuration='.2s'
               borderColor={userId === uid ? 'blue' : undefined}
               _hover={{ transform: 'translateY(-6px)' }}
-              onClick={() => setIssueQueryData({ userId })}
+              onClick={handleSetQuery({ userId })}
             />
           ))}
         </AvatarGroup>
-        <button className='btn-crystal' onClick={() => setIssueQueryData({ userId: authUser.id })}>
+        <button className='btn-crystal' onClick={handleSetQuery({ userId: authUser.id })}>
           Only my issues
         </button>
         {/* <button className='btn-crystal'>Completed Issue</button> */}
         <Divider my={1} h={6} orientation='vertical' />
         {uid && (
-          <button className='btn-crystal' onClick={() => setIssueQueryData({})}>
+          <button className='btn-crystal' onClick={handleSetQuery({})}>
             Clear all
           </button>
         )}

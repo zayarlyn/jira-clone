@@ -1,8 +1,9 @@
 import { Draggable } from '@hello-pangea/dnd';
 
-const DraggableWrapper = ({ children: CH, className, index, draggableId }: DROP) => {
+const DraggableWrapper = (props: DROP) => {
+  const { index, draggableId, isDragDisabled, className, children: CH } = props;
   return (
-    <Draggable {...{ index, draggableId }}>
+    <Draggable {...{ index, draggableId, isDragDisabled }}>
       {({ innerRef, dragHandleProps, draggableProps }) => (
         <div className={className} ref={innerRef} {...dragHandleProps} {...draggableProps}>
           {CH}
@@ -19,4 +20,5 @@ type DROP = {
   className?: string;
   draggableId: string;
   index: number;
+  isDragDisabled: boolean;
 };

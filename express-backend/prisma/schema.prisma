@@ -3,11 +3,13 @@
 
 generator client {
   provider = "prisma-client-js"
+  // previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_DEV")
+  // referentialIntegrity = "prisma"
 }
 
 model User {
@@ -24,16 +26,6 @@ model User {
   projects     Project[]
 }
 
-model Member {
-  id        Int      @id @default(autoincrement())
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int?
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
-}
-
 model Project {
   id        Int        @id @default(autoincrement())
   name      String
@@ -46,6 +38,16 @@ model Project {
   User      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int?
   assignees Assignee[]
+}
+
+model Member {
+  id        Int      @id @default(autoincrement())
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 model List {

@@ -43,14 +43,14 @@ function Sidebar(props: Props) {
   return (
     <div className='flex shrink-0'>
       <div className='flex flex-col justify-between items-center w-14 py-6 bg-primary'>
-        <div className='flex flex-col gap-y-3'>
-          <button onClick={() => navigate('/project')} className='w-8'>
+        <div className='flex flex-col gap-y-8'>
+          <button title='Go to Home' onClick={() => navigate('/project')} className='w-8'>
             <img src='/assets/jira.svg' alt='jira-clone' />
           </button>
-          <IconBtn icon='ant-design:search-outlined' />
+          {/* <IconBtn icon='ant-design:search-outlined' /> */}
           {/* <IconBtn icon='ant-design:plus-outlined' /> */}
           <CP>
-            <Switch isChecked={mode === 'dark'} onChange={handleToggle} />
+            <Switch title='Toggle Theme' isChecked={mode === 'dark'} onChange={handleToggle} />
           </CP>
         </div>
         <div className='flex flex-col gap-6'>
@@ -63,9 +63,10 @@ function Sidebar(props: Props) {
               border='1px solid white'
               _hover={{ borderColor: 'tomato' }}
               onClick={() => setIsOpen((p) => !p)}
+              title='Profile'
             />
           </CP>
-          <IconBtn onClick={handleLogOut} icon='charm:sign-out' />
+          <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
         </div>
       </div>
       <motion.div

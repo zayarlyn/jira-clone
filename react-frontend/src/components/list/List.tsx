@@ -10,10 +10,11 @@ const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 interface Props extends LIST {
   idx: number;
   issues?: ApiIssue[];
+  isDragDisabled: boolean;
 }
 
 const List = (props: Props) => {
-  const { idx, name: NAME, id, projectId, issues } = props;
+  const { idx, name: NAME, id, projectId, issues, isDragDisabled } = props;
   const [deleteList] = useDeleteListMutation();
   const [name, setName] = useState(NAME);
   const [isEditing, setIsEditing] = useState(false);
@@ -34,6 +35,7 @@ const List = (props: Props) => {
         className='w-[clamp(16rem,18rem,20rem)]'
         index={idx}
         draggableId={'list-' + id}
+        isDragDisabled={isDragDisabled}
       >
         <div className='relative mr-3 bg-c-2 p-3 shadow-list text-c-5'>
           <div className='mb-4 text-[15px] flex justify-between items-center'>
@@ -57,18 +59,33 @@ const List = (props: Props) => {
             </div>
             <div className='flex gap-2'>
               {isEditing && (
-                <button onClick={() => setIsOpen(true)} className='icon-btn ml-5'>
+                <button
+                  onClick={() => setIsOpen(true)}
+                  title='Delete'
+                  className='icon-btn ml-5 hover:bg-c-3'
+                >
                   <Icon icon='bx:trash' className='text-red-500' />
                 </button>
               )}
-              <button onClick={handleUpdateList} className='icon-btn hover:bg-c-3'>
+              <button
+                onClick={handleUpdateList}
+                title={isEditing ? 'Save' : 'Edit'}
+                className='icon-btn hover:bg-c-3'
+              >
                 <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
               </button>
             </div>
           </div>
           <DroppableWrapper className='min-h-[3rem]' type='issue' droppableId={'list-' + id}>
             {issues?.map((data, i) => (
-              <Issue {...data} key={data.id} listId={id} listIdx={idx} idx={i} />
+              <Issue
+                isDragDisabled={isDragDisabled}
+                key={data.id}
+                listIdx={idx}
+                idx={i}
+                {...data}
+                listId={id}
+              />
             ))}
           </DroppableWrapper>
         </div>

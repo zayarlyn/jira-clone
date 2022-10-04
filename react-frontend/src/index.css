@@ -28,8 +28,6 @@
   --secondary: #439aff;
 }
 
-/* --c-text: #172b4d; */
-
 @layer components {
   .btn {
     @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 whitespace-nowrap;

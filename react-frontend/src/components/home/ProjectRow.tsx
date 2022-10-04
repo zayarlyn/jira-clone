@@ -42,6 +42,7 @@ const ProjectRow = (props: Props) => {
           {isAdmin ? <span className='text-sm ml-1 font-bold'>(you)</span> : ''}
         </div>
         <button
+          title='Delete or Leave'
           onClick={handleDelete}
           className='icon-btn ml-5 absolute right-0 bg-c-1 hidden group-hover:block'
         >

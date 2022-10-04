@@ -18,7 +18,7 @@ const CreateProjectModel = (props: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting: loading },
+    formState: { errors, isSubmitting: isLoading },
   } = useForm();
 
   const handleCreateProject = async (form: FieldValues) => {
@@ -30,7 +30,7 @@ const CreateProjectModel = (props: Props) => {
   };
 
   return (
-    <Model onClose={onClose} onSubmit={handleSubmit(handleCreateProject)}>
+    <Model onSubmit={handleSubmit(handleCreateProject)} {...{ onClose, isLoading }}>
       <>
         <div className='mb-8'>
           <span className='font-[600] text-[22px] text-c-text'>Create Project</span>

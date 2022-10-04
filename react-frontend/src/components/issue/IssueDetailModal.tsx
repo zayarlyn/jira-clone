@@ -60,10 +60,10 @@ const IssueDetailModal = (props: IssueModalProps) => {
         <div className='text-[16px] text-gray-600 px-3 mt-3 flex items-center justify-between'>
           <Item className='mr-3 w-4 h-4' {...types[type]} text={'Issue-' + id} />
           <div className='text-black'>
-            <button onClick={() => setIsOpen(true)} className='icon-btn text-xl'>
+            <button onClick={() => setIsOpen(true)} title='Delete' className='icon-btn text-xl'>
               <Icon icon='bx:trash' />
             </button>
-            <button onClick={onClose} className='icon-btn text-lg ml-4'>
+            <button onClick={onClose} title='Close' className='icon-btn text-lg ml-4'>
               <Icon icon='akar-icons:cross' />
             </button>
           </div>

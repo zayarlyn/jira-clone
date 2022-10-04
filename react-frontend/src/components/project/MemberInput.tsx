@@ -1,18 +1,20 @@
 import { ChangeEvent, lazy, memo, Suspense, useState } from 'react';
 import { selectMembers, useRemoveMemberMutation } from '../../api/member.endpoint';
-import { PublicUser } from '../../api/apiTypes';
+import { Member, PublicUser } from '../../api/apiTypes';
 import UserMember from './UserMember';
 import axiosDf from '../../api/axios';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props {
+  members: Member[];
   projectId: number;
+  readOnly?: boolean;
 }
 
 let unsubscribe: NodeJS.Timeout;
 
-const MemberInput = ({ projectId }: Props) => {
-  const { members } = selectMembers(projectId);
+const MemberInput = (props: Props) => {
+  const { projectId, readOnly, members } = props;
   const [removeMember] = useRemoveMemberMutation();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [users, setUsers] = useState<PublicUser[]>([]);
@@ -47,7 +49,10 @@ const MemberInput = ({ projectId }: Props) => {
         value={input}
         onChange={handleInputChange}
         placeholder='username'
-        className='block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text'
+        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text ${
+          readOnly ? 'pointer-events-none' : ''
+        }`}
+        readOnly={readOnly}
       />
       <div className='relative'>
         <div>
@@ -63,14 +68,14 @@ const MemberInput = ({ projectId }: Props) => {
                         : 'text-blue-400 hover:opacity-90 cursor-pointer'
                     } ${
                       selectedIdx === idx ? 'border-green-400 text-green-400' : 'border-blue-400'
-                    }`}
+                    } ${readOnly ? 'pointer-events-none' : ''}`}
                   >
                     {username + (isAdmin ? ' *' : '')}
                   </div>
                 ))
               : 'loading ...'}
           </div>
-          {selectedIdx && (
+          {selectedIdx && !readOnly && (
             <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
               <button
                 onClick={() => setSelectedIdx(null)}

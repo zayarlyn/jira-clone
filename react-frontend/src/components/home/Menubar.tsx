@@ -30,19 +30,13 @@ const Menubar = () => {
           </div>
           <div className='my-5'>
             <BtnWithIcon to={projectId + '/board'} icon='bi:kanban' text='Kanban Board' />
-            {/* <BtnWithIcon to={projectId + '/roadmap'} icon='carbon:roadmap' text='Roadmap' /> */}
-            {/* <BtnWithIcon
-              to={projectId + '/commits'}
-              icon='material-symbols:commit'
-              text='Commits'
-            /> */}
             <BtnWithIcon to={projectId + ''} icon='clarity:settings-solid' text='Project Setting' />
           </div>
           <hr className='border-t-[.5px] border-gray-400' />
-          <div className='my-5'></div>
         </div>
       ) : null}
       <button
+        title='Toggle project sidebar'
         onClick={() => setOn((p) => !p)}
         className={`group peer absolute -right-[14px] z-[20] top-8 grid h-7 w-7 place-items-center rounded-full border-[1px] border-zinc-text00 bg-c-1 hover:border-secondary hover:bg-secondary ${
           projectId && project ? '' : 'pointer-events-none'

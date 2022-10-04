@@ -5,21 +5,28 @@ import { Icon } from '@iconify/react';
 import MemberInput from './MemberInput';
 import { selectCurrentProject, useUpdateProjectMutation } from '../../api/project.endpoint';
 import { useParams } from 'react-router-dom';
+import { selectMembers } from '../../api/member.endpoint';
+import { selectAuthUser } from '../../api/auth.endpoint';
 
 const Setting = () => {
-  const { projectId } = useParams();
-
-  const { project } = selectCurrentProject(Number(projectId));
+  const [updateProject, { isLoading, isSuccess }] = useUpdateProjectMutation();
+  const projectId = Number(useParams().projectId);
+  const { members } = selectMembers(projectId);
+  const { authUser: u } = selectAuthUser();
+  const { project } = selectCurrentProject(projectId);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm();
-  const [updateProject] = useUpdateProjectMutation();
 
-  if (!project) return null;
+  if (!project || !members || !u) return null;
 
   const { id, name, descr, repo } = project;
+  const isAdmin = members.filter(({ userId: uid }) => uid === u.id)[0].isAdmin;
+
+  console.log(isAdmin);
+
   const onSubmit = (formData: FieldValues) => {
     if (formData.name === name && formData.descr === descr && formData.repo === repo) return;
     updateProject({ id, ...formData });
@@ -27,7 +34,7 @@ const Setting = () => {
 
   return (
     <ChakraProvider>
-      <div className='mt-4 px-10'>
+      <div className='mt-10 px-10'>
         <h1 className='mb-4 text-xl font-semibold text-c-text'>Project Setting</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={4} maxW={480}>
@@ -40,6 +47,7 @@ const Setting = () => {
               })}
               error={errors.name as FieldError}
               darkEnabled
+              readOnly={!isAdmin}
             />
             <InputWithValidation
               defaultValue={descr}
@@ -48,6 +56,7 @@ const Setting = () => {
               register={register('descr')}
               error={errors.descr as FieldError}
               darkEnabled
+              readOnly={!isAdmin}
             />
             <InputWithValidation
               defaultValue={repo}
@@ -56,19 +65,23 @@ const Setting = () => {
               register={register('repo')}
               error={errors.repo as FieldError}
               darkEnabled
+              readOnly={!isAdmin}
             />
-            <MemberInput projectId={id} />
+            <MemberInput members={members} projectId={id} readOnly={!isAdmin} />
           </Stack>
-          <Button
-            borderRadius={2}
-            mt={8}
-            type='submit'
-            size='sm'
-            colorScheme={isSubmitSuccessful ? 'facebook' : 'messenger'}
-            rightIcon={isSubmitSuccessful ? <Icon icon='teenyicons:tick-solid' /> : undefined}
-          >
-            {isSubmitSuccessful ? 'Changes saved' : 'Save changes'}
-          </Button>
+          <div className='mt-6'>
+            {!isAdmin && (
+              <span className='block text-red-400 text-sm'>
+                * Only Admin can edit the project setting *
+              </span>
+            )}
+            <button
+              disabled={!isAdmin}
+              className={`btn mt-3 ${!isAdmin ? 'pointer-event-none cursor-not-allowed' : ''}`}
+            >
+              {isSuccess ? 'Saved Changes' : isLoading ? 'saving ...' : 'Save Changes'}
+            </button>
+          </div>
         </form>
       </div>
     </ChakraProvider>

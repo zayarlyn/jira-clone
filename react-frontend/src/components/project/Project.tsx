@@ -10,6 +10,7 @@ const Project = () => {
   const projectId = Number(useParams().projectId);
   const [issueQueryData, setIssueQueryData] = useState<Omit<IssueQuery, 'projectId'>>({});
   const { data: lists, error: listError } = useListsQuery(projectId);
+  const [isDragDisabled, setIsDragDisabled] = useState(false);
 
   const { data: issues, error: issueError } = useIssuesQuery(
     {
@@ -31,11 +32,14 @@ const Project = () => {
 
   return (
     <div className='flex grow flex-col'>
-      <div className='mx-10'>
+      <div className='mx-10 mt-6'>
         <h1 className='mb-4 text-xl font-semibold text-c-text'>Kanban Board</h1>
       </div>
-      <Filter isEmpty={lists?.length === 0} {...{ issueQueryData, setIssueQueryData, projectId }} />
-      <Board {...{ lists, issues }} />
+      <Filter
+        isEmpty={lists?.length === 0}
+        {...{ issueQueryData, setIssueQueryData, projectId, setIsDragDisabled }}
+      />
+      <Board {...{ lists, issues, isDragDisabled }} />
     </div>
   );
 };

@@ -11,10 +11,11 @@ import { Icon } from '@iconify/react';
 interface Props {
   lists?: ApiList[];
   issues?: Issues;
+  isDragDisabled: boolean;
 }
 
 const Board = (props: Props) => {
-  const { lists, issues } = props;
+  const { lists, issues, isDragDisabled } = props;
   const [reorderLists] = useReorderListsMutation();
   const [reorderIssues] = useReorderIssuesMutation();
   const [createList] = useCreateListMutation();
@@ -54,7 +55,13 @@ const Board = (props: Props) => {
           direction='horizontal'
         >
           {lists.map((props, i) => (
-            <List key={props.id} idx={i} issues={issues?.[props.id]} {...props} />
+            <List
+              key={props.id}
+              idx={i}
+              issues={issues?.[props.id]}
+              isDragDisabled={isDragDisabled}
+              {...props}
+            />
           ))}
         </DroppableWrapper>
         <button

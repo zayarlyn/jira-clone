@@ -71,6 +71,7 @@ function DropDown(props: Prop) {
               current.length > 0 ? (
                 current.map((props, i) => (
                   <div
+                    key={props.value}
                     className='flex items-center gap-2 border-[1.5px] border-blue-500 px-2 hover:border-green-500'
                     onClick={(e) => handleDelete(e, i)}
                   >

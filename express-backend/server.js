@@ -29,4 +29,4 @@ app.use('/api/list', restrictProjectMiddleware, listRoute);
 app.use('/api/issue', restrictProjectMiddleware, issueRoute);
 app.use('/api/member', restrictProjectMiddleware, memberRoute);
 
-app.listen(5000);
+app.listen(process.env.PORT || 5000);

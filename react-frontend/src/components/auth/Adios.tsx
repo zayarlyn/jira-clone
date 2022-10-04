@@ -1,10 +1,11 @@
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import InputWithValidation from '../util/InputWithValidation';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
+import axiosDf from '../../api/axios';
 
 function Adios() {
   const {
@@ -85,7 +86,7 @@ function Adios() {
 export default Adios;
 
 const deleteACC = async (body: FieldValues) => {
-  const result = await axios.post('http://localhost:5000/api/user/authUser/delete', body, {
+  const result = await axiosDf.post('api/user/authUser/delete', body, {
     withCredentials: true,
   });
   return result.data;

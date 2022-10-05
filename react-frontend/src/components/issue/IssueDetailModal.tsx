@@ -1,13 +1,13 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { lazy, Suspense, useState } from 'react';
-import { UpdateIssueType } from '../../api/apiTypes';
+import { Member, UpdateIssueType } from '../../api/apiTypes';
 import {
   selectIssuesArray,
   useDeleteIssueMutation,
   useUpdateIssueMutation,
 } from '../../api/issues.endpoint';
-import DropDown from '../util/DropDown';
+import DropDown, { Category } from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { IssueModalProps } from './IssueModelHOC';
@@ -41,7 +41,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
     createdAt,
     updatedAt,
   } = issues[issue?.idx as number];
-  const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {});
+  const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {}) as Category[];
   const [updateIssue] = useUpdateIssueMutation();
   const [deleteIssue] = useDeleteIssueMutation();
   const [isOpen, setIsOpen] = useState(false);

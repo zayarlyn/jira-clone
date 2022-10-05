@@ -6,7 +6,6 @@ export const extendedApi = api.injectEndpoints({
     members: builder.query<Member[], number>({
       query: (projectId) => ({
         url: `project/${projectId}/members`,
-        credentials: 'include',
       }),
       providesTags: ['Members'],
     }),
@@ -15,7 +14,6 @@ export const extendedApi = api.injectEndpoints({
         url: `member/remove`,
         method: 'DELETE',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Members'],
     }),
@@ -24,7 +22,6 @@ export const extendedApi = api.injectEndpoints({
         url: `member/add`,
         method: 'PUT',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Members'],
     }),

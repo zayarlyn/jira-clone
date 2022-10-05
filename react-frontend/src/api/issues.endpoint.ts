@@ -14,12 +14,11 @@ export const extendedApi = api.injectEndpoints({
     issues: builder.query<Issues, IssueQuery>({
       query: ({ projectId, userId: uid }) => ({
         url: `project/${projectId}/issues${uid ? '?userId=' + uid : ''}`,
-        credentials: 'include',
       }),
       providesTags: ['Issues'],
     }),
     createIssue: builder.mutation<void, CreateIssue>({
-      query: (body) => ({ url: 'issue/create', method: 'POST', body, credentials: 'include' }),
+      query: (body) => ({ url: 'issue/create', method: 'POST', body }),
       invalidatesTags: ['Issues'],
     }),
     updateIssue: builder.mutation<void, UpdateIssue>({
@@ -27,7 +26,6 @@ export const extendedApi = api.injectEndpoints({
         url: `issue/${id}/update`,
         method: 'PATCH',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Issues'],
     }),
@@ -36,12 +34,11 @@ export const extendedApi = api.injectEndpoints({
         url: `issue/${issueId}/delete`,
         method: 'DELETE',
         body: { projectId },
-        credentials: 'include',
       }),
       invalidatesTags: ['Issues'],
     }),
     reorderIssues: builder.mutation<void, reorderIssues>({
-      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body, credentials: 'include' }),
+      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body }),
       invalidatesTags: ['Issues'],
       async onQueryStarted({ s, d, projectId }, { dispatch }) {
         dispatch(

@@ -6,12 +6,11 @@ export const extendedApi = api.injectEndpoints({
     lists: builder.query<List[], number>({
       query: (projectId) => ({
         url: `project/${projectId}/lists`,
-        credentials: 'include',
       }),
       providesTags: ['Lists'],
     }),
     createList: builder.mutation<List, CreateList>({
-      query: (body) => ({ url: 'list/create', method: 'POST', body, credentials: 'include' }),
+      query: (body) => ({ url: 'list/create', method: 'POST', body }),
       invalidatesTags: ['Lists'],
     }),
     updateList: builder.mutation<List, UpdateList>({
@@ -19,7 +18,6 @@ export const extendedApi = api.injectEndpoints({
         url: `list/${listId}/update`,
         method: 'PATCH',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Lists'],
     }),
@@ -28,7 +26,6 @@ export const extendedApi = api.injectEndpoints({
         url: `list/${listId}/delete`,
         method: 'DELETE',
         body: { projectId },
-        credentials: 'include',
       }),
       invalidatesTags: ['Lists'],
     }),
@@ -37,7 +34,6 @@ export const extendedApi = api.injectEndpoints({
         url: 'list/reorder',
         method: 'PUT',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Lists'],
       async onQueryStarted({ order, newOrder, projectId }, { dispatch }) {

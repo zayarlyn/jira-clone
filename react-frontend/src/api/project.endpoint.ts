@@ -4,25 +4,23 @@ import type { CreateProject, EditProject, LeaveProject, Project } from './apiTyp
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     projects: builder.query<Project[], number>({
-      query: (userId) => ({ url: `user/${userId}/projects`, credentials: 'include' }),
+      query: (userId) => ({ url: `user/${userId}/projects` }),
       providesTags: ['Project'],
     }),
     project: builder.query<Project, number>({
       query: (projectId) => ({
         url: 'project/' + projectId,
-        credentials: 'include',
       }),
       providesTags: ['Project'],
     }),
     createProject: builder.mutation<Project, CreateProject>({
-      query: (body) => ({ url: 'project/create', method: 'POST', body, credentials: 'include' }),
+      query: (body) => ({ url: 'project/create', method: 'POST', body }),
       invalidatesTags: ['Project'],
     }),
     deleteProject: builder.mutation<void, number>({
       query: (projectId) => ({
         url: `project/${projectId}/delete`,
         method: 'DELETE',
-        credentials: 'include',
       }),
       invalidatesTags: ['Project'],
     }),
@@ -31,12 +29,11 @@ export const extendedApi = api.injectEndpoints({
         url: `project/${projectId}/leave`,
         method: 'DELETE',
         body,
-        credentials: 'include',
       }),
       invalidatesTags: ['Project'],
     }),
     updateProject: builder.mutation<void, EditProject>({
-      query: (body) => ({ url: `project/${body.id}`, method: 'PUT', body, credentials: 'include' }),
+      query: (body) => ({ url: `project/${body.id}`, method: 'PUT', body }),
       invalidatesTags: ['Project'],
       async onQueryStarted({ id, ...newData }, { dispatch }) {
         dispatch(

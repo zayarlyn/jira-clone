@@ -84,7 +84,7 @@ function createCookie(res, token) {
   res.cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
     expires: new Date(Date.now() + 1296000), // 15 days
-    // secure: true,
+    secure: true,
     // domain: '.jira-clone.onrender.com',
   });
 }

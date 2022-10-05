@@ -41,4 +41,7 @@
   .icon-btn {
     @apply p-1 hover:bg-c-2 rounded-[3px];
   }
+  .bg-jira-gradient {
+    @apply bg-gradient-to-r from-[#151642] to-[#321898];
+  }
 }

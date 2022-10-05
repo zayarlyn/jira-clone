@@ -1,4 +1,3 @@
-import React from 'react';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import { AuthUser } from '../../api/apiTypes';
 import { useUpdateAuthUserMutation } from '../../api/auth.endpoint';

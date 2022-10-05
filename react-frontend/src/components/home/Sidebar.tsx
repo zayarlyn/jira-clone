@@ -45,10 +45,8 @@ function Sidebar(props: Props) {
       <div className='flex flex-col justify-between items-center w-14 py-6 bg-primary'>
         <div className='flex flex-col gap-y-8'>
           <button title='Go to Home' onClick={() => navigate('/project')} className='w-8'>
-            <img src='/assets/jira.svg' alt='jira-clone' />
+            <img className='w-12 h-8' src='/assets/jira.svg' alt='jira-clone' />
           </button>
-          {/* <IconBtn icon='ant-design:search-outlined' /> */}
-          {/* <IconBtn icon='ant-design:plus-outlined' /> */}
           <CP>
             <Switch title='Toggle Theme' isChecked={mode === 'dark'} onChange={handleToggle} />
           </CP>

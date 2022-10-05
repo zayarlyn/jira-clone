@@ -34,10 +34,10 @@ const ProjectRow = (props: Props) => {
         className='flex border-c-3 border-y-2 relative group border-t-transparent py-1 cursor-pointer hover:border-blue-400 hover:border-t-2'
         onClick={() => navigate(id + '/board')}
       >
-        <div className='text-center w-8'>{idx + 1}</div>
-        <div className='grow px-2'>{name}</div>
-        <div className='grow px-2'>{descr}</div>
-        <div className='w-52 px-2'>
+        <div className='text-center w-8 shrink-0'>{idx + 1}</div>
+        <div className='grow min-w-[10rem] px-2'>{name}</div>
+        <div className='grow min-w-[20rem] px-2'>{descr}</div>
+        <div className='w-52 shrink-0 px-2'>
           {publicUser?.username}
           {isAdmin ? <span className='text-sm ml-1 font-bold'>(you)</span> : ''}
         </div>

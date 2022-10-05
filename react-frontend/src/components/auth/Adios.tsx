@@ -35,8 +35,8 @@ function Adios() {
   };
 
   return (
-    <main className='grid place-items-center w-full bg-[#eee]'>
-      <div className='bg-white px-8 pt-12 pb-14 rounded-md w-[25rem]'>
+    <main className='grid place-items-center w-full bg-jira-gradient'>
+      <div className='bg-white px-8 pt-12 pb-14 rounded-md w-11/12 max-w-[25rem]'>
         <h1 className='text-xl'>You are about to delete your account</h1>
         <form onSubmit={handleSubmit(onSubmit)} className='mt-6 flex flex-col gap-5'>
           <InputWithValidation

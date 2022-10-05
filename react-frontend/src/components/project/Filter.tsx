@@ -77,25 +77,24 @@ function Filter(props: Props) {
             />
           ))}
         </AvatarGroup>
-        <button className='btn-crystal' onClick={handleSetQuery({ userId: authUser.id })}>
-          Only my issues
-        </button>
-        {/* <button className='btn-crystal'>Completed Issue</button> */}
-        <Divider my={1} h={6} orientation='vertical' />
-        {uid && (
-          <button className='btn-crystal' onClick={handleSetQuery({})}>
-            Clear all
-          </button>
-        )}
-        <button onClick={handleClick} className='btn ml-5'>
-          Create an issue
-        </button>
-        {isOpen && !isEmpty && (
-          <Suspense>
-            <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
-          </Suspense>
-        )}
       </CP>
+      <button className='btn-crystal shrink-0' onClick={handleSetQuery({ userId: authUser.id })}>
+        Only my issues
+      </button>
+      <Divider my={1} h={6} orientation='vertical' />
+      {uid && (
+        <button className='btn-crystal' onClick={handleSetQuery({})}>
+          Clear all
+        </button>
+      )}
+      <button onClick={handleClick} className='btn ml-5'>
+        Create an issue
+      </button>
+      {isOpen && !isEmpty && (
+        <Suspense>
+          <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
+        </Suspense>
+      )}
     </div>
   );
 }

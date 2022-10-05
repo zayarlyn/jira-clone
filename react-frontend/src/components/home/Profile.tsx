@@ -14,7 +14,7 @@ const Profile = (props: Props) => {
   const [isNormal, setIsNormal] = useState(true);
 
   return (
-    <div className='w-[320px] flex flex-col items-center bg-c-1 border-r-2 border-c-3 h-full p-6'>
+    <div className='w-[320px] overflow-y-auto overflow-x-hidden flex flex-col items-center bg-c-1 border-r-2 border-c-3 h-full p-6'>
       {u ? (
         <>
           <CP>

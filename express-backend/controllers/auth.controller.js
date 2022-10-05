@@ -12,7 +12,8 @@ exports.register = async (req, res) => {
     const pwd = await bcrypt.hash(req.body.pwd, 10);
     const user = await client.user.create({ data: { ...req.body, pwd } });
     const token = generateJwt({ uid: user.id });
-    createCookie(res, token).json(user).end(); // send back newly created user obj
+    createCookie(res, token);
+    res.json(user).end(); // send back newly created user obj
   } catch (err) {
     return badRequest(res);
   }
@@ -31,7 +32,8 @@ exports.logIn = async (req, res) => {
       where: { id: user.id },
       data: { lastLoggedIn: new Date().toISOString() },
     });
-    createCookie(res, token).json(user).end();
+    createCookie(res, token);
+    res.json(user).end();
   } catch (err) {
     return badRequest(res);
   }
@@ -78,8 +80,11 @@ const generateJwt = (payload) =>
 
 const findUser = async (email) => client.user.findFirst({ where: { email } });
 
-const createCookie = (res, token) =>
+function createCookie(res, token) {
   res.cookie('jira-clone', JSON.stringify({ token }), {
     httpOnly: true,
     expires: new Date(Date.now() + 1296000), // 15 days
+    // secure: true,
+    // domain: '.jira-clone.onrender.com',
   });
+}

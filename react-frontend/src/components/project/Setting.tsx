@@ -79,7 +79,7 @@ const Setting = () => {
               disabled={!isAdmin}
               className={`btn mt-3 ${!isAdmin ? 'pointer-event-none cursor-not-allowed' : ''}`}
             >
-              {isSuccess ? 'Saved Changes' : isLoading ? 'saving ...' : 'Save Changes'}
+              {isSuccess ? 'Saved Changes' : isLoading ? 'saving changes...' : 'Save Changes'}
             </button>
           </div>
         </form>

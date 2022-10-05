@@ -12,7 +12,7 @@ const LogIn = () => {
   } = useForm();
 
   return (
-    <div className='bg-white w-[22rem] rounded-md py-12 px-6'>
+    <div className='bg-white w-full rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Welcome back</h3>
       <h4 className='text-center mb-5 text-[15px] text-gray-600'>Free for testing</h4>
       <Form type='LOGIN' onSubmit={logIn} {...{ errors, handleSubmit, register, loading }} />

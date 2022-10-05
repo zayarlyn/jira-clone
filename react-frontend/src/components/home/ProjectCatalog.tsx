@@ -16,7 +16,6 @@ const ProjectCatalog = () => {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   if (!authUser) return null;
-  console.log(projects);
 
   return (
     <>

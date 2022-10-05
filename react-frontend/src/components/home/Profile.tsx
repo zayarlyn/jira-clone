@@ -1,27 +1,17 @@
 import { Avatar, ChakraProvider as CP } from '@chakra-ui/react';
-import { lazy, memo, Suspense, useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { APIERROR } from '../../api/apiTypes';
-import { useAuthUserQuery } from '../../api/auth.endpoint';
+import { lazy, memo, Suspense, useState } from 'react';
+import { Link } from 'react-router-dom';
+import type { AuthUser } from '../../api/apiTypes';
 import UpdateProfile from './UpdateProfile';
 const ChangePwd = lazy(() => import('./ChangePwd'));
 
-const Profile = () => {
+interface Props {
+  authUser: AuthUser;
+}
+
+const Profile = (props: Props) => {
+  const { authUser: u } = props;
   const [isNormal, setIsNormal] = useState(true);
-  const { data: u, error } = useAuthUserQuery();
-
-  useEffect(() => {
-    const f = async () => {
-      const d = await fetch('https://jira-clone.onrender.com/api/user/authUser', {
-        credentials: 'include',
-      });
-      const dd = d.json();
-      console.log(dd);
-    };
-    f();
-  }, []);
-
-  if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   return (
     <div className='w-[320px] flex flex-col items-center bg-c-1 border-r-2 border-c-3 h-full p-6'>

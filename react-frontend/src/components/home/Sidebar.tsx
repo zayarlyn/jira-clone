@@ -74,7 +74,7 @@ function Sidebar(props: Props) {
         animate={{ width: isOpen ? 320 : 0 }}
         transition={{ type: 'tween' }}
       >
-        <Profile />
+        {authUser && <Profile authUser={authUser} />}
       </motion.div>
     </div>
   );

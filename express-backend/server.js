@@ -14,7 +14,8 @@ const { restrictProjectMiddleware } = require('./utils/restrictProjectMiddleware
 
 const corOptions = {
   credentials: true,
-  origin: ['https://jira-replica.vercel.app/', 'http://localhost:5173'],
+  origin: true,
+  // origin: ['http://localhost:5173'],
 };
 
 app.use(cors(corOptions));

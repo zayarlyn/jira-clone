@@ -20,7 +20,7 @@ const InputWithValidation = (props: Props) => {
       </label>
       <input
         defaultValue={defaultValue ?? ''}
-        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none ${
+        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-1 border-2 duration-200 outline-none ${
           darkEnabled
             ? 'hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text'
             : 'bg-slate-100 hover:border-gray-400'

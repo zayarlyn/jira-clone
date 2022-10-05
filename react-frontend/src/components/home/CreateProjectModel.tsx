@@ -61,7 +61,7 @@ const CreateProjectModel = (props: Props) => {
         {authUser && (
           <WithLabel label='Members'>
             <>
-              <div className='bg-c-6 mb-2 py-[2px] px-3 text-sm border-[1px] rounded-sm border-gray-300 text-c-text'>
+              <div className='bg-c-6 mb-2 py-1 px-3 text-sm border-[1px] rounded-sm border-gray-300 text-c-text'>
                 <Item
                   text={authUser.username}
                   icon={authUser.profileUrl}

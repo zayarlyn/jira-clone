@@ -17,7 +17,7 @@ function App() {
 
   return (
     <main
-      className={`flex h-screen bg-c-111 bg-gray-500 ${
+      className={`flex h-screen min-h-fit bg-c-111 bg-gray-500 ${
         theme.mode === 'light' ? 'light-theme' : 'dark-theme'
       }`}
     >

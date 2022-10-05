@@ -25,8 +25,6 @@ const Setting = () => {
   const { id, name, descr, repo } = project;
   const isAdmin = members.filter(({ userId: uid }) => uid === u.id)[0].isAdmin;
 
-  console.log(isAdmin);
-
   const onSubmit = (formData: FieldValues) => {
     if (formData.name === name && formData.descr === descr && formData.repo === repo) return;
     updateProject({ id, ...formData });

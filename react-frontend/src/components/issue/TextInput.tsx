@@ -1,4 +1,3 @@
-import { Button } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import RTAutosize from 'react-textarea-autosize';
 import { UpdateIssueType } from '../../api/apiTypes';
@@ -39,11 +38,11 @@ const TextInput = (props: Props) => {
 
   return (
     <div>
-      <WithLabel label={label ?? ''} labelClass='ml-3'>
+      <WithLabel label={label ?? ''} labelClass='sm:ml-3'>
         <>
           <RTAutosize
-            className={`px-3 py-2 w-full border-2 border-transparent resize-none hover:bg-[#f4f5f7] rounded-[3px] outline-none focus:border-chakra-blue ${
-              className ?? 'text-[18px] font-medium'
+            className={`px-3 py-1 sm:py-2 w-full border-2 border-stale-100 sm:border-transparent resize-none hover:bg-[#f4f5f7] rounded-[3px] outline-none focus:border-chakra-blue ${
+              className ?? 'font-medium'
             }`}
             minRows={1}
             onChange={handleChange}
@@ -53,12 +52,12 @@ const TextInput = (props: Props) => {
             <>
               <hr className='border-t-[.5px] border-gray-400 mt-3 mb-2 mx-3' />
               <div className='flex justify-end'>
-                <Button onClick={handleCancel} size='sm' borderRadius={3} variant='ghost' mr={3}>
+                <button onClick={handleCancel} className='btn-crystal'>
                   cancel
-                </Button>
-                <Button onClick={handleSave} size='sm' borderRadius={3} colorScheme='blue'>
+                </button>
+                <button onClick={handleSave} className='btn'>
                   save
-                </Button>
+                </button>
               </div>
             </>
           )}

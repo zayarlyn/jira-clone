@@ -4,7 +4,7 @@ const Item = ({ text, icon, className }: { text: string; icon?: string; classNam
       (icon ? (
         <img src={icon} alt={text} className={className} />
       ) : (
-        <div className='bg-amber-800 text-white grid place-items-center w-5 h-5 mr-2 rounded-full'>
+        <div className='bg-amber-800 text-white grid place-items-center w-5 h-5 mr-2 rounded-full text-sm'>
           {text.slice(0, 1).toUpperCase()}
         </div>
       ))}

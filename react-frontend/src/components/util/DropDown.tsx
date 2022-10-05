@@ -10,10 +10,19 @@ type Prop = {
   defaultValue?: number | Category[];
   dispatch: Dispatch<A>;
   actionType: T;
+  className?: string;
 };
 
 function DropDown(props: Prop) {
-  const { list, defaultValue: dv, type, variant = 'normal', dispatch, actionType } = props;
+  const {
+    list,
+    defaultValue: dv,
+    type,
+    variant = 'normal',
+    dispatch,
+    actionType,
+    className,
+  } = props;
   const isMulti = type === 'multiple';
   const [localList, setLocalList] = useState<Category[]>(
     isMulti ? (dv ? multiDefault(list, dv as Category[]) : list.slice(1)) : list
@@ -60,10 +69,8 @@ function DropDown(props: Prop) {
       <button
         onClick={() => setOn((p) => !p)}
         className={`flex items-center justify-between tracking-wide px-4 bg-[#edf2f7] hover:bg-[#e2e8f0] py-1 border-gray-300 ${
-          variant === 'normal'
-            ? 'border-[1px] rounded-[4px] w-full'
-            : 'border-none rounded-sm w-fit'
-        }`}
+          variant === 'normal' ? 'border-[1px] rounded-[4px]' : 'border-none rounded-sm'
+        } ${className ?? 'w-full sm:w-fit'}`}
       >
         <>
           <div className='flex gap-2 flex-wrap'>

@@ -1,7 +1,6 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { lazy, Suspense, useState } from 'react';
-import { Member, UpdateIssueType } from '../../api/apiTypes';
+import { UpdateIssueType } from '../../api/apiTypes';
 import {
   selectIssuesArray,
   useDeleteIssueMutation,
@@ -57,38 +56,37 @@ const IssueDetailModal = (props: IssueModalProps) => {
   return (
     <Model onClose={onClose} className='max-w-[55rem]'>
       <>
-        <div className='text-[16px] text-gray-600 px-3 mt-3 flex items-center justify-between'>
+        <div className='text-[16px] text-gray-600 sm:px-3 mt-3 flex items-center justify-between'>
           <Item className='mr-3 w-4 h-4' {...types[type]} text={'Issue-' + id} />
           <div className='text-black'>
-            <button onClick={() => setIsOpen(true)} title='Delete' className='icon-btn text-xl'>
+            <button onClick={() => setIsOpen(true)} title='Delete' className='btn-icon text-xl'>
               <Icon icon='bx:trash' />
             </button>
-            <button onClick={onClose} title='Close' className='icon-btn text-lg ml-4'>
+            <button onClick={onClose} title='Close' className='btn-icon text-lg ml-4'>
               <Icon icon='akar-icons:cross' />
             </button>
           </div>
         </div>
-        <div className='flex mb-8'>
-          <div className='w-full pr-6'>
-            <ChakraProvider>
-              <TextInput
-                type='summary'
-                defaultValue={summary}
-                apiFunc={dispatchMiddleware}
-                className='text-[22px] font-semibold'
-                placeholder='title'
-                isRequired
-              />
-              <TextInput
-                label='Description'
-                type='descr'
-                defaultValue={descr}
-                apiFunc={dispatchMiddleware}
-                placeholder='add a description'
-              />
-            </ChakraProvider>
+        <div className='sm:flex mb-8'>
+          <div className='w-full sm:pr-6'>
+            <TextInput
+              type='summary'
+              label='Title'
+              defaultValue={summary}
+              apiFunc={dispatchMiddleware}
+              className='font-medium sm:text-[22px] sm:font-semibold'
+              placeholder='title'
+              isRequired
+            />
+            <TextInput
+              label='Description'
+              type='descr'
+              defaultValue={descr}
+              apiFunc={dispatchMiddleware}
+              placeholder='add a description'
+            />
           </div>
-          <div className='w-[15rem] shrink-0 mt-3'>
+          <div className='sm:w-[15rem] shrink-0 mt-3'>
             <WithLabel label='Status'>
               <DropDown
                 list={lists}
@@ -101,7 +99,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
             </WithLabel>
             {members && (
               <WithLabel label='Reporter'>
-                <div className='bg-[#f4f5f7] px-3 py-[5px] rounded-sm'>
+                <div className='bg-[#f4f5f7] sm:w-fit px-4 py-[5px] rounded-sm'>
                   <Item
                     {...members.filter(({ value }) => value === reporterId)[0]}
                     className='w-6 h-6 mr-4 rounded-full object-cover'

@@ -16,7 +16,7 @@ const Welcome = (props: Props) => {
         </h1>
       </div>
       <div className='mb-12 w-11/12 max-w-[24rem]'>
-        <Suspense fallback={<div className='text-center'>a moment...</div>}>
+        <Suspense fallback={<div className='text-center text-c-text'>a moment...</div>}>
           {type === 'LOGIN' ? <LogIn /> : <Register />}
         </Suspense>
       </div>

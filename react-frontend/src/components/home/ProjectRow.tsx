@@ -44,7 +44,7 @@ const ProjectRow = (props: Props) => {
         <button
           title='Delete or Leave'
           onClick={handleDelete}
-          className='icon-btn ml-5 absolute right-0 bg-c-1 hidden group-hover:block'
+          className='btn-icon ml-5 absolute right-0 bg-c-1 hidden group-hover:block'
         >
           <Icon icon='bx:trash' className='text-red-500' />
         </button>

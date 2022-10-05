@@ -11,6 +11,8 @@ const LogIn = () => {
     handleSubmit,
   } = useForm();
 
+  if (loading) return <div className='auth-loading'>Logging In ...</div>;
+
   return (
     <div className='bg-white w-full rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Welcome back</h3>

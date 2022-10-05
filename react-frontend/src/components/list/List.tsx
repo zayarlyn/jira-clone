@@ -62,7 +62,7 @@ const List = (props: Props) => {
                 <button
                   onClick={() => setIsOpen(true)}
                   title='Delete'
-                  className='icon-btn ml-5 hover:bg-c-3'
+                  className='btn-icon ml-5 hover:bg-c-3'
                 >
                   <Icon icon='bx:trash' className='text-red-500' />
                 </button>
@@ -70,7 +70,7 @@ const List = (props: Props) => {
               <button
                 onClick={handleUpdateList}
                 title={isEditing ? 'Save' : 'Edit'}
-                className='icon-btn hover:bg-c-3'
+                className='btn-icon hover:bg-c-3'
               >
                 <Icon icon={isEditing ? 'charm:tick' : 'akar-icons:edit'} />
               </button>

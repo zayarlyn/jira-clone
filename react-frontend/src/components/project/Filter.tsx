@@ -83,11 +83,11 @@ function Filter(props: Props) {
       </button>
       <Divider my={1} h={6} orientation='vertical' />
       {uid && (
-        <button className='btn-crystal' onClick={handleSetQuery({})}>
+        <button className='btn-crystal shrink-0' onClick={handleSetQuery({})}>
           Clear all
         </button>
       )}
-      <button onClick={handleClick} className='btn ml-5'>
+      <button onClick={handleClick} className='btn ml-5 shrink-0'>
         Create an issue
       </button>
       {isOpen && !isEmpty && (

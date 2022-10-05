@@ -38,10 +38,13 @@
   .btn-alert {
     @apply px-3 py-1 rounded-[3px] bg-red-500 text-white hover:bg-red-600 active:bg-red-700 whitespace-nowrap;
   }
-  .icon-btn {
+  .btn-icon {
     @apply p-1 hover:bg-c-2 rounded-[3px];
   }
   .bg-jira-gradient {
     @apply bg-gradient-to-r from-[#151642] to-[#321898];
+  }
+  .auth-loading {
+    @apply text-white h-full text-center mt-[30vh] text-xl;
   }
 }

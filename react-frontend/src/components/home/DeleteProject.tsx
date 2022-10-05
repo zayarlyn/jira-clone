@@ -45,7 +45,7 @@ function DeleteProject(props: Props) {
       >
         {isAdmin ? (dl ? 'deleting ...' : 'Delete') : ll ? 'leaving ...' : 'Leave'}
       </button>
-      <button onClick={onClose} className='icon-btn px-3 text-sm py-[3px] ml-2'>
+      <button onClick={onClose} className='btn-icon px-3 text-sm py-[3px] ml-2'>
         cancel
       </button>
     </div>

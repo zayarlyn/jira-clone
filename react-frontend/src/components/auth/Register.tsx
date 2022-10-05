@@ -10,6 +10,8 @@ const Register = () => {
     handleSubmit,
   } = useForm();
 
+  if (loading) return <div className='auth-loading'>Registering ...</div>;
+
   return (
     <div className='bg-white rounded-md py-12 px-6'>
       <h3 className='text-center text-gray-800 font-medium text-3xl'>Get Started</h3>

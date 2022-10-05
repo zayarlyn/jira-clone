@@ -21,7 +21,7 @@ const ProjectCatalog = () => {
 
   if (isLoading)
     return (
-      <div className='bg-white text-xl z-10 w-full grid place-items-center'>
+      <div className='bg-c-1 text-c-text text-xl z-10 w-full grid place-items-center'>
         Fetching your projects 🚀
       </div>
     );

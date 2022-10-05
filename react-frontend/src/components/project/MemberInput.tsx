@@ -11,7 +11,7 @@ interface Props {
   readOnly?: boolean;
 }
 
-let unsubscribe: NodeJS.Timeout;
+let unsubscribe: ReturnType<typeof setTimeout>;
 
 const MemberInput = (props: Props) => {
   const { projectId, readOnly, members } = props;

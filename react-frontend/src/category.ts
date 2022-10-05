@@ -1,7 +1,7 @@
 export const types = [
   { text: 'Task', icon: '/assets/task.svg', value: 0 },
   { text: 'Bug', icon: '/assets/bug.svg', value: 1 },
-  { text: 'Review', icon: '/assets/review.svg', review, value: 2 },
+  { text: 'Review', icon: '/assets/review.svg', value: 2 },
 ];
 
 export const priorities = [

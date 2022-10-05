@@ -85,6 +85,7 @@ function createCookie(res, token) {
     httpOnly: true,
     expires: new Date(Date.now() + 1296000), // 15 days
     secure: true,
+    sameSite: 'none',
     // domain: '.jira-clone.onrender.com',
   });
 }

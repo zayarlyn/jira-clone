@@ -28,7 +28,7 @@ function Form(props: Props) {
   const submit = handleSubmit(async (form) => {
     try {
       await onSubmit(form);
-      window.location.replace('https://jira-replica.netlify.app/project'); //with refresh
+      window.location.replace('https://jira-replica.vercel.app/project'); //with refresh
     } catch (error) {
       setError(((error as AxiosError).response?.data as APIERROR).message);
     }

@@ -15,7 +15,7 @@ const Welcome = (props: Props) => {
     formState: { errors, isSubmitting: loading, isSubmitSuccessful: success },
     handleSubmit,
   } = useForm();
-  const isLoading = loading || !success;
+  const isLoading = loading && !success;
 
   return (
     <div className='bg-jira-gradient flex h-fit min-h-screen w-full flex-col items-center'>

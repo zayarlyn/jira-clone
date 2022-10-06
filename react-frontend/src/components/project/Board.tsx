@@ -44,7 +44,7 @@ const Board = (props: Props) => {
   };
 
   return (
-    <div className='flex min-w-max grow items-start px-10'>
+    <div className='mb-5 flex min-w-max grow items-start'>
       <DragDropContext onDragEnd={onDragEnd}>
         <DroppableWrapper
           type='list'

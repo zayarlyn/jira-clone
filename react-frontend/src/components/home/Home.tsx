@@ -19,7 +19,7 @@ const Home = (props: Props) => {
       <Menubar />
       {outlet ? (
         <>
-          <main className='z-10 grow overflow-auto bg-c-1 bg-center'>
+          <main className='z-10 h-screen grow overflow-auto bg-c-1 bg-center'>
             <Breadcrumbs />
             <Outlet />
           </main>

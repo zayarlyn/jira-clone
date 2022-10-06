@@ -1,7 +1,7 @@
-import { ChakraProvider as CP, Avatar } from '@chakra-ui/react';
 import { Icon } from '@iconify/react';
 import { PublicUser } from '../../api/apiTypes';
 import { useAddMemberMutation } from '../../api/member.endpoint';
+import Avatar from '../util/Avatar';
 
 interface Props extends PublicUser {
   added: boolean;
@@ -23,9 +23,7 @@ const UserMember = (props: Props) => {
       onClick={handleAddMember}
       className='flex items-center rounded-sm bg-c-2 px-3 py-2 text-c-text hover:bg-c-6'
     >
-      <CP>
-        <Avatar size='sm' src={profileUrl} />
-      </CP>
+      <Avatar src={profileUrl} name={username} />
       <span className='mx-3'>{username}</span>
       <span className='ml-auto overflow-hidden truncate text-sm font-medium'>{email}</span>
       {added && <Icon className='ml-3' icon='teenyicons:tick-circle-outline' />}

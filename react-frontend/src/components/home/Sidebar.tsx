@@ -1,9 +1,10 @@
 import { lazy, Suspense as S, useState } from 'react';
-import { Avatar, ChakraProvider as CP, Switch } from '@chakra-ui/react';
+import { ChakraProvider as CP, Switch } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
+import Avatar from '../util/Avatar';
 import { setTheme, Theme } from '../../utils';
 import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';
@@ -19,7 +20,7 @@ function Sidebar(props: Props) {
     theme: { mode },
     toggleTheme,
   } = props;
-  const { data: authUser, error } = useAuthUserQuery();
+  const { data: u, error } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -47,18 +48,15 @@ function Sidebar(props: Props) {
           </CP>
         </div>
         <div className='flex flex-col gap-6'>
-          <CP>
+          {u && (
             <Avatar
-              src={authUser?.profileUrl}
-              name={authUser?.username}
-              size='sm'
-              cursor='pointer'
-              border='1px solid white'
-              _hover={{ borderColor: 'tomato' }}
-              onClick={() => setIsOpen((p) => !p)}
               title='Profile'
+              src={u.profileUrl}
+              name={u.username}
+              onClick={() => setIsOpen((p) => !p)}
+              className='h-9 w-9 border-[1px] hover:border-green-500'
             />
-          </CP>
+          )}
           <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
         </div>
       </div>
@@ -67,9 +65,9 @@ function Sidebar(props: Props) {
         animate={{ width: isOpen ? 320 : 0 }}
         transition={{ type: 'tween' }}
       >
-        {authUser && (
+        {u && (
           <S>
-            <Profile authUser={authUser} />
+            <Profile authUser={u} />
           </S>
         )}
       </motion.div>

@@ -1,16 +1,11 @@
 import { Dispatch, lazy, SetStateAction, Suspense as S, useState } from 'react';
-import {
-  ChakraProvider as CP,
-  Avatar,
-  AvatarGroup,
-  useToast,
-  UseToastOptions,
-} from '@chakra-ui/react';
-import { Icon as IconIfy } from '@iconify/react';
+import { useToast, UseToastOptions } from '@chakra-ui/react';
+import { Icon } from '@iconify/react';
 import { useMembersQuery } from '../../api/member.endpoint';
 import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
+import Avatar from '../util/Avatar';
 const IssueModelHOC = lazy(() => import('../issue/IssueModelHOC'));
 const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 
@@ -34,6 +29,7 @@ function Filter(props: Props) {
   const { data: authUser } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
+  const len = members?.length;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
@@ -54,33 +50,30 @@ function Filter(props: Props) {
       <div className='relative'>
         <input
           placeholder='Search issues'
-          className='w-44 rounded-sm border-[1px] bg-transparent py-[5px] pl-8 pr-2 text-sm outline-none focus:border-chakra-blue'
+          className='w-44 rounded-sm border-2 bg-transparent py-[5px] pl-9 pr-2 text-sm outline-none focus:border-chakra-blue'
         />
-        <IconIfy
+        <Icon
           width={20}
           icon='ant-design:search-outlined'
-          className='absolute top-[6px] left-[6px] w-[19px]'
+          className='absolute top-[6px] left-2 w-[19px]'
         />
       </div>
-      <CP>
-        <AvatarGroup ml={6} mr={4}>
-          {members?.map(({ id, profileUrl, username, userId }) => (
+      {members && len && (
+        <div className='ml-7 mr-1 flex'>
+          {members.map(({ profileUrl, username, userId }, i) => (
             <Avatar
-              key={id}
-              name={username}
-              title={username}
               src={profileUrl}
-              h={'43px'}
-              w={'43px'}
-              cursor='pointer'
-              transitionDuration='.2s'
-              borderColor={userId === uid ? 'blue' : undefined}
-              _hover={{ transform: 'translateY(-6px)' }}
+              name={username}
               onClick={handleSetQuery({ userId })}
+              className={`
+              -ml-2 h-11 w-11 border-2 duration-300 hover:-translate-y-2
+              ${userId === uid ? 'border-blue-500' : ''}
+              ${'z-' + (len - i) * 10}
+              `}
             />
           ))}
-        </AvatarGroup>
-      </CP>
+        </div>
+      )}
       <button className='btn-crystal shrink-0' onClick={handleSetQuery({ userId: authUser.id })}>
         Only my issues
       </button>

@@ -1,8 +1,8 @@
-import { Avatar, ChakraProvider as CP } from '@chakra-ui/react';
 import { lazy, memo, Suspense as S, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { AuthUser } from '../../api/apiTypes';
 import UpdateProfile from './UpdateProfile';
+import Avatar from '../util/Avatar';
 const ChangePwd = lazy(() => import('./ChangePwd'));
 
 interface Props {
@@ -17,9 +17,7 @@ const Profile = (props: Props) => {
     <div className='flex h-full w-[320px] flex-col items-center gap-8 overflow-y-auto overflow-x-hidden border-r-2 border-c-3 bg-c-1 p-6'>
       {u ? (
         <>
-          <CP>
-            <Avatar src={u?.profileUrl} name={u?.username} w={40} h={40} />
-          </CP>
+          <Avatar src={u.profileUrl} name={u.username} className='h-40 w-40 cursor-default' />
           <div className='mb-2'>
             {isNormal ? (
               <UpdateProfile user={u} />

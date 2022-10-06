@@ -1,6 +1,6 @@
-import { Avatar, AvatarGroup, ChakraProvider } from "@chakra-ui/react";
-import { memo } from "react";
-import { Assignee, Member } from "../../api/apiTypes";
+import { memo } from 'react';
+import { Assignee, Member } from '../../api/apiTypes';
+import Avatar from '../util/Avatar';
 
 interface Props {
   assignees: Assignee[];
@@ -13,23 +13,21 @@ const AssignedMembers = (props: Props) => {
     (p, { id, userId, ...data }) => ({ ...p, [userId]: data }),
     {}
   ) as Record<number, Member>;
+  const len = members.length;
 
   return (
-    <ChakraProvider>
-      <AvatarGroup size="sm">
-        {assignees.map(({ id, userId }) => {
-          const assignee = membersObj[userId];
-
-          return assignee ? (
-            <Avatar
-              key={id}
-              name={assignee.username}
-              src={assignee.profileUrl}
-            />
-          ) : null;
-        })}
-      </AvatarGroup>
-    </ChakraProvider>
+    <div className='ml-7 flex'>
+      {assignees.map(({ userId }, i) => {
+        const assignee = membersObj[userId];
+        return assignee ? (
+          <Avatar
+            src={assignee.profileUrl}
+            name={assignee.username}
+            className={`pointer-events-none -ml-2 h-8 w-8 border-2 ${'z-' + (len - i) * 10}`}
+          />
+        ) : null;
+      })}
+    </div>
   );
 };
 

@@ -1,10 +1,10 @@
+import { lazy, Suspense as S, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import { Issue as JiraIssue } from '../../api/apiTypes';
 import { types, priorities } from '../../category';
 import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
-import { lazy, Suspense as S, useState } from 'react';
-import { useParams } from 'react-router-dom';
 const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
 const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
 

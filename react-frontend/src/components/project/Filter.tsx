@@ -1,12 +1,8 @@
 import { Dispatch, lazy, SetStateAction, Suspense as S, useState } from 'react';
 import {
   ChakraProvider as CP,
-  InputGroup,
-  InputLeftElement,
-  Input,
   Avatar,
   AvatarGroup,
-  Divider,
   useToast,
   UseToastOptions,
 } from '@chakra-ui/react';
@@ -55,11 +51,18 @@ function Filter(props: Props) {
 
   return (
     <div className='mb-8 flex min-w-fit items-center px-10 text-c-5'>
+      <div className='relative'>
+        <input
+          placeholder='Search issues'
+          className='w-44 rounded-sm border-[1px] bg-transparent py-[5px] pl-8 pr-2 text-sm outline-none focus:border-chakra-blue'
+        />
+        <IconIfy
+          width={20}
+          icon='ant-design:search-outlined'
+          className='absolute top-[6px] left-[6px] w-[19px]'
+        />
+      </div>
       <CP>
-        <InputGroup size='sm' minW={160} w={160}>
-          <InputLeftElement children={<IconIfy width={20} icon='ant-design:search-outlined' />} />
-          <Input size='sm' placeholder='Search issues'></Input>
-        </InputGroup>
         <AvatarGroup ml={6} mr={4}>
           {members?.map(({ id, profileUrl, username, userId }) => (
             <Avatar
@@ -81,11 +84,13 @@ function Filter(props: Props) {
       <button className='btn-crystal shrink-0' onClick={handleSetQuery({ userId: authUser.id })}>
         Only my issues
       </button>
-      <Divider my={1} h={6} orientation='vertical' />
       {uid && (
-        <button className='btn-crystal shrink-0' onClick={handleSetQuery({})}>
-          Clear all
-        </button>
+        <>
+          <div className='pb-[2px]'>|</div>
+          <button className='btn-crystal shrink-0' onClick={handleSetQuery({})}>
+            Clear all
+          </button>
+        </>
       )}
       <button onClick={handleClick} className='btn ml-5 shrink-0'>
         Create an issue

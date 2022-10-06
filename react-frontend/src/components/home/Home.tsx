@@ -1,9 +1,9 @@
-import { Outlet, useOutlet } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
-import Menubar from "./Menubar";
-import ProjectCatalog from "./ProjectCatalog";
-import Sidebar from "./Sidebar";
-import type { Theme } from "../../utils";
+import { Outlet, useOutlet } from 'react-router-dom';
+import Breadcrumbs from './Breadcrumbs';
+import Menubar from './Menubar';
+import ProjectCatalog from './ProjectCatalog';
+import Sidebar from './Sidebar';
+import type { Theme } from '../../utils';
 
 interface Props {
   theme: Theme;
@@ -11,16 +11,15 @@ interface Props {
 }
 
 const Home = (props: Props) => {
-  const { theme, toggleTheme } = props;
   const outlet = useOutlet();
 
   return (
     <>
-      <Sidebar {...{ theme, toggleTheme }} />
+      <Sidebar {...props} />
       <Menubar />
       {outlet ? (
         <>
-          <main className="z-10 grow overflow-auto bg-c-1 bg-center">
+          <main className='z-10 grow overflow-auto bg-c-1 bg-center'>
             <Breadcrumbs />
             <Outlet />
           </main>

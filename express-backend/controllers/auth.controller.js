@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { badRequest } = require('./util');
+const { badRequest, cookieConfig } = require('./util');
 
 const client = new PrismaClient();
 
@@ -90,5 +90,3 @@ function createCookie(res, token) {
     ...cookieConfig,
   });
 }
-
-const cookieConfig = { httpOnly: true, secure: true, sameSite: 'none' };

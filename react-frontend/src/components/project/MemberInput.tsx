@@ -93,7 +93,7 @@ const MemberInput = (props: Props) => {
           )}
         </div>
         {!input ? null : (
-          <div className='absolute top-0 z-10 w-full rounded-[3px] border-[1px] bg-white p-[8px_12px_22px] shadow-sm'>
+          <div className='absolute top-0 z-10 w-full rounded-[3px] border-[1px] bg-c-1 bg-white p-[8px_12px_22px] text-c-text shadow-sm'>
             {loading ? (
               <span className='mt-2 block text-center'>searching ...</span>
             ) : users.length === 0 ? (

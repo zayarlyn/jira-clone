@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
-const { badRequest } = require('./util');
+const { badRequest, cookieConfig } = require('./util');
 
 const client = new PrismaClient();
 
@@ -22,7 +22,7 @@ exports.getAuthUser = async (req, res) => {
     const { pwd, ...user } = await client.user.findFirst({ where: { id: req.user.uid } });
     res.json(user).end();
   } catch (err) {
-    return badRequest(res);
+    return res.clearCookie('jira-clone', cookieConfig).status(401).end();
   }
 };
 

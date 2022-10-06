@@ -43,4 +43,6 @@ const updateOrder = async ({ id, order, type, model }) => {
 
 const badRequest = (res) => res.status(400).end();
 
-module.exports = { sameContainerReorder, diffContainerReorder, badRequest };
+const cookieConfig = { httpOnly: true, secure: true, sameSite: 'none' };
+
+module.exports = { sameContainerReorder, diffContainerReorder, badRequest, cookieConfig };

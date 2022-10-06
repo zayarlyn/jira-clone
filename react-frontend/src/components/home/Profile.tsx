@@ -14,7 +14,7 @@ const Profile = (props: Props) => {
   const [isNormal, setIsNormal] = useState(true);
 
   return (
-    <div className='flex h-full w-[320px] flex-col items-center gap-8 overflow-y-auto overflow-x-hidden border-r-2 border-c-3 bg-c-1 p-6'>
+    <div className='flex h-screen w-[320px] flex-col items-center gap-8 overflow-y-auto overflow-x-hidden border-r-2 border-c-3 bg-c-1 p-6'>
       {u ? (
         <>
           <Avatar src={u.profileUrl} name={u.username} className='h-40 w-40 cursor-default' />

@@ -37,7 +37,7 @@ function Sidebar(props: Props) {
   };
 
   return (
-    <div className='flex shrink-0'>
+    <div className='flex min-h-screen shrink-0'>
       <div className='flex w-14 flex-col items-center justify-between bg-primary py-6'>
         <div className='flex flex-col gap-y-8'>
           <button title='Go to Home' onClick={() => navigate('/project')} className='w-8'>

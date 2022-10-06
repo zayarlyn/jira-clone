@@ -35,8 +35,8 @@ function Adios() {
   };
 
   return (
-    <main className='bg-jira-gradient grid w-full place-items-center'>
-      <div className='w-11/12 max-w-[25rem] rounded-md bg-white px-8 pt-12 pb-14'>
+    <main className='bg-jira-gradient grid h-fit min-h-screen w-full place-items-center'>
+      <div className='my-8 w-11/12 max-w-[25rem] rounded-md bg-white px-8 pt-12 pb-14'>
         <h1 className='text-xl'>You are about to delete your account</h1>
         <form onSubmit={handleSubmit(onSubmit)} className='mt-6 flex flex-col gap-5'>
           <InputWithValidation
@@ -76,7 +76,7 @@ function Adios() {
             <button
               type='button'
               onClick={() => navigate(-1)}
-              className='btn-crystal mt-3 w-full underline hover:bg-slate-100'
+              className='btn-crystal mt-3 w-full bg-slate-200 hover:bg-slate-100'
             >
               go back
             </button>

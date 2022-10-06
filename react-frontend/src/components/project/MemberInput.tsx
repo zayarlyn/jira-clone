@@ -1,4 +1,4 @@
-import { ChangeEvent, lazy, memo, Suspense, useState } from 'react';
+import { ChangeEvent, lazy, memo, Suspense as S, useState } from 'react';
 import { useRemoveMemberMutation } from '../../api/member.endpoint';
 import { Member, PublicUser } from '../../api/apiTypes';
 import UserMember from './UserMember';
@@ -14,7 +14,7 @@ interface Props {
 let unsubscribe: ReturnType<typeof setTimeout>;
 
 const MemberInput = (props: Props) => {
-  const { projectId, readOnly, members } = props;
+  const { projectId, members, readOnly } = props;
   const [removeMember] = useRemoveMemberMutation();
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [users, setUsers] = useState<PublicUser[]>([]);
@@ -49,23 +49,23 @@ const MemberInput = (props: Props) => {
         value={input}
         onChange={handleInputChange}
         placeholder='username'
-        className={`block w-full focus:border-chakra-blue mt-2 px-3 rounded-sm text-sm py-[3px] border-2 duration-200 outline-none border-transparent hover:bg-c-7 focus:bg-c-1 bg-c-6 text-c-text ${
+        className={`mt-2 block w-full rounded-sm border-2 border-transparent bg-c-6 px-3 py-[3px] text-sm text-c-text outline-none duration-200 hover:bg-c-7 focus:border-chakra-blue focus:bg-c-1 ${
           readOnly ? 'pointer-events-none' : ''
         }`}
         readOnly={readOnly}
       />
       <div className='relative'>
         <div>
-          <div className='flex flex-wrap gap-1 mt-3'>
+          <div className='mt-3 flex flex-wrap gap-1'>
             {members
               ? members.map(({ username, id, isAdmin }, idx) => (
                   <div
                     key={id}
                     onClick={() => setSelectedIdx(isAdmin ? null : idx)}
-                    className={`px-2 tracking-wide font-semibold text-sm border-[1px]  ${
+                    className={`border-[1px] px-2 text-sm font-semibold tracking-wide  ${
                       isAdmin
                         ? 'bg-blue-500 text-white'
-                        : 'text-blue-400 hover:opacity-90 cursor-pointer'
+                        : 'cursor-pointer text-blue-400 hover:opacity-90'
                     } ${
                       selectedIdx === idx ? 'border-green-400 text-green-400' : 'border-blue-400'
                     } ${readOnly ? 'pointer-events-none' : ''}`}
@@ -76,16 +76,16 @@ const MemberInput = (props: Props) => {
               : 'loading ...'}
           </div>
           {selectedIdx && !readOnly && (
-            <div className='pt-4 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 mt-3'>
+            <div className='mt-3 flex justify-end gap-x-3 border-t-[.5px] border-gray-400 pt-4'>
               <button
                 onClick={() => setSelectedIdx(null)}
-                className='btn text-[13px] tracking-wide bg-transparent hover:bg-c-2 text-c-text'
+                className='btn bg-transparent text-[13px] tracking-wide text-c-text hover:bg-c-2'
               >
                 cancel
               </button>
               <button
                 onClick={() => setIsOpen(true)}
-                className='btn text-[13px] tracking-wide bg-red-500 hover:bg-red-600'
+                className='btn-alert text-[13px] tracking-wide'
               >
                 Remove member
               </button>
@@ -93,14 +93,14 @@ const MemberInput = (props: Props) => {
           )}
         </div>
         {!input ? null : (
-          <div className='absolute top-0 rounded-[3px] bg-white w-full shadow-sm p-[8px_12px_22px] z-10 border-[1px]'>
+          <div className='absolute top-0 z-10 w-full rounded-[3px] border-[1px] bg-white p-[8px_12px_22px] shadow-sm'>
             {loading ? (
-              <span className='text-center block mt-2'>searching ...</span>
+              <span className='mt-2 block text-center'>searching ...</span>
             ) : users.length === 0 ? (
-              <span className='text-center block mt-2'>not user was found :(</span>
+              <span className='mt-2 block text-center'>not user was found :(</span>
             ) : (
               <>
-                <span className='text-sm mb-2 block'>Is this the one?</span>
+                <span className='mb-2 block text-sm'>Is this the one?</span>
                 {users.map((info) => (
                   <UserMember
                     key={info.id}
@@ -116,13 +116,13 @@ const MemberInput = (props: Props) => {
         )}
       </div>
       {isOpen && (
-        <Suspense>
+        <S>
           <ConfirmModel
             msg={'remove ' + members?.[selectedIdx as number].username}
             onClose={() => setIsOpen(false)}
             onSubmit={handleRemoveMember}
           />
-        </Suspense>
+        </S>
       )}
     </div>
   );

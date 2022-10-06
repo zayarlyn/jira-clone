@@ -40,7 +40,7 @@ exports.logIn = async (req, res) => {
 };
 
 exports.logOut = (req, res) => {
-  res.clearCookie('jira-clone').end();
+  res.clearCookie('jira-clone', cookieConfig).end();
 };
 
 exports.changePwd = async (req, res) => {
@@ -71,7 +71,11 @@ exports.authMiddleware = (req, res, next) => {
     req.user = payload;
     next();
   } catch (err) {
-    return res.clearCookie('jira-clone').status(401).json({ message: err.message }).end();
+    return res
+      .clearCookie('jira-clone', cookieConfig)
+      .status(401)
+      .json({ message: err.message })
+      .end();
   }
 };
 
@@ -82,9 +86,9 @@ const findUser = async (email) => client.user.findFirst({ where: { email } });
 
 function createCookie(res, token) {
   res.cookie('jira-clone', JSON.stringify({ token }), {
-    httpOnly: true,
     expires: new Date(Date.now() + 1296000000), // 15 days
-    secure: true,
-    sameSite: 'none',
+    ...cookieConfig,
   });
 }
+
+const cookieConfig = { httpOnly: true, secure: true, sameSite: 'none' };

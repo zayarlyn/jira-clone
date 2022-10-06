@@ -1,9 +1,9 @@
-import { Outlet, useOutlet } from 'react-router-dom';
-import Breadcrumbs from './Breadcrumbs';
-import Menubar from './Menubar';
-import ProjectCatalog from './ProjectCatalog';
-import Sidebar from './Sidebar';
-import type { Theme } from '../../utils';
+import { Outlet, useOutlet } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
+import Menubar from "./Menubar";
+import ProjectCatalog from "./ProjectCatalog";
+import Sidebar from "./Sidebar";
+import type { Theme } from "../../utils";
 
 interface Props {
   theme: Theme;
@@ -20,7 +20,7 @@ const Home = (props: Props) => {
       <Menubar />
       {outlet ? (
         <>
-          <main className='z-10 bg-center bg-c-1 overflow-auto grow'>
+          <main className="z-10 grow overflow-auto bg-c-1 bg-center">
             <Breadcrumbs />
             <Outlet />
           </main>

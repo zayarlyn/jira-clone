@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import Model from './Model';
+import { useState } from "react";
+import Model from "./Model";
 
 interface Props {
   msg?: string;
@@ -19,18 +19,21 @@ const ConfirmModel = (props: Props) => {
   };
 
   return (
-    <Model onClose={onClose} className='max-w-[18rem]'>
+    <Model onClose={onClose} className="max-w-[18rem]">
       <>
-        <span>Are you sure you want to {msg ?? 'delete'}?</span>
-        <div className='flex justify-center gap-x-6 mt-8'>
+        <span>Are you sure you want to {msg ?? "delete"}?</span>
+        <div className="mt-8 flex justify-center gap-x-6">
           <button
             onClick={onClose}
-            className='btn bg-transparent text-black hover:bg-green-100 active:bg-green-200'
+            className="btn bg-transparent text-black hover:bg-green-100 active:bg-green-200"
           >
             cancel
           </button>
-          <button onClick={handleDelete} className='btn bg-red-600 hover:bg-red-700'>
-            {loading ? 'proceeding ... ' : 'Delete'}
+          <button
+            onClick={handleDelete}
+            className="btn bg-red-600 hover:bg-red-700"
+          >
+            {loading ? "proceeding ... " : "Delete"}
           </button>
         </div>
       </>

@@ -8,7 +8,9 @@ export interface AuthUser {
   updatedAt: string;
 }
 
-export type updateAuthUser = Partial<Pick<AuthUser, 'username' | 'email' | 'profileUrl'>>;
+export type updateAuthUser = Partial<
+  Pick<AuthUser, "username" | "email" | "profileUrl">
+>;
 
 export interface List {
   id: number;
@@ -70,7 +72,7 @@ export interface Project {
   userId: number;
 }
 
-export type CreateProject = Omit<Project, 'id'>;
+export type CreateProject = Omit<Project, "id">;
 
 export interface LeaveProject {
   projectId: number;
@@ -142,14 +144,14 @@ export interface CreateIssue {
 }
 
 export type UpdateIssueType =
-  | 'type'
-  | 'summary'
-  | 'descr'
-  | 'assignee'
-  | 'priority'
-  | 'listId'
-  | 'addAssignee'
-  | 'removeAssignee';
+  | "type"
+  | "summary"
+  | "descr"
+  | "assignee"
+  | "priority"
+  | "listId"
+  | "addAssignee"
+  | "removeAssignee";
 
 export interface UpdateIssue {
   id: number;

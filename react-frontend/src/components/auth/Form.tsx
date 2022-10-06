@@ -55,8 +55,14 @@ function Form(props: Props) {
             label='Username'
             register={register('username', {
               required: { value: true, message: 'username must not be empty' },
-              minLength: { value: 2, message: 'must be at least two characters long' },
-              pattern: { value: /^[A-Za-z0-9_]+$/g, message: 'username can be a-z,A-Z,0-9,_' },
+              minLength: {
+                value: 2,
+                message: 'must be at least two characters long',
+              },
+              pattern: {
+                value: /^[A-Za-z0-9_]+$/g,
+                message: 'username can be a-z,A-Z,0-9,_',
+              },
             })}
             error={errors.username as FieldError}
             inputClass='border-gray-500'
@@ -66,7 +72,10 @@ function Form(props: Props) {
           label='Password'
           register={register('pwd', {
             required: { value: true, message: 'password must not be empty' },
-            minLength: { value: 4, message: 'must be at least 4 characters long' },
+            minLength: {
+              value: 4,
+              message: 'must be at least 4 characters long',
+            },
             maxLength: { value: 14, message: 'must be under 15 characters' },
           })}
           error={errors.pwd as FieldError}
@@ -74,13 +83,13 @@ function Form(props: Props) {
           type='password'
         />
       </div>
-      {error && <span className='text-red-400 block mt-3'>{error}</span>}
-      <hr className='border-t-[.5px] border-gray-400 mt-3' />
-      <span className='text-[12px] text-gray-600 block mt-6'>
+      {error && <span className='mt-3 block text-red-400'>{error}</span>}
+      <hr className='mt-3 border-t-[.5px] border-gray-400' />
+      <span className='mt-6 block text-[12px] text-gray-600'>
         By clicking below, you agree to the our
         <span className='text-blue-800'> Privacy Policy.</span>
       </span>
-      <button type='submit' className='btn w-full mt-4 py-2 bg-[#321898]'>
+      <button type='submit' className='btn mt-4 w-full bg-[#321898] py-2'>
         {type === 'SIGNUP'
           ? loading
             ? 'registering ...'

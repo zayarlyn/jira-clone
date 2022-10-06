@@ -1,8 +1,8 @@
-import { ChangeEvent, useState } from 'react';
-import RTAutosize from 'react-textarea-autosize';
-import { UpdateIssueType } from '../../api/apiTypes';
-import WithLabel from '../util/WithLabel';
-import type { DispatchMiddleware } from './IssueDetailModal';
+import { ChangeEvent, useState } from "react";
+import RTAutosize from "react-textarea-autosize";
+import { UpdateIssueType } from "../../api/apiTypes";
+import WithLabel from "../util/WithLabel";
+import type { DispatchMiddleware } from "./IssueDetailModal";
 
 interface Props {
   type: UpdateIssueType;
@@ -15,8 +15,16 @@ interface Props {
 }
 
 const TextInput = (props: Props) => {
-  const { type, label, defaultValue, placeholder, apiFunc, className, isRequired } = props;
-  const [value, setValue] = useState(defaultValue ?? '');
+  const {
+    type,
+    label,
+    defaultValue,
+    placeholder,
+    apiFunc,
+    className,
+    isRequired,
+  } = props;
+  const [value, setValue] = useState(defaultValue ?? "");
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -38,11 +46,11 @@ const TextInput = (props: Props) => {
 
   return (
     <div>
-      <WithLabel label={label ?? ''} labelClass='sm:ml-3'>
+      <WithLabel label={label ?? ""} labelClass="sm:ml-3">
         <>
           <RTAutosize
-            className={`px-3 py-1 sm:py-2 w-full border-2 border-stale-100 sm:border-transparent resize-none hover:bg-[#f4f5f7] rounded-[3px] outline-none focus:border-chakra-blue ${
-              className ?? 'font-medium'
+            className={`border-stale-100 w-full resize-none rounded-[3px] border-2 px-3 py-1 outline-none hover:bg-[#f4f5f7] focus:border-chakra-blue sm:border-transparent sm:py-2 ${
+              className ?? "font-medium"
             }`}
             minRows={1}
             onChange={handleChange}
@@ -50,12 +58,12 @@ const TextInput = (props: Props) => {
           />
           {isEditing && (
             <>
-              <hr className='border-t-[.5px] border-gray-400 mt-3 mb-2 mx-3' />
-              <div className='flex justify-end'>
-                <button onClick={handleCancel} className='btn-crystal'>
+              <hr className="mx-3 mt-3 mb-2 border-t-[.5px] border-gray-400" />
+              <div className="flex justify-end">
+                <button onClick={handleCancel} className="btn-crystal">
                   cancel
                 </button>
-                <button onClick={handleSave} className='btn'>
+                <button onClick={handleSave} className="btn">
                   save
                 </button>
               </div>

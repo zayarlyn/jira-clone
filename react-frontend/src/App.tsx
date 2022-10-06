@@ -1,13 +1,13 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { lazy, Suspense, useState } from 'react';
+import { BrowserRouter as BR, Navigate, Route as R, Routes } from 'react-router-dom';
+import { lazy, Suspense as S, useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { getTheme } from './utils';
-const Welcome = lazy(() => import('./components/auth/Welcome'));
+import Welcome from './components/auth/Welcome';
+import Home from './components/home/Home';
 
 const Setting = lazy(() => import('./components/project/Setting'));
 const Project = lazy(() => import('./components/project/Project'));
-const Home = lazy(() => import('./components/home/Home'));
 const Adios = lazy(() => import('./components/auth/Adios'));
 
 function App() {
@@ -17,25 +17,44 @@ function App() {
 
   return (
     <main
-      className={`flex h-screen min-h-fit bg-c-111 bg-gray-500 ${
+      className={`bg-c-111 flex h-screen min-h-fit bg-gray-500 ${
         theme.mode === 'light' ? 'light-theme' : 'dark-theme'
       }`}
     >
       <Provider store={store}>
-        <Suspense>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/project' element={<Home theme={theme} toggleTheme={toggleTheme} />}>
-                <Route path=':projectId' element={<Setting />} />
-                <Route path=':projectId/board' element={<Project />} />
-              </Route>
-              <Route path='/register' element={<Welcome type='REGISTER' />} />
-              <Route path='/login' element={<Welcome type='LOGIN' />} />
-              <Route path='/adios' element={<Adios />} />
-              <Route path='/' element={<Navigate to='/project' />} />
-            </Routes>
-          </BrowserRouter>
-        </Suspense>
+        <BR>
+          <Routes>
+            <R path='/project' element={<Home theme={theme} toggleTheme={toggleTheme} />}>
+              <R
+                path=':projectId'
+                element={
+                  <S>
+                    <Setting />
+                  </S>
+                }
+              />
+              <R
+                path=':projectId/board'
+                element={
+                  <S>
+                    <Project />
+                  </S>
+                }
+              />
+            </R>
+            <R path='/register' element={<Welcome type='REGISTER' />} />
+            <R path='/login' element={<Welcome type='LOGIN' />} />
+            <R
+              path='/adios'
+              element={
+                <S>
+                  <Adios />
+                </S>
+              }
+            />
+            <R path='/' element={<Navigate to='/project' />} />
+          </Routes>
+        </BR>
       </Provider>
     </main>
   );

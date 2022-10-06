@@ -30,21 +30,18 @@
 
 @layer components {
   .btn {
-    @apply px-3 py-1 rounded-[3px] bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 whitespace-nowrap;
+    @apply whitespace-nowrap rounded-[3px] bg-blue-600 px-3 py-1 text-white hover:bg-blue-700 active:bg-blue-800;
   }
   .btn-crystal {
-    @apply px-3 py-1 rounded-[3px] hover:bg-c-6 active:bg-c-7;
+    @apply rounded-[3px] px-3 py-1 hover:bg-c-6 active:bg-c-7;
   }
   .btn-alert {
-    @apply px-3 py-1 rounded-[3px] bg-red-500 text-white hover:bg-red-600 active:bg-red-700 whitespace-nowrap;
+    @apply whitespace-nowrap rounded-[3px] bg-red-500 px-3 py-1 text-white hover:bg-red-600 active:bg-red-700;
   }
   .btn-icon {
-    @apply p-1 hover:bg-c-2 rounded-[3px];
+    @apply rounded-[3px] p-1 hover:bg-c-2;
   }
   .bg-jira-gradient {
     @apply bg-gradient-to-r from-[#151642] to-[#321898];
-  }
-  .auth-loading {
-    @apply text-white h-full text-center mt-[30vh] text-xl;
   }
 }

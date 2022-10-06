@@ -1,4 +1,4 @@
-import { Dispatch, lazy, SetStateAction, Suspense, useState } from 'react';
+import { Dispatch, lazy, SetStateAction, Suspense as S, useState } from 'react';
 import {
   ChakraProvider as CP,
   InputGroup,
@@ -91,9 +91,9 @@ function Filter(props: Props) {
         Create an issue
       </button>
       {isOpen && !isEmpty && (
-        <Suspense>
+        <S>
           <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
-        </Suspense>
+        </S>
       )}
     </div>
   );

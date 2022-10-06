@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense as S, useState } from 'react';
 import { UpdateIssueType } from '../../api/apiTypes';
 import {
   selectIssuesArray,
@@ -19,7 +19,10 @@ const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware 
     newLen = NEW.length;
   if (oldLen === newLen) return;
   const userId = newLen > oldLen ? NEW[newLen - 1] : OLD.filter((id) => !NEW.includes(id))[0];
-  return { type: newLen > oldLen ? 'addAssignee' : 'removeAssignee', value: userId };
+  return {
+    type: newLen > oldLen ? 'addAssignee' : 'removeAssignee',
+    value: userId,
+  };
 };
 
 const IssueDetailModal = (props: IssueModalProps) => {
@@ -56,18 +59,18 @@ const IssueDetailModal = (props: IssueModalProps) => {
   return (
     <Model onClose={onClose} className='max-w-[55rem]'>
       <>
-        <div className='text-[16px] text-gray-600 sm:px-3 mt-3 flex items-center justify-between'>
-          <Item className='mr-3 w-4 h-4' {...types[type]} text={'Issue-' + id} />
+        <div className='mt-3 flex items-center justify-between text-[16px] text-gray-600 sm:px-3'>
+          <Item className='mr-3 h-4 w-4' {...types[type]} text={'Issue-' + id} />
           <div className='text-black'>
             <button onClick={() => setIsOpen(true)} title='Delete' className='btn-icon text-xl'>
               <Icon icon='bx:trash' />
             </button>
-            <button onClick={onClose} title='Close' className='btn-icon text-lg ml-4'>
+            <button onClick={onClose} title='Close' className='btn-icon ml-4 text-lg'>
               <Icon icon='akar-icons:cross' />
             </button>
           </div>
         </div>
-        <div className='sm:flex mb-8'>
+        <div className='mb-8 sm:flex'>
           <div className='w-full sm:pr-6'>
             <TextInput
               type='summary'
@@ -86,7 +89,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
               placeholder='add a description'
             />
           </div>
-          <div className='sm:w-[15rem] shrink-0 mt-3'>
+          <div className='mt-3 shrink-0 sm:w-[15rem]'>
             <WithLabel label='Status'>
               <DropDown
                 list={lists}
@@ -99,10 +102,10 @@ const IssueDetailModal = (props: IssueModalProps) => {
             </WithLabel>
             {members && (
               <WithLabel label='Reporter'>
-                <div className='bg-[#f4f5f7] sm:w-fit px-4 py-[5px] rounded-sm'>
+                <div className='rounded-sm bg-[#f4f5f7] px-4 py-[5px] sm:w-fit'>
                   <Item
                     {...members.filter(({ value }) => value === reporterId)[0]}
-                    className='w-6 h-6 mr-4 rounded-full object-cover'
+                    className='mr-4 h-6 w-6 rounded-full object-cover'
                   />
                 </div>
               </WithLabel>
@@ -142,19 +145,19 @@ const IssueDetailModal = (props: IssueModalProps) => {
             <hr className='border-t-[.5px] border-gray-400' />
             <div className='mt-4 text-sm text-gray-700'>
               {createdAt && (
-                <span className='block mb-2'>Created - {new Date(createdAt).toLocaleString()}</span>
+                <span className='mb-2 block'>Created - {new Date(createdAt).toLocaleString()}</span>
               )}
               {updatedAt && <span>Updated - {new Date(updatedAt).toLocaleString()}</span>}
             </div>
           </div>
         </div>
         {isOpen && (
-          <Suspense>
+          <S>
             <ConfirmModel
               onClose={() => setIsOpen(false)}
               onSubmit={() => deleteIssue({ issueId: id, projectId })}
             />
-          </Suspense>
+          </S>
         )}
       </>
     </Model>
@@ -163,4 +166,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
 
 export default IssueDetailModal;
 
-export type DispatchMiddleware = { type: UpdateIssueType; value: number | number[] | string };
+export type DispatchMiddleware = {
+  type: UpdateIssueType;
+  value: number | number[] | string;
+};

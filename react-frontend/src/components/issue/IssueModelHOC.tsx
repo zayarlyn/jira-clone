@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { useParams } from 'react-router-dom';
-import { selectLists } from '../../api/lists.endpoint';
-import { selectMembers } from '../../api/member.endpoint';
-import { types, priorities } from '../../category';
-import { Category } from '../util/DropDown';
+import { FC } from "react";
+import { useParams } from "react-router-dom";
+import { selectLists } from "../../api/lists.endpoint";
+import { selectMembers } from "../../api/member.endpoint";
+import { types, priorities } from "../../category";
+import { Category } from "../util/DropDown";
 
 export type IssueMetaData = { listIdx: number; listId: number; idx: number };
 
@@ -27,7 +27,10 @@ const IssueModelHOC = (props: Props) => {
       })) as Category[])
     : [];
   const lists = apiLists
-    ? (apiLists.map(({ id, name }) => ({ text: name, value: id })) as Category[])
+    ? (apiLists.map(({ id, name }) => ({
+        text: name,
+        value: id,
+      })) as Category[])
     : [];
 
   return (

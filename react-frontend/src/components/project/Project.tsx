@@ -5,6 +5,7 @@ import { useIssuesQuery } from '../../api/issues.endpoint';
 import { useListsQuery } from '../../api/lists.endpoint';
 import Board from './Board';
 import Filter from './Filter';
+import SS from '../util/SpinningCircle';
 
 const Project = () => {
   const projectId = Number(useParams().projectId);
@@ -24,7 +25,7 @@ const Project = () => {
     if ((listError as APIERROR).status === 401 || (issueError as APIERROR).status === 401)
       return <Navigate to='/login' />;
     return (
-      <div className='grow grid place-items-center h-full text-xl'>
+      <div className='grid h-full grow place-items-center text-xl'>
         You are not part of this project ☝
       </div>
     );
@@ -39,7 +40,14 @@ const Project = () => {
         isEmpty={lists?.length === 0}
         {...{ issueQueryData, setIssueQueryData, projectId, setIsDragDisabled }}
       />
-      <Board {...{ lists, issues, isDragDisabled }} />
+
+      {lists ? (
+        <Board {...{ lists, issues, isDragDisabled }} />
+      ) : (
+        <div className='grid h-[40vh] w-full place-items-center'>
+          <SS />
+        </div>
+      )}
     </div>
   );
 };

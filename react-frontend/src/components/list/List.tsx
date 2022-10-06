@@ -3,7 +3,7 @@ import DroppableWrapper from '../dnd/DroppableWrapper';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import type { Issue as ApiIssue, List as LIST } from '../../api/apiTypes';
 import { Icon } from '@iconify/react';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense as S, useState } from 'react';
 import { useDeleteListMutation, useUpdateListMutation } from '../../api/lists.endpoint';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
@@ -37,25 +37,25 @@ const List = (props: Props) => {
         draggableId={'list-' + id}
         isDragDisabled={isDragDisabled}
       >
-        <div className='relative mr-3 bg-c-2 p-3 shadow-list text-c-5'>
-          <div className='mb-4 text-[15px] flex justify-between items-center'>
-            <div className='flex item-center'>
+        <div className='relative mr-3 bg-c-2 p-3 text-c-5 shadow-list'>
+          <div className='mb-4 flex items-center justify-between text-[15px]'>
+            <div className='item-center flex'>
               <div className='relative'>
                 {isEditing ? (
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     autoFocus
-                    className='bg-c-2 pl-2 w-36 border-[1.5px] text-[15px] focus:border-chakra-blue outline-none'
+                    className='w-36 border-[1.5px] bg-c-2 pl-2 text-[15px] outline-none focus:border-chakra-blue'
                   />
                 ) : (
-                  <span className='pl-2 block font-medium border-[1.5px] border-transparent'>
+                  <span className='block border-[1.5px] border-transparent pl-2 font-medium'>
                     {name}
                   </span>
                 )}
               </div>
               <span className='mx-2 text-gray-500'>|</span>
-              <span className='font-bold text-c-4 pt-[1px]'>{issues ? issues.length : 0}</span>
+              <span className='text-c-4 pt-[1px] font-bold'>{issues ? issues.length : 0}</span>
             </div>
             <div className='flex gap-2'>
               {isEditing && (
@@ -91,12 +91,12 @@ const List = (props: Props) => {
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <Suspense>
+        <S>
           <ConfirmModel
             onClose={() => setIsOpen(false)}
             onSubmit={() => deleteList({ listId: id, projectId })}
           />
-        </Suspense>
+        </S>
       )}
     </>
   );

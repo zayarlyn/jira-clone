@@ -3,7 +3,7 @@ import { Issue as JiraIssue } from '../../api/apiTypes';
 import { types, priorities } from '../../category';
 import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense as S, useState } from 'react';
 import { useParams } from 'react-router-dom';
 const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
 const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
@@ -20,30 +20,30 @@ const Issue = (props: Props) => {
   return (
     <>
       <DraggableWrapper
-        className='mb-2 w-full rounded-sm bg-c-1 p-2 shadow-issue hover:bg-c-4'
+        className='hover:bg-c-4 mb-2 w-full rounded-sm bg-c-1 p-2 shadow-issue'
         index={idx}
         draggableId={'issue-' + id}
         isDragDisabled={isDragDisabled}
       >
         <div onClick={() => setIsOpen(true)}>
           <span className=''>{summary}</span>
-          <div className='flex items-center justify-between mt-2'>
+          <div className='mt-2 flex items-center justify-between'>
             <div className='flex items-center gap-3'>
-              <img className='w-[18px] h-[18px]' src={types[type].icon} alt={types[type].text} />
-              <img className='w-[18px] h-[18px]' src={icon} alt={text} />
+              <img className='h-[18px] w-[18px]' src={types[type].icon} alt={types[type].text} />
+              <img className='h-[18px] w-[18px]' src={icon} alt={text} />
             </div>
             <AssignedMembers assignees={assignees} members={members} />
           </div>
         </div>
       </DraggableWrapper>
       {isOpen && (
-        <Suspense>
+        <S>
           <IssueModelHOC
             children={IssueDetailModal}
             onClose={() => setIsOpen(false)}
             issue={{ listId, listIdx, idx }}
           />
-        </Suspense>
+        </S>
       )}
     </>
   );

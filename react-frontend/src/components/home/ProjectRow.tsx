@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense as S, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Project } from '../../api/apiTypes';
 import { usePublicUserQuery } from '../../api/auth.endpoint';
@@ -31,32 +31,32 @@ const ProjectRow = (props: Props) => {
     <div>
       <div
         key={id}
-        className='flex border-c-3 border-y-2 relative group border-t-transparent py-1 cursor-pointer hover:border-blue-400 hover:border-t-2'
+        className='group relative flex cursor-pointer border-y-2 border-c-3 border-t-transparent py-1 hover:border-t-2 hover:border-blue-400'
         onClick={() => navigate(id + '/board')}
       >
-        <div className='text-center w-8 shrink-0'>{idx + 1}</div>
-        <div className='grow min-w-[10rem] px-2'>{name}</div>
-        <div className='grow min-w-[20rem] px-2'>{descr}</div>
+        <div className='w-8 shrink-0 text-center'>{idx + 1}</div>
+        <div className='min-w-[10rem] grow px-2'>{name}</div>
+        <div className='min-w-[18rem] grow px-2'>{descr}</div>
         <div className='w-52 shrink-0 px-2'>
           {publicUser?.username}
-          {isAdmin ? <span className='text-sm ml-1 font-bold'>(you)</span> : ''}
+          {isAdmin ? <span className='ml-1 text-sm font-bold'>(you)</span> : ''}
         </div>
         <button
           title='Delete or Leave'
           onClick={handleDelete}
-          className='btn-icon ml-5 absolute right-0 bg-c-1 hidden group-hover:block'
+          className='btn-icon absolute right-0 ml-5 hidden bg-c-1 group-hover:block'
         >
           <Icon icon='bx:trash' className='text-red-500' />
         </button>
       </div>
       {on && publicUser && (
-        <Suspense>
+        <S>
           <DeleteProject
             projectId={id}
             {...{ name, authUserId, memberId, isAdmin }}
             onClose={() => setOn(false)}
           />
-        </Suspense>
+        </S>
       )}
     </div>
   );

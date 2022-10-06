@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { Icon } from "@iconify/react";
 
 interface Props {
   icon: string;
@@ -12,9 +12,9 @@ const IconBtn = (props: Props) => {
   return (
     <button
       {...{ title, onClick }}
-      className='rounded-full p-[5px] hover:bg-[#4c3fd1] active:bg-chakra-blue'
+      className="rounded-full p-[5px] hover:bg-[#4c3fd1] active:bg-chakra-blue"
     >
-      <Icon className='text-2xl text-white' icon={icon} />
+      <Icon className="text-2xl text-white" icon={icon} />
     </button>
   );
 };

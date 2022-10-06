@@ -1,10 +1,10 @@
-import { lazy, useState } from 'react';
+import { lazy, Suspense as S, useState } from 'react';
 import { Avatar, ChakraProvider as CP, Switch } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import IconBtn from '../util/IconBtn';
-import type { Theme } from '../../utils';
+import { setTheme, Theme } from '../../utils';
 import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';
 const Profile = lazy(() => import('./Profile'));
@@ -27,12 +27,7 @@ function Sidebar(props: Props) {
 
   const handleToggle = () => {
     toggleTheme();
-    localStorage.setItem(
-      'jira-clone-theme',
-      JSON.stringify({
-        mode: mode === 'light' ? 'dark' : 'light',
-      })
-    );
+    setTheme(mode);
   };
 
   const handleLogOut = async () => {
@@ -42,10 +37,10 @@ function Sidebar(props: Props) {
 
   return (
     <div className='flex shrink-0'>
-      <div className='flex flex-col justify-between items-center w-14 py-6 bg-primary'>
+      <div className='flex w-14 flex-col items-center justify-between bg-primary py-6'>
         <div className='flex flex-col gap-y-8'>
           <button title='Go to Home' onClick={() => navigate('/project')} className='w-8'>
-            <img className='w-12 h-8' src='/assets/jira.svg' alt='jira-clone' />
+            <img className='h-8 w-12' src='/assets/jira.svg' alt='jira-clone' />
           </button>
           <CP>
             <Switch title='Toggle Theme' isChecked={mode === 'dark'} onChange={handleToggle} />
@@ -72,7 +67,11 @@ function Sidebar(props: Props) {
         animate={{ width: isOpen ? 320 : 0 }}
         transition={{ type: 'tween' }}
       >
-        {authUser && <Profile authUser={authUser} />}
+        {authUser && (
+          <S>
+            <Profile authUser={authUser} />
+          </S>
+        )}
       </motion.div>
     </div>
   );

@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
 interface Props {
-  lists?: ApiList[];
+  lists: ApiList[];
   issues?: Issues;
   isDragDisabled: boolean;
 }
@@ -20,8 +20,6 @@ const Board = (props: Props) => {
   const [reorderIssues] = useReorderIssuesMutation();
   const [createList, { isLoading }] = useCreateListMutation();
   const projectId = Number(useParams().projectId);
-
-  if (!lists) return null;
 
   const onDragEnd = ({ type, source: s, destination: d }: DropResult) => {
     if (!lists! || !issues || !d || (s.droppableId === d.droppableId && s.index === d.index))
@@ -46,7 +44,7 @@ const Board = (props: Props) => {
   };
 
   return (
-    <div className='grow px-10 min-w-max flex items-start'>
+    <div className='flex min-w-max grow items-start px-10'>
       <DragDropContext onDragEnd={onDragEnd}>
         <DroppableWrapper
           type='list'
@@ -66,7 +64,7 @@ const Board = (props: Props) => {
         </DroppableWrapper>
         <button
           onClick={handleCreateList}
-          className='bg-c-2 text-c-5 hover:bg-c-6 active:bg-blue-100 py-3 px-14 rounded-md flex items-center gap-5'
+          className='flex items-center gap-5 rounded-md bg-c-2 py-3 px-14 text-c-5 hover:bg-c-6 active:bg-blue-100'
         >
           {isLoading ? (
             'creating ...'

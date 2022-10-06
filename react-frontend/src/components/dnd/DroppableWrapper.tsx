@@ -1,10 +1,20 @@
-import { Direction, Droppable } from '@hello-pangea/dnd';
+import { Direction, Droppable } from "@hello-pangea/dnd";
 
-const DroppableWrapper = ({ children: CH, className, droppableId, type, direction }: DROP) => {
+const DroppableWrapper = ({
+  children: CH,
+  className,
+  droppableId,
+  type,
+  direction,
+}: DROP) => {
   return (
     <Droppable direction={direction} type={type} droppableId={droppableId}>
       {(provided) => (
-        <div className={className} ref={provided.innerRef} {...provided.droppableProps}>
+        <div
+          className={className}
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
           {CH}
           {provided.placeholder}
         </div>

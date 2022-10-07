@@ -48,7 +48,7 @@ exports.createIssue = async (req, res) => {
 
 exports.updateIssue = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = +req.params.id;
     const { type, value, projectId } = req.body;
 
     switch (type) {
@@ -58,18 +58,24 @@ exports.updateIssue = async (req, res) => {
           _count: true,
         });
         await client.issue.update({
-          where: { id: +id },
+          where: { id },
           data: { [type]: value, order: order + 1 },
         });
         break;
       case 'addAssignee':
-        await client.assignee.create({ data: { issueId: +id, userId: value, projectId } });
+        await Promise.all([
+          client.assignee.create({ data: { issueId: id, userId: value, projectId } }),
+          updatedAt(id),
+        ]);
         break;
       case 'removeAssignee':
-        await client.assignee.deleteMany({ where: { AND: { issueId: +id, userId: value } } });
+        await Promise.all([
+          client.assignee.deleteMany({ where: { AND: { issueId: id, userId: value } } }),
+          updatedAt(id),
+        ]);
         break;
       default:
-        await client.issue.update({ where: { id: +id }, data: { [type]: value } });
+        await client.issue.update({ where: { id }, data: { [type]: value } });
         break;
     }
     res.end();
@@ -104,3 +110,10 @@ exports.reorderIssues = async (req, res) => {
     return badRequest(res);
   }
 };
+
+function updatedAt(id) {
+  return client.issue.update({
+    where: { id },
+    data: { updatedAt: new Date(Date.now()).toISOString() },
+  });
+}

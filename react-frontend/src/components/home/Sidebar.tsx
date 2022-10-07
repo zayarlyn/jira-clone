@@ -44,7 +44,7 @@ function Sidebar(props: Props) {
           <input
             checked={mode === 'dark'}
             type='checkbox'
-            onClick={handleToggle}
+            onChange={handleToggle}
             className='btn-toggle'
           />
         </div>

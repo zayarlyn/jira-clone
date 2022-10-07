@@ -4,19 +4,20 @@ interface Props {
   title?: string;
   className?: string;
   onClick?: () => void;
+  style?: {};
 }
 
 function Avatar(props: Props) {
-  const { src, name, title, className, onClick } = props;
+  const { src, name, title, className, onClick, style } = props;
   return (
     <div
       className={`relative grid shrink-0 cursor-pointer place-items-center overflow-hidden rounded-full bg-green-600 ${
         className ?? 'h-8 w-8 border-[1px]'
       }`}
       title={title ?? name}
-      onClick={onClick}
+      {...{ style, onClick }}
     >
-      <div className=''>{name.at(0)}</div>
+      <div>{name.at(0)}</div>
       {src && <img src={src} alt={name} className='absolute block h-full object-cover' />}
     </div>
   );

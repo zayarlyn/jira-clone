@@ -12,6 +12,8 @@ import Item from '../util/Item';
 import type { IssueModalProps } from './IssueModelHOC';
 import TextInput from './TextInput';
 import Model from '../util/Model';
+import CommentSection from './CommentSection';
+import { parseDate } from '../../utils';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
@@ -57,7 +59,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
   };
 
   return (
-    <Model onClose={onClose} className='max-w-[55rem]'>
+    <Model onClose={onClose} className='max-w-[65rem]'>
       <>
         <div className='mt-3 flex items-center justify-between text-[16px] text-gray-600 sm:px-3'>
           <Item className='mr-3 h-4 w-4' {...types[type]} text={'Issue-' + id} />
@@ -70,7 +72,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
             </button>
           </div>
         </div>
-        <div className='mb-8 sm:flex'>
+        <div className='sm:flex md:gap-3'>
           <div className='w-full sm:pr-6'>
             <TextInput
               type='summary'
@@ -88,6 +90,8 @@ const IssueDetailModal = (props: IssueModalProps) => {
               apiFunc={dispatchMiddleware}
               placeholder='add a description'
             />
+            <hr className='mx-3' />
+            <CommentSection issueId={id} projectId={projectId} />
           </div>
           <div className='mt-3 shrink-0 sm:w-[15rem]'>
             <WithLabel label='Status'>
@@ -144,10 +148,8 @@ const IssueDetailModal = (props: IssueModalProps) => {
             </WithLabel>
             <hr className='border-t-[.5px] border-gray-400' />
             <div className='mt-4 text-sm text-gray-700'>
-              {createdAt && (
-                <span className='mb-2 block'>Created - {new Date(createdAt).toLocaleString()}</span>
-              )}
-              {updatedAt && <span>Updated - {new Date(updatedAt).toLocaleString()}</span>}
+              {createdAt && <span className='mb-2 block'>created {parseDate(createdAt)}</span>}
+              {updatedAt && <span>updated {parseDate(updatedAt)}</span>}
             </div>
           </div>
         </div>

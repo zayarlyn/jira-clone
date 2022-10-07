@@ -2,7 +2,7 @@ import { lazy, Suspense as S, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import { Issue as JiraIssue } from '../../api/apiTypes';
-import { types, priorities } from '../../category';
+import { types, priorities } from '../../utils';
 import { selectMembers } from '../../api/member.endpoint';
 import AssignedMembers from './AssignedMembers';
 const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
@@ -27,8 +27,8 @@ const Issue = (props: Props) => {
       >
         <div onClick={() => setIsOpen(true)}>
           <span className=''>{summary}</span>
-          <div className='mt-2 flex items-center justify-between'>
-            <div className='flex items-center gap-3'>
+          <div className='mt-[10px] flex items-center justify-between'>
+            <div className='mb-1 flex items-center gap-3'>
               <img className='h-[18px] w-[18px]' src={types[type].icon} alt={types[type].text} />
               <img className='h-[18px] w-[18px]' src={icon} alt={text} />
             </div>

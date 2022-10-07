@@ -26,12 +26,13 @@ function Filter(props: Props) {
     isEmpty,
     setIsDragDisabled,
   } = props;
-  const { data: members, error } = useMembersQuery(projectId);
+  const { data: m, error } = useMembersQuery(projectId);
   const { data: pj } = useProjectQuery(projectId);
   const { data: u } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
+  const [fold, setFold] = useState(true);
   const toast = useToast();
-  const len = members?.length;
+  const len = m?.length;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
@@ -60,21 +61,28 @@ function Filter(props: Props) {
           className='absolute top-[6px] left-2 w-[19px]'
         />
       </div>
-      {members && len && (
+      {m && len && (
         <div className='ml-7 mr-1 flex'>
-          {members.map(({ profileUrl, username, userId }, i) => (
+          {(len > 4 && fold ? m.slice(0, 4) : m).map(({ profileUrl, username, userId }, i) => (
             <Avatar
               key={userId}
               src={profileUrl}
               name={username}
+              style={{ zIndex: len - i }}
               onClick={handleSetQuery({ userId })}
-              className={`
-              -ml-2 h-11 w-11 border-2 duration-300 hover:-translate-y-2
-              ${userId === uid ? 'border-blue-500' : ''}
-              ${'z-' + (len - i) * 10}
-              `}
+              className={`-ml-2 h-11 w-11 border-2 duration-300 hover:-translate-y-2 ${
+                userId === uid ? 'border-blue-500' : ''
+              }`}
             />
           ))}
+          {len > 4 && fold && (
+            <button
+              onClick={() => setFold(false)}
+              className='-ml-2 grid h-11 w-11 items-center rounded-full bg-c-2 pl-2 hover:bg-c-3'
+            >
+              {len - 4}+
+            </button>
+          )}
         </div>
       )}
       {u && (

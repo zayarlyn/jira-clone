@@ -56,7 +56,7 @@ const MemberInput = (props: Props) => {
       />
       <div className='relative'>
         <div>
-          <div className='mt-3 flex flex-wrap gap-1'>
+          <div className='mt-3 flex flex-wrap gap-x-1 gap-y-2'>
             {members
               ? members.map(({ username, id, isAdmin }, idx) => (
                   <div

@@ -20,7 +20,7 @@ const corOptions = {
 app.use(cors(corOptions));
 app.use(cookieParser());
 app.use(express.json());
-app.get('/ok', (req, res) => res.end());
+app.get('/ok', (req, res) => res.send('The server is active, buddy.').end());
 app.use('/auth', authRoute);
 app.use(authMiddleware);
 app.use('/api/user', userRoute);

@@ -21,6 +21,7 @@ const AssignedMembers = (props: Props) => {
         const assignee = membersObj[userId];
         return assignee ? (
           <Avatar
+            key={userId}
             src={assignee.profileUrl}
             name={assignee.username}
             className={`pointer-events-none -ml-2 h-8 w-8 border-2 ${'z-' + (len - i) * 10}`}

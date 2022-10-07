@@ -41,7 +41,11 @@ const updateOrder = async ({ id, order, type, model }) => {
   });
 };
 
-const badRequest = (res) => res.status(400).end();
+const badRequest = (res) =>
+  res
+    .status(400)
+    .json({ message: 'Whoop! Looks like your http request is missing something.' })
+    .end();
 
 const cookieConfig = { httpOnly: true, secure: true, sameSite: 'none' };
 

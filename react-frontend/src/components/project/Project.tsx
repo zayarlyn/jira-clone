@@ -32,8 +32,8 @@ const Project = () => {
   }
 
   return (
-    <div className='flex grow flex-col'>
-      <div className='mx-10 mt-6'>
+    <div className='flex grow flex-col px-8 sm:px-10'>
+      <div className='mt-6'>
         <h1 className='mb-4 text-xl font-semibold text-c-text'>Kanban Board</h1>
       </div>
       <Filter

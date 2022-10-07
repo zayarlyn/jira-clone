@@ -62,7 +62,7 @@ const MemberInput = (props: Props) => {
                   <div
                     key={id}
                     onClick={() => setSelectedIdx(isAdmin ? null : idx)}
-                    className={`border-[1px] px-2 text-sm font-semibold tracking-wide  ${
+                    className={`rounded-sm border-[1px] px-2 py-[1px] text-sm font-semibold tracking-wide  ${
                       isAdmin
                         ? 'bg-blue-500 text-white'
                         : 'cursor-pointer text-blue-400 hover:opacity-90'

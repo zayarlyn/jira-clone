@@ -6,6 +6,7 @@ import { APIERROR, IssueQuery } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
 import Avatar from '../util/Avatar';
+import { useProjectQuery } from '../../api/project.endpoint';
 const IssueModelHOC = lazy(() => import('../issue/IssueModelHOC'));
 const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 
@@ -26,14 +27,15 @@ function Filter(props: Props) {
     setIsDragDisabled,
   } = props;
   const { data: members, error } = useMembersQuery(projectId);
-  const { data: authUser } = useAuthUserQuery();
+  const { data: pj } = useProjectQuery(projectId);
+  const { data: u } = useAuthUserQuery();
   const [isOpen, setIsOpen] = useState(false);
   const toast = useToast();
   const len = members?.length;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
-  if (!authUser || !members) return null;
+  // if (!authUser || !members) return null;
 
   function handleClick() {
     if (isEmpty) return toast(toastConfig);
@@ -46,7 +48,7 @@ function Filter(props: Props) {
   };
 
   return (
-    <div className='mb-8 flex min-w-fit items-center px-10 text-c-5'>
+    <div className='mb-8 flex min-w-fit items-center text-c-5'>
       <div className='relative'>
         <input
           placeholder='Search issues'
@@ -62,6 +64,7 @@ function Filter(props: Props) {
         <div className='ml-7 mr-1 flex'>
           {members.map(({ profileUrl, username, userId }, i) => (
             <Avatar
+              key={userId}
               src={profileUrl}
               name={username}
               onClick={handleSetQuery({ userId })}
@@ -74,9 +77,11 @@ function Filter(props: Props) {
           ))}
         </div>
       )}
-      <button className='btn-crystal shrink-0' onClick={handleSetQuery({ userId: authUser.id })}>
-        Only my issues
-      </button>
+      {u && (
+        <button className='btn-crystal shrink-0' onClick={handleSetQuery({ userId: u.id })}>
+          Only my issues
+        </button>
+      )}
       {uid && (
         <>
           <div className='pb-[2px]'>|</div>
@@ -85,9 +90,19 @@ function Filter(props: Props) {
           </button>
         </>
       )}
-      <button onClick={handleClick} className='btn ml-5 shrink-0'>
+      <button onClick={handleClick} className='btn mx-5 shrink-0'>
         Create an issue
       </button>
+      {pj && pj.repo && (
+        <button
+          title='go to github'
+          onClick={() => window.open(pj.repo as string, '_blank')}
+          className='ml-auto flex shrink-0 items-center gap-2 rounded-[3px] bg-c-2 py-1 px-3 hover:bg-c-6'
+        >
+          <Icon icon='bxl:github' />
+          GitHub Repo
+        </button>
+      )}
       {isOpen && !isEmpty && (
         <S>
           <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />

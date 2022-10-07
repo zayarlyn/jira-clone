@@ -1,5 +1,4 @@
 import { lazy, Suspense as S, useState } from 'react';
-import { ChakraProvider as CP, Switch } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuthUserQuery } from '../../api/auth.endpoint';
@@ -35,7 +34,6 @@ function Sidebar(props: Props) {
     await logOut();
     navigate('/login');
   };
-
   return (
     <div className='flex min-h-screen shrink-0'>
       <div className='flex w-14 flex-col items-center justify-between bg-primary py-6'>
@@ -43,9 +41,12 @@ function Sidebar(props: Props) {
           <button title='Go to Home' onClick={() => navigate('/project')} className='w-8'>
             <img className='h-8 w-12' src='/assets/jira.svg' alt='jira-clone' />
           </button>
-          <CP>
-            <Switch title='Toggle Theme' isChecked={mode === 'dark'} onChange={handleToggle} />
-          </CP>
+          <input
+            checked={mode === 'dark'}
+            type='checkbox'
+            onClick={handleToggle}
+            className='btn-toggle'
+          />
         </div>
         <div className='flex flex-col gap-6'>
           {u && (

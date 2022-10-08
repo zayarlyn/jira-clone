@@ -10,7 +10,7 @@ import { useAppSelector } from '../../store/hooks';
 import DropDown, { Category } from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
-import type { IssueModalProps } from './IssueModelHOC';
+import type { IssueMetaData, IssueModalProps } from './IssueModelHOC';
 import TextInput from './TextInput';
 import Model from '../util/Model';
 import CommentSection from './CommentSection';
@@ -18,8 +18,9 @@ import { parseDate } from '../../utils';
 import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
-const IssueDetailModal = (props: Required<IssueModalProps>) => {
-  const { issue, projectId, members, lists, types, priorities, onClose } = props;
+const IssueDetailModal = (props: IssueModalProps) => {
+  const { issue: Issue, projectId, members, lists, types, priorities, onClose } = props;
+  const issue = Issue as IssueMetaData;
   const { userId } = useAppSelector((s) => s.query.issue);
   const { issues } = selectIssuesArray({ listId: issue.listId, projectId, userId });
   const { authUser: u } = selectAuthUser();

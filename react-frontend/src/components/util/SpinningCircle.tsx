@@ -1,8 +1,10 @@
+import { memo } from 'react';
+
 function SpinningCircle() {
   return (
     <svg
       aria-hidden='true'
-      className='mr-2 h-6 w-6 animate-spin fill-c-1 text-c-text'
+      className='h-6 w-6 animate-spin fill-c-1 text-c-text'
       viewBox='0 0 100 101'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -19,4 +21,4 @@ function SpinningCircle() {
   );
 }
 
-export default SpinningCircle;
+export default memo(SpinningCircle);

@@ -1,5 +1,5 @@
 import { ChangeEvent, lazy, memo, Suspense as S, useState } from 'react';
-import { useRemoveMemberMutation } from '../../api/member.endpoint';
+import { useRemoveMemberMutation } from '../../api/endpoints/member.endpoint';
 import { Member, PublicUser } from '../../api/apiTypes';
 import UserMember from './UserMember';
 import axiosDf from '../../api/axios';

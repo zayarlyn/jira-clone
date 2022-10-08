@@ -1,7 +1,7 @@
 import { lazy, Suspense as S, useState } from 'react';
 import Avatar from '../util/Avatar';
 import type { AuthUser, Comment as COMMENT } from '../../api/apiTypes';
-import { useDeleteCmtMutation } from '../../api/comment.endpoint';
+import { useDeleteCmtMutation } from '../../api/endpoints/comment.endpoint';
 import { parseDate } from '../../utils';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 

@@ -1,5 +1,5 @@
-import { api } from './api';
-import { Comment, CreateComment, DeleteComment, getComments } from './apiTypes';
+import { api } from '../api';
+import { Comment, CreateComment, DeleteComment, getComments } from '../apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({

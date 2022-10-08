@@ -1,10 +1,13 @@
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import MemberInput from './MemberInput';
-import { selectCurrentProject, useUpdateProjectMutation } from '../../api/project.endpoint';
+import {
+  selectCurrentProject,
+  useUpdateProjectMutation,
+} from '../../api/endpoints/project.endpoint';
 import { useParams } from 'react-router-dom';
-import { selectMembers } from '../../api/member.endpoint';
-import { selectAuthUser } from '../../api/auth.endpoint';
+import { selectMembers } from '../../api/endpoints/member.endpoint';
+import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
 
 const Setting = () => {
   const [updateProject, { isLoading, isSuccess }] = useUpdateProjectMutation();

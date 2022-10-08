@@ -1,8 +1,8 @@
-import { useAuthUserQuery } from '../../api/auth.endpoint';
+import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import type { CreateProject } from '../../api/apiTypes';
-import { useCreateProjectMutation } from '../../api/project.endpoint';
+import { useCreateProjectMutation } from '../../api/endpoints/project.endpoint';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import InputWithValidation from '../util/InputWithValidation';
 import Model from '../util/Model';

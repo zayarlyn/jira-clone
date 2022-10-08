@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from '../api';
 import type {
   CreateIssue,
   DeleteIssue,
@@ -7,49 +7,46 @@ import type {
   Issues,
   reorderIssues,
   UpdateIssue,
-} from "./apiTypes";
+} from '../apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     issues: builder.query<Issues, IssueQuery>({
       query: ({ projectId, userId: uid }) => ({
-        url: `project/${projectId}/issues${uid ? "?userId=" + uid : ""}`,
+        url: `project/${projectId}/issues${uid ? '?userId=' + uid : ''}`,
       }),
-      providesTags: ["Issues"],
+      providesTags: ['Issues'],
     }),
     createIssue: builder.mutation<void, CreateIssue>({
-      query: (body) => ({ url: "issue/create", method: "POST", body }),
-      invalidatesTags: ["Issues"],
+      query: (body) => ({ url: 'issue/create', method: 'POST', body }),
+      invalidatesTags: ['Issues'],
     }),
     updateIssue: builder.mutation<void, UpdateIssue>({
       query: ({ id, body }) => ({
         url: `issue/${id}/update`,
-        method: "PATCH",
+        method: 'PATCH',
         body,
       }),
-      invalidatesTags: ["Issues"],
+      invalidatesTags: ['Issues'],
     }),
     deleteIssue: builder.mutation<void, DeleteIssue>({
       query: ({ issueId, projectId }) => ({
         url: `issue/${issueId}/delete`,
-        method: "DELETE",
+        method: 'DELETE',
         body: { projectId },
       }),
-      invalidatesTags: ["Issues"],
+      invalidatesTags: ['Issues'],
     }),
     reorderIssues: builder.mutation<void, reorderIssues>({
-      query: (body) => ({ url: "issue/reorder", method: "PUT", body }),
-      invalidatesTags: ["Issues"],
+      query: (body) => ({ url: 'issue/reorder', method: 'PUT', body }),
+      invalidatesTags: ['Issues'],
       async onQueryStarted({ s, d, projectId }, { dispatch }) {
         dispatch(
-          extendedApi.util.updateQueryData(
-            "issues",
-            { projectId },
-            (oldIssues) =>
-              updateIssueOrderLocally(oldIssues, {
-                s: { sId: s.sId, index: s.order - 1 },
-                d: { dId: d.dId, index: d.newOrder - 1 },
-              })
+          extendedApi.util.updateQueryData('issues', { projectId }, (oldIssues) =>
+            updateIssueOrderLocally(oldIssues, {
+              s: { sId: s.sId, index: s.order - 1 },
+              d: { dId: d.dId, index: d.newOrder - 1 },
+            })
           )
         );
       },
@@ -68,17 +65,17 @@ export const {
 } = extendedApi;
 
 // selectors
-type IssueSelector = { listId: number; projectId: number };
+interface IssueSelector extends IssueQuery {
+  listId: number;
+}
 
-export const selectIssuesArray = ({ listId, projectId }: IssueSelector) =>
-  extendedApi.useIssuesQuery(
-    { projectId },
-    {
-      selectFromResult: ({ data }) => ({
-        issues: data ? data[listId] : [],
-      }),
-    }
-  );
+export const selectIssuesArray = ({ listId, ...query }: IssueSelector) =>
+  extendedApi.useIssuesQuery(query, {
+    selectFromResult: ({ data }) => ({
+      issues: data ? data[listId] : [],
+    }),
+    refetchOnMountOrArgChange: true,
+  });
 
 // helpers
 const updateIssueOrderLocally = (issues: Issues, { s, d }: dndOrderData) => {

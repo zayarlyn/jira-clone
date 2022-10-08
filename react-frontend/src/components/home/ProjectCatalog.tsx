@@ -2,8 +2,9 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
-import { selectAuthUser } from '../../api/auth.endpoint';
-import { useProjectsQuery } from '../../api/project.endpoint';
+import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
+import { useProjectsQuery } from '../../api/endpoints/project.endpoint';
+import SS from '../util/SpinningCircle';
 import CreateProjectModel from './CreateProjectModel';
 import ProjectRow from './ProjectRow';
 
@@ -18,14 +19,19 @@ const ProjectCatalog = () => {
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
-  if (isLoading)
+  if (!authUser || isLoading)
     return (
       <div className='z-10 grid w-full place-items-center bg-c-1 text-xl text-c-text'>
-        Fetching your projects 🚀
+        {isLoading ? (
+          'Fetching your projects 🚀'
+        ) : (
+          <div className='flex items-center gap-6'>
+            <span className='mb-6 text-base'>Server is having a cold start</span>
+            <SS />
+          </div>
+        )}
       </div>
     );
-
-  if (!authUser) return null;
 
   return (
     <>

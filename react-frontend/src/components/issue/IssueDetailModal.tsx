@@ -5,7 +5,8 @@ import {
   selectIssuesArray,
   useDeleteIssueMutation,
   useUpdateIssueMutation,
-} from '../../api/issues.endpoint';
+} from '../../api/endpoints/issues.endpoint';
+import { useAppSelector } from '../../store/hooks';
 import DropDown, { Category } from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
@@ -14,25 +15,14 @@ import TextInput from './TextInput';
 import Model from '../util/Model';
 import CommentSection from './CommentSection';
 import { parseDate } from '../../utils';
+import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
-const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
-  const oldLen = OLD.length,
-    newLen = NEW.length;
-  if (oldLen === newLen) return;
-  const userId = newLen > oldLen ? NEW[newLen - 1] : OLD.filter((id) => !NEW.includes(id))[0];
-  return {
-    type: newLen > oldLen ? 'addAssignee' : 'removeAssignee',
-    value: userId,
-  };
-};
-
-const IssueDetailModal = (props: IssueModalProps) => {
+const IssueDetailModal = (props: Required<IssueModalProps>) => {
   const { issue, projectId, members, lists, types, priorities, onClose } = props;
-  const { issues } = selectIssuesArray({
-    listId: issue?.listId as number,
-    projectId,
-  });
+  const { userId } = useAppSelector((s) => s.query.issue);
+  const { issues } = selectIssuesArray({ listId: issue.listId, projectId, userId });
+  const { authUser: u } = selectAuthUser();
   const {
     id,
     type,
@@ -44,11 +34,13 @@ const IssueDetailModal = (props: IssueModalProps) => {
     descr,
     createdAt,
     updatedAt,
-  } = issues[issue?.idx as number];
+  } = issues[issue.idx];
   const memberObj = members.reduce((t, n) => ({ ...t, [n.value]: n }), {}) as Category[];
   const [updateIssue] = useUpdateIssueMutation();
   const [deleteIssue] = useDeleteIssueMutation();
   const [isOpen, setIsOpen] = useState(false);
+  const isMine = reporterId === u?.id;
+  const reporter = members.filter(({ value }) => value === reporterId)[0];
 
   const dispatchMiddleware = (data: DispatchMiddleware) => {
     const assigneeIds = assignees.map(({ userId }) => userId);
@@ -64,9 +56,11 @@ const IssueDetailModal = (props: IssueModalProps) => {
         <div className='mt-3 flex items-center justify-between text-[16px] text-gray-600 sm:px-3'>
           <Item className='mr-3 h-4 w-4' {...types[type]} text={'Issue-' + id} />
           <div className='text-black'>
-            <button onClick={() => setIsOpen(true)} title='Delete' className='btn-icon text-xl'>
-              <Icon icon='bx:trash' />
-            </button>
+            {isMine && (
+              <button onClick={() => setIsOpen(true)} title='Delete' className='btn-icon text-xl'>
+                <Icon icon='bx:trash' />
+              </button>
+            )}
             <button onClick={onClose} title='Close' className='btn-icon ml-4 text-lg'>
               <Icon icon='akar-icons:cross' />
             </button>
@@ -108,7 +102,8 @@ const IssueDetailModal = (props: IssueModalProps) => {
               <WithLabel label='Reporter'>
                 <div className='rounded-sm bg-[#f4f5f7] px-4 py-[5px] sm:w-fit'>
                   <Item
-                    {...members.filter(({ value }) => value === reporterId)[0]}
+                    {...reporter}
+                    text={reporter.text + (isMine ? ' (you)' : '')}
                     className='mr-4 h-6 w-6 rounded-full object-cover'
                   />
                 </div>
@@ -167,6 +162,17 @@ const IssueDetailModal = (props: IssueModalProps) => {
 };
 
 export default IssueDetailModal;
+
+const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware | undefined => {
+  const oldLen = OLD.length,
+    newLen = NEW.length;
+  if (oldLen === newLen) return;
+  const userId = newLen > oldLen ? NEW[newLen - 1] : OLD.filter((id) => !NEW.includes(id))[0];
+  return {
+    type: newLen > oldLen ? 'addAssignee' : 'removeAssignee',
+    value: userId,
+  };
+};
 
 export type DispatchMiddleware = {
   type: UpdateIssueType;

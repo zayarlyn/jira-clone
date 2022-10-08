@@ -2,7 +2,7 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import InputWithValidation from '../util/InputWithValidation';
-import { useAuthUserQuery } from '../../api/auth.endpoint';
+import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';

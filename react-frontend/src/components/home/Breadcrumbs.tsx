@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { useProjectQuery } from '../../api/project.endpoint';
+import { useProjectQuery } from '../../api/endpoints/project.endpoint';
 
 const Breadcrumbs = () => {
   const location = useLocation();

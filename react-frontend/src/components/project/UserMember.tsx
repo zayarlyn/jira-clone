@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { PublicUser } from '../../api/apiTypes';
-import { useAddMemberMutation } from '../../api/member.endpoint';
+import { useAddMemberMutation } from '../../api/endpoints/member.endpoint';
 import Avatar from '../util/Avatar';
 
 interface Props extends PublicUser {

@@ -1,8 +1,8 @@
 import { useReducer, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { APIERROR, CreateIssue } from "../../api/apiTypes";
-import { selectAuthUser } from "../../api/auth.endpoint";
-import { useCreateIssueMutation } from "../../api/issues.endpoint";
+import { selectAuthUser } from "../../api/endpoints/auth.endpoint";
+import { useCreateIssueMutation } from "../../api/endpoints/issues.endpoint";
 import DropDown from "../util/DropDown";
 import WithLabel from "../util/WithLabel";
 import Item from "../util/Item";

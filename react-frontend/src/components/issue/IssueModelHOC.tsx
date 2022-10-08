@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { selectLists } from '../../api/lists.endpoint';
-import { selectMembers } from '../../api/member.endpoint';
+import { selectLists } from '../../api/endpoints/lists.endpoint';
+import { selectMembers } from '../../api/endpoints/member.endpoint';
 import { types, priorities } from '../../utils';
 import { Category } from '../util/DropDown';
 

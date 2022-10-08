@@ -1,7 +1,7 @@
 import { lazy, Suspense as S, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuthUserQuery } from '../../api/auth.endpoint';
+import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
 import IconBtn from '../util/IconBtn';
 import Avatar from '../util/Avatar';
 import { setTheme, Theme } from '../../utils';
@@ -50,15 +50,17 @@ function Sidebar(props: Props) {
         </div>
         <div className='flex flex-col gap-6'>
           {u && (
-            <Avatar
-              title='Profile'
-              src={u.profileUrl}
-              name={u.username}
-              onClick={() => setIsOpen((p) => !p)}
-              className='h-9 w-9 border-[1px] hover:border-green-500'
-            />
+            <>
+              <Avatar
+                title='Profile'
+                src={u.profileUrl}
+                name={u.username}
+                onClick={() => setIsOpen((p) => !p)}
+                className='h-9 w-9 border-[1px] hover:border-green-500'
+              />
+              <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
+            </>
           )}
-          <IconBtn onClick={handleLogOut} icon='charm:sign-out' title='Log Out' />
         </div>
       </div>
       <motion.div

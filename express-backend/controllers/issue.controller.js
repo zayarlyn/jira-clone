@@ -18,11 +18,20 @@ exports.getIssuesInProject = async (req, res) => {
             assignees: {
               orderBy: { createdAt: 'asc' },
             },
+            _count: {
+              select: { comments: true },
+            },
           },
         },
       },
     });
-    const issues = listIssues.reduce((p, { id, issues }) => ({ ...p, [id]: issues }), {});
+    const issues = listIssues.reduce(
+      (p, { id, issues }) => ({
+        ...p,
+        [id]: issues.map(({ _count, ...issue }) => ({ ...issue, ..._count })),
+      }),
+      {}
+    );
     res.json(issues).end();
   } catch (err) {
     return badRequest(res);

@@ -1,23 +1,21 @@
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { APIERROR, IssueQuery } from '../../api/apiTypes';
-import { useIssuesQuery } from '../../api/issues.endpoint';
-import { useListsQuery } from '../../api/lists.endpoint';
+import { useIssuesQuery } from '../../api/endpoints/issues.endpoint';
+import { useListsQuery } from '../../api/endpoints/lists.endpoint';
+import type { APIERROR } from '../../api/apiTypes';
 import Board from './Board';
 import Filter from './Filter';
 import SS from '../util/SpinningCircle';
+import { useAppSelector } from '../../store/hooks';
 
 const Project = () => {
   const projectId = Number(useParams().projectId);
-  const [issueQueryData, setIssueQueryData] = useState<Omit<IssueQuery, 'projectId'>>({});
+  const issueQuery = useAppSelector((state) => state.query.issue);
   const { data: lists, error: listError } = useListsQuery(projectId);
   const [isDragDisabled, setIsDragDisabled] = useState(false);
 
   const { data: issues, error: issueError } = useIssuesQuery(
-    {
-      projectId,
-      ...issueQueryData,
-    },
+    { projectId, ...issueQuery },
     { refetchOnMountOrArgChange: true }
   );
 
@@ -32,14 +30,9 @@ const Project = () => {
   }
 
   return (
-    <div className='flex grow flex-col px-8 sm:px-10'>
-      <div className='mt-6'>
-        <h1 className='mb-4 text-xl font-semibold text-c-text'>Kanban Board</h1>
-      </div>
-      <Filter
-        isEmpty={lists?.length === 0}
-        {...{ issueQueryData, setIssueQueryData, projectId, setIsDragDisabled }}
-      />
+    <div className='mt-6 flex grow flex-col px-8 sm:px-10'>
+      <h1 className='mb-4 text-xl font-semibold text-c-text'>Kanban Board</h1>
+      <Filter isEmpty={lists?.length === 0} {...{ projectId, setIsDragDisabled }} />
 
       {lists ? (
         <Board {...{ lists, issues, isDragDisabled }} />

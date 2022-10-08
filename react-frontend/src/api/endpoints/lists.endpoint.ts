@@ -1,11 +1,5 @@
-import { api } from "./api";
-import type {
-  CreateList,
-  DeleteList,
-  List,
-  ReorderList,
-  UpdateList,
-} from "./apiTypes";
+import { api } from '../api';
+import type { CreateList, DeleteList, List, ReorderList, UpdateList } from '../apiTypes';
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,38 +7,38 @@ export const extendedApi = api.injectEndpoints({
       query: (projectId) => ({
         url: `project/${projectId}/lists`,
       }),
-      providesTags: ["Lists"],
+      providesTags: ['Lists'],
     }),
     createList: builder.mutation<List, CreateList>({
-      query: (body) => ({ url: "list/create", method: "POST", body }),
-      invalidatesTags: ["Lists"],
+      query: (body) => ({ url: 'list/create', method: 'POST', body }),
+      invalidatesTags: ['Lists'],
     }),
     updateList: builder.mutation<List, UpdateList>({
       query: ({ listId, body }) => ({
         url: `list/${listId}/update`,
-        method: "PATCH",
+        method: 'PATCH',
         body,
       }),
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ['Lists'],
     }),
     deleteList: builder.mutation<List, DeleteList>({
       query: ({ listId, projectId }) => ({
         url: `list/${listId}/delete`,
-        method: "DELETE",
+        method: 'DELETE',
         body: { projectId },
       }),
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ['Lists'],
     }),
     reorderLists: builder.mutation<void, ReorderList>({
       query: (body) => ({
-        url: "list/reorder",
-        method: "PUT",
+        url: 'list/reorder',
+        method: 'PUT',
         body,
       }),
-      invalidatesTags: ["Lists"],
+      invalidatesTags: ['Lists'],
       async onQueryStarted({ order, newOrder, projectId }, { dispatch }) {
         dispatch(
-          extendedApi.util.updateQueryData("lists", projectId, (oldLists) =>
+          extendedApi.util.updateQueryData('lists', projectId, (oldLists) =>
             updateListOrderLocally(oldLists, { s: order - 1, d: newOrder - 1 })
           )
         );
@@ -69,10 +63,7 @@ export const selectLists = (projectId: number) =>
   });
 
 // helpers
-function updateListOrderLocally(
-  array: List[],
-  { s, d }: { s: number; d: number }
-) {
+function updateListOrderLocally(array: List[], { s, d }: { s: number; d: number }) {
   const source = array.slice(0);
   const draggedIssue = source.splice(s, 1)[0]; // remove dragged item from its source list
   source.splice(d, 0, draggedIssue); // insert dragged item into target list

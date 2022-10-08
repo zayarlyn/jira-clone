@@ -2,8 +2,8 @@ import { Icon } from '@iconify/react';
 import { lazy, Suspense as S, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Project } from '../../api/apiTypes';
-import { usePublicUserQuery } from '../../api/auth.endpoint';
-import { selectMembers } from '../../api/member.endpoint';
+import { usePublicUserQuery } from '../../api/endpoints/auth.endpoint';
+import { selectMembers } from '../../api/endpoints/member.endpoint';
 const DeleteProject = lazy(() => import('./DeleteProject'));
 
 interface Props extends Project {

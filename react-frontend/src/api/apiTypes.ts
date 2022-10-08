@@ -41,6 +41,7 @@ export interface Issue {
   listId: number;
   reporterId: number;
   assignees: Assignee[];
+  comments: number;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -1,8 +1,8 @@
 import { memo, useState } from 'react';
 import RTAutosize from 'react-textarea-autosize';
 import { AuthUser } from '../../api/apiTypes';
-import { selectAuthUser } from '../../api/auth.endpoint';
-import { useCreateCmtMutation } from '../../api/comment.endpoint';
+import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
+import { useCreateCmtMutation } from '../../api/endpoints/comment.endpoint';
 import Avatar from '../util/Avatar';
 
 interface Props {

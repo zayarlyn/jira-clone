@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { selectAuthUser } from '../../api/auth.endpoint';
-import { useCmtsQuery } from '../../api/comment.endpoint';
+import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
+import { useCmtsQuery } from '../../api/endpoints/comment.endpoint';
 import AddComment from './AddComment';
 import Comment from './Comment';
 

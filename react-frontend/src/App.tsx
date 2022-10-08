@@ -16,9 +16,7 @@ function App() {
   const toggleTheme = () => setTheme(({ mode }) => ({ mode: mode === 'light' ? 'dark' : 'light' }));
 
   return (
-    <main
-      className={`bg-c-111 flex bg-c-1 ${theme.mode === 'light' ? 'light-theme' : 'dark-theme'}`}
-    >
+    <main className={`bg-c-111 flex ${theme.mode === 'light' ? 'light-theme' : 'dark-theme'}`}>
       <Provider store={store}>
         <BR>
           <Routes>

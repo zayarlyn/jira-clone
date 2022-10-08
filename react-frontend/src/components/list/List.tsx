@@ -4,7 +4,7 @@ import DraggableWrapper from '../dnd/DraggableWrapper';
 import type { Issue as ApiIssue, List as LIST } from '../../api/apiTypes';
 import { Icon } from '@iconify/react';
 import { lazy, Suspense as S, useState } from 'react';
-import { useDeleteListMutation, useUpdateListMutation } from '../../api/lists.endpoint';
+import { useDeleteListMutation, useUpdateListMutation } from '../../api/endpoints/lists.endpoint';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props extends LIST {

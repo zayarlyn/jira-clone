@@ -10,3 +10,5 @@ export const api = createApi({
   tagTypes: ['Lists', 'Issues', 'Project', 'Members', 'AuthUser', 'Comments'],
   endpoints: (builder) => ({}),
 });
+
+export const {} = api;

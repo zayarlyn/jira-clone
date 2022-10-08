@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import DraggableWrapper from '../dnd/DraggableWrapper';
 import { Issue as JiraIssue } from '../../api/apiTypes';
 import { types, priorities } from '../../utils';
-import { selectMembers } from '../../api/member.endpoint';
+import { selectMembers } from '../../api/endpoints/member.endpoint';
 import AssignedMembers from './AssignedMembers';
 const IssueModelHOC = lazy(() => import('./IssueModelHOC'));
 const IssueDetailModal = lazy(() => import('./IssueDetailModal'));
 
 const Issue = (props: Props) => {
-  const { listId, listIdx, idx, summary, id, type, priority, assignees, isDragDisabled } = props;
+  const { listId, listIdx, idx, summary, id, type, priority, assignees, comments, isDragDisabled } =
+    props;
   const [isOpen, setIsOpen] = useState(false);
   const projectId = Number(useParams().projectId);
   const { members } = selectMembers(projectId);
@@ -31,6 +32,11 @@ const Issue = (props: Props) => {
             <div className='mb-1 flex items-center gap-3'>
               <img className='h-[18px] w-[18px]' src={types[type].icon} alt={types[type].text} />
               <img className='h-[18px] w-[18px]' src={icon} alt={text} />
+              {comments > 0 && (
+                <span className='block w-6 rounded-md bg-c-2 text-center text-[13px]'>
+                  {comments}
+                </span>
+              )}
             </div>
             <AssignedMembers assignees={assignees} members={members} />
           </div>

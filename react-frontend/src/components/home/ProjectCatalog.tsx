@@ -26,7 +26,7 @@ const ProjectCatalog = () => {
           'Fetching your projects 🚀'
         ) : (
           <div className='flex items-center gap-6'>
-            <span className='mb-6 text-base'>Server is having a cold start</span>
+            <span className='text-base'>Server is having a cold start</span>
             <SS />
           </div>
         )}
@@ -70,7 +70,7 @@ const ProjectCatalog = () => {
                 ))}
               </div>
             ) : (
-              <div className='mt-[30vh] grid place-items-center text-3xl'>
+              <div className='mt-[30vh] grid place-items-center text-xl'>
                 You haven't created any project yet!! 🚀
               </div>
             )

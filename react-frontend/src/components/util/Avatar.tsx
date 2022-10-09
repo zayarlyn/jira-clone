@@ -18,7 +18,7 @@ function Avatar(props: Props) {
       {...{ style, onClick }}
     >
       <div>{name.at(0)}</div>
-      {src && <img src={src} alt={name} className='absolute block h-full object-cover' />}
+      {src && <img src={src} alt={name} className='absolute block h-full w-full object-cover' />}
     </div>
   );
 }

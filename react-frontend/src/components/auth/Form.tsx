@@ -15,7 +15,7 @@ interface Props {
   errors: FieldErrorsImpl<{
     [x: string]: any;
   }>;
-  onSubmit: (body: {}) => Promise<any>;
+  onSubmit: (body: FieldValues) => Promise<any>;
   handleSubmit: UseFormHandleSubmit<FieldValues>;
   type: 'LOGIN' | 'SIGNUP';
   loading: boolean;
@@ -42,7 +42,7 @@ function Form(props: Props) {
           register={register('email', {
             required: { value: true, message: 'email must not be empty' },
             pattern: {
-              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
               message: 'please provide a valid email',
             },
           })}

@@ -68,7 +68,8 @@ const CreateProjectModel = (props: Props) => {
                 <Item
                   text={authUser.username}
                   icon={authUser.profileUrl}
-                  className='mr-4 h-6 w-6 rounded-full object-cover'
+                  size='h-6 w-6'
+                  variant='ROUND'
                 />
               </div>
               <span className='text-sm text-c-text'>

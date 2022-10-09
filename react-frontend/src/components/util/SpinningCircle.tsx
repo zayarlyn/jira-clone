@@ -4,7 +4,7 @@ function SpinningCircle() {
   return (
     <svg
       aria-hidden='true'
-      className='h-6 w-6 animate-spin fill-c-1 text-c-text'
+      className='mt-5 h-5 w-5 animate-spin fill-c-1 text-c-text'
       viewBox='0 0 100 101'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

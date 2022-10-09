@@ -91,7 +91,7 @@ function DropDown(props: Prop) {
                     className='flex items-center gap-2 border-[1.5px] border-blue-500 px-2 hover:border-green-500'
                     onClick={(e) => handleDelete(e, i)}
                   >
-                    <Item className='mr-3 h-5 w-5 rounded-full object-cover' {...props} />
+                    <Item size='h-5 w-5' variant={isMulti ? 'ROUND' : 'SQUARE'} {...props} />
                     <Icon className='text-black' icon='akar-icons:cross' />
                   </div>
                 ))
@@ -99,7 +99,7 @@ function DropDown(props: Prop) {
                 <>Select</>
               )
             ) : (
-              <Item className={itemClass(type)} {...list[current as number]} />
+              <Item size='h-4 w-4' {...list[current as number]} />
             )}
           </div>
           <Icon
@@ -117,7 +117,12 @@ function DropDown(props: Prop) {
                 onClick={(isMulti ? handleSelect : handleClick)(idx)}
                 key={props.value}
               >
-                <Item className={itemClass(type)} {...list[current as number]} {...props} />
+                <Item
+                  size={isMulti ? 'w-6 h-6' : 'w-4 h-4'}
+                  variant={isMulti ? 'ROUND' : 'SQUARE'}
+                  {...list[current as number]}
+                  {...props}
+                />
               </li>
             ))
           ) : (
@@ -145,6 +150,3 @@ const parseIds = (ary: Category[]) => ary.map(({ value }) => value);
 
 const multiDefault = (list: Category[], dv: Category[]) =>
   list.filter(({ value: V }) => !(dv as Category[]).some(({ value: v }) => v === V));
-
-const itemClass = (type: string) =>
-  type === 'normal' ? 'mr-4 w-4 h-4' : 'mr-4 w-6 h-6 object-cover rounded-full';

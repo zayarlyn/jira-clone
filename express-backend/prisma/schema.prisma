@@ -25,6 +25,7 @@ model User {
   assignees    Assignee[]
   projects     Project[]
   comments     Comment[]
+  issues       Issue[]
 }
 
 model Project {
@@ -34,10 +35,10 @@ model Project {
   repo      String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  members   Member[]
-  lists     List[]
   User      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int?
+  userId    Int
+  lists     List[]
+  members   Member[]
   assignees Assignee[]
 }
 
@@ -46,9 +47,9 @@ model Member {
   isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int?
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  projectId Int
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
 }
 
 model List {
@@ -59,7 +60,7 @@ model List {
   updatedAt DateTime @updatedAt
   issues    Issue[]
   Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId Int?
+  projectId Int
 }
 
 model Issue {
@@ -67,26 +68,27 @@ model Issue {
   order      Int
   priority   Int
   type       Int
-  reporterId Int
   summary    String
   descr      String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   List       List?      @relation(fields: [listId], references: [id], onDelete: Cascade)
-  listId     Int?
-  assignees  Assignee[]
+  listId     Int
+  User       User?      @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  reporterId Int
   comments   Comment[]
+  assignees  Assignee[]
 }
 
 model Assignee {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
   Issue     Issue?   @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  issueId   Int?
-  Project   Project? @relation(fields: [projectId], references: [id])
-  projectId Int?
+  issueId   Int
+  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
 }
 
 model Comment {

@@ -23,7 +23,7 @@ const List = (props: Props) => {
 
   const handleUpdateList = () => {
     // when the user saves
-    if (isEditing && name !== NAME) {
+    if (name && name !== NAME) {
       updateList({ listId: id, body: { projectId, name } });
     }
     setIsEditing((p) => !p);

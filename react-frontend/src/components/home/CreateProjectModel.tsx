@@ -1,11 +1,11 @@
-import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
-import WithLabel from '../util/WithLabel';
-import Item from '../util/Item';
-import type { CreateProject } from '../../api/apiTypes';
-import { useCreateProjectMutation } from '../../api/endpoints/project.endpoint';
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import { useCreateProjectMutation } from '../../api/endpoints/project.endpoint';
+import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
+import type { CreateProject } from '../../api/apiTypes';
 import InputWithValidation from '../util/InputWithValidation';
+import WithLabel from '../util/WithLabel';
 import Model from '../util/Model';
+import Item from '../util/Item';
 
 interface Props {
   onClose: () => void;
@@ -18,6 +18,7 @@ const CreateProjectModel = (props: Props) => {
   const {
     register,
     handleSubmit,
+
     formState: { errors, isSubmitting: isLoading },
   } = useForm();
 

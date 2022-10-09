@@ -8,13 +8,14 @@ import WithLabel from '../util/WithLabel';
 import Item from '../util/Item';
 import Model from '../util/Model';
 import type { IssueModalProps } from './IssueModelHOC';
+import TextInput from './TextInput';
 
 const CreateIssueModel = (props: IssueModalProps) => {
   const { lists, members, types, priorities, onClose } = props;
   const { authUser: u } = selectAuthUser();
   const [createIssue, { error, isLoading }] = useCreateIssueMutation();
   const [form, dispatch] = useReducer(reducer, initial);
-  const [isInvalid, setIsInvalid] = useState(false);
+  const [err, setErr] = useState('');
   const projectId = Number(useParams().projectId);
 
   if (!u) return null;
@@ -22,7 +23,8 @@ const CreateIssueModel = (props: IssueModalProps) => {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   const handleCreateIssue = async () => {
-    if (!form.summary || !u) return setIsInvalid(true);
+    if (!form.summary) return setErr('summary must not be empty');
+    if (!u || form.summary.length > 100 || form.descr.length > 500) return;
     await createIssue({ ...form, reporterId: u.id, projectId }); //for now
     onClose();
   };
@@ -41,25 +43,8 @@ const CreateIssueModel = (props: IssueModalProps) => {
           />
         </WithLabel>
 
-        <WithLabel label='Short summary'>
-          <>
-            <input
-              placeholder='a short summary of your project'
-              onChange={(e) => dispatch({ type: 'summary', value: e.target.value })}
-              className='mt-2 block w-full rounded-sm border-2 px-3 py-1 text-sm outline-none duration-200 focus:border-chakra-blue'
-            />
-            {isInvalid && (
-              <span className='text-[13px] text-red-500'>summary must not be empty</span>
-            )}
-          </>
-        </WithLabel>
-        <WithLabel label='Description'>
-          <input
-            placeholder='a description of your project'
-            onChange={(e) => dispatch({ type: 'descr', value: e.target.value })}
-            className='mt-2 block w-full rounded-sm border-2 px-3 py-1 text-sm outline-none duration-200 focus:border-chakra-blue'
-          />
-        </WithLabel>
+        <TextInput type='summary' dispatch={dispatch} value={form.summary} max={100} />
+        <TextInput type='descr' dispatch={dispatch} value={form.descr} max={500} />
         {members && (
           <>
             <WithLabel label='Reporter'>
@@ -103,6 +88,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
             />
           </WithLabel>
         )}
+        {err && <span className='-mb-5 mt-2 block text-right text-red-400'>{err}</span>}
       </>
     </Model>
   );

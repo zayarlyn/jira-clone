@@ -9,9 +9,9 @@ import {
 import { useAppSelector } from '../../store/hooks';
 import DropDown, { Category } from '../util/DropDown';
 import WithLabel from '../util/WithLabel';
-import Item from '../util/Item';
 import type { IssueMetaData, IssueModalProps } from './IssueModelHOC';
-import TextInput from './TextInput';
+import Item from '../util/Item';
+import TextareaInput from './TextareaInput';
 import Model from '../util/Model';
 import CommentSection from './CommentSection';
 import { parseDate } from '../../utils';
@@ -69,21 +69,23 @@ const IssueDetailModal = (props: IssueModalProps) => {
         </div>
         <div className='sm:flex md:gap-3'>
           <div className='w-full sm:pr-6'>
-            <TextInput
+            <TextareaInput
               type='summary'
               label='Title'
               defaultValue={summary}
               apiFunc={dispatchMiddleware}
               className='font-medium sm:text-[22px] sm:font-semibold'
               placeholder='title'
+              max={100}
               isRequired
             />
-            <TextInput
+            <TextareaInput
               label='Description'
               type='descr'
               defaultValue={descr}
-              apiFunc={dispatchMiddleware}
               placeholder='add a description'
+              max={500}
+              apiFunc={dispatchMiddleware}
             />
             <hr className='mx-3' />
             <CommentSection issueId={id} projectId={projectId} />

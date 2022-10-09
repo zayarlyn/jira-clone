@@ -1,4 +1,4 @@
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 const InputWithValidation = (props: Props) => {
   const {
@@ -17,28 +17,22 @@ const InputWithValidation = (props: Props) => {
     <div>
       <label
         htmlFor={label}
-        className={`text-sm tracking-wide ${
-          darkEnabled ? "text-c-5" : "text-gray-800"
-        }`}
+        className={`text-sm tracking-wide ${darkEnabled ? 'text-c-5' : 'text-gray-800'}`}
       >
         {label}
       </label>
       <input
         id={label}
-        defaultValue={defaultValue ?? ""}
+        defaultValue={defaultValue ?? ''}
         className={`mt-2 block w-full rounded-sm border-2 px-3 py-1 text-sm outline-none duration-200 focus:border-chakra-blue ${
           darkEnabled
-            ? "bg-c-6 text-c-text hover:bg-c-7 focus:bg-c-1"
-            : "bg-slate-100 hover:border-gray-400"
-        } ${inputClass ?? " border-transparent"} ${
-          readOnly ? "pointer-events-none" : ""
-        }`}
+            ? 'bg-c-6 text-c-text hover:bg-c-7 focus:bg-c-1'
+            : 'bg-slate-100 hover:border-gray-400'
+        } ${inputClass ?? ' border-transparent'} ${readOnly ? 'pointer-events-none' : ''}`}
         {...{ placeholder, readOnly, autoFocus, type }}
         {...register}
       />
-      <span className="text-[13px] text-red-400">
-        {error?.message?.toString()}
-      </span>
+      <span className='text-[13px] text-red-400'>{error?.message?.toString()}</span>
     </div>
   );
 };

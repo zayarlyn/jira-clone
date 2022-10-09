@@ -30,8 +30,8 @@ model User {
 
 model Project {
   id        Int        @id @default(autoincrement())
-  name      String
-  descr     String?    @db.VarChar(300)
+  name      String     @db.VarChar(50)
+  descr     String?    @db.VarChar(200)
   repo      String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -68,8 +68,8 @@ model Issue {
   order      Int
   priority   Int
   type       Int
-  summary    String
-  descr      String
+  summary    String     @db.VarChar(100)
+  descr      String?    @db.VarChar(500)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   List       List?      @relation(fields: [listId], references: [id], onDelete: Cascade)
@@ -93,7 +93,7 @@ model Assignee {
 
 model Comment {
   id        Int      @id @default(autoincrement())
-  descr     String
+  descr     String   @db.VarChar(200)
   createdAt DateTime @default(now())
   Issue     Issue?   @relation(fields: [issueId], references: [id], onDelete: Cascade)
   issueId   Int

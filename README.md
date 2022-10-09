@@ -1,19 +1,19 @@
 # jira-clone
 
+![jira-clone webapp demo](./demo-light.png)
+
 ### Project Structure
+
 ```
 .
 ├── express-backend
 │   ├── controllers
-│   ├── utils
-│   ├── routes
 │   ├── prisma
-│   └── server.js
+│   ├── routes
+│   └── utils
 ├── react-frontend
 │   ├── public
 │   ├── src
-│   │   ├── api (RTK Query)
-│   │   ├── store (Redux)
 │   │   ├── components
 │   │   │   ├── auth
 │   │   │   ├── dnd
@@ -22,11 +22,8 @@
 │   │   │   ├── list
 │   │   │   ├── project
 │   │   │   └── util
-│   │   ├── index.css
-│   │   ├── index.tsx
-│   │   └── App.tsx
-│   ├── tailwind.config.js
-│   └── tsconfig.json
+│   │   ├── api (RTK Query)
+│   │   └── store (Redux Toolkit)
 └── README.md
 
 ```

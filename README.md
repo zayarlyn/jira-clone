@@ -2,7 +2,7 @@
 
 ![jira-clone webapp demo](./demo-light.png)
 
-### Project Structure
+## Project Structure
 
 ```
 .
@@ -27,3 +27,6 @@
 └── README.md
 
 ```
+
+## Contribution
+Raising issues, fixing bugs and creating pull requests. Any kind of contributions are welcomed!

@@ -1,6 +1,6 @@
 # jira-clone
 
-![jira-clone webapp demo](./demo-light.png)
+![jira-clone webapp demo](./jira-hq.gif)
 
 ### Project Structure
 

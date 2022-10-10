@@ -46,6 +46,7 @@ function Sidebar(props: Props) {
             type='checkbox'
             onChange={handleToggle}
             className='btn-toggle'
+            title='Toggle theme'
           />
         </div>
         <div className='flex flex-col gap-6'>

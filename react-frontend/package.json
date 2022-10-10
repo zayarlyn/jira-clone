@@ -9,9 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.3.5",
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
     "@hello-pangea/dnd": "^16.0.0",
     "@iconify/react": "^4.0.0",
     "@reduxjs/toolkit": "^1.8.5",

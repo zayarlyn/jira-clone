@@ -1,5 +1,4 @@
 import { Dispatch, lazy, SetStateAction, Suspense as S, useState } from 'react';
-import { useToast, UseToastOptions } from '@chakra-ui/react';
 import { APIERROR } from '../../api/apiTypes';
 import { Navigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
@@ -24,17 +23,16 @@ function Filter(props: Props) {
   const { data: pj } = useProjectQuery(projectId);
   const { data: u } = useAuthUserQuery();
   const { userId: uid } = useAppSelector((s) => s.query.issue);
+  const [on, setOn] = useState(false);
   const dispatch = useAppDispatch();
-  const [isOpen, setIsOpen] = useState(false);
   const [fold, setFold] = useState(true);
-  const toast = useToast();
   const len = m?.length;
 
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   function handleClick() {
-    if (isEmpty) return toast(toastConfig);
-    setIsOpen(true);
+    if (isEmpty) return console.log('shit');
+    setOn(true);
   }
 
   const handleSetQuery = (query: { userId?: number }) => () => {
@@ -92,9 +90,16 @@ function Filter(props: Props) {
           </button>
         </>
       )}
-      <button onClick={handleClick} className='btn mx-5 shrink-0'>
-        Create an issue
-      </button>
+      <div className='relative mx-5'>
+        <button onClick={handleClick} className='btn peer relative shrink-0'>
+          Create an issue
+        </button>
+        {isEmpty && (
+          <span className='absolute mt-2 hidden whitespace-nowrap text-sm text-red-400 peer-focus:block'>
+            Please create a list first
+          </span>
+        )}
+      </div>
       {pj && pj.repo && (
         <button
           title='go to github'
@@ -105,9 +110,9 @@ function Filter(props: Props) {
           GitHub Repo
         </button>
       )}
-      {isOpen && !isEmpty && (
+      {on && !isEmpty && (
         <S>
-          <IssueModelHOC children={CreateIssueModal} onClose={() => setIsOpen(false)} />
+          <IssueModelHOC children={CreateIssueModal} onClose={() => setOn(false)} />
         </S>
       )}
     </div>
@@ -115,10 +120,3 @@ function Filter(props: Props) {
 }
 
 export default Filter;
-
-const toastConfig: UseToastOptions = {
-  title: 'Please create a list before creating an issue',
-  position: 'top-right',
-  duration: 4000,
-  isClosable: true,
-};

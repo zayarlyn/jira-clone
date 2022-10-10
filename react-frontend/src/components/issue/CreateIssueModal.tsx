@@ -44,6 +44,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
         </WithLabel>
 
         <TextInput type='summary' dispatch={dispatch} value={form.summary} max={100} />
+        {err && <span className='-mb-3 block text-sm text-red-400'>{err}</span>}
         <TextInput type='descr' dispatch={dispatch} value={form.descr} max={500} />
         {members && (
           <>
@@ -88,7 +89,6 @@ const CreateIssueModel = (props: IssueModalProps) => {
             />
           </WithLabel>
         )}
-        {err && <span className='-mb-5 mt-2 block text-right text-red-400'>{err}</span>}
       </>
     </Model>
   );

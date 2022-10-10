@@ -20,7 +20,9 @@ const Menubar = () => {
       {projectId ? (
         <div className='h-full w-[15rem] bg-c-2 px-4 py-6'>
           <div className='flex'>
-            <div className='h-10 w-10 shrink-0 bg-cyan-500'></div>
+            <div className='grid h-10 w-10 shrink-0 place-items-center bg-cyan-500 text-lg'>
+              {project?.name.at(0)}
+            </div>
             <div className='ml-2 w-40'>
               <span className='block truncate text-sm font-medium text-c-5'>
                 {project?.name ?? 'loading...'}

@@ -14,6 +14,7 @@ const UserMember = (props: Props) => {
   const [addMember] = useAddMemberMutation();
 
   const handleAddMember = () => {
+    if (added) return;
     addMember({ userId: id, projectId });
     setInput('');
   };
@@ -21,7 +22,9 @@ const UserMember = (props: Props) => {
   return (
     <div
       onClick={handleAddMember}
-      className='flex items-center rounded-sm bg-c-2 px-3 py-2 text-c-text hover:bg-c-6'
+      className={`flex items-center rounded-sm bg-c-2 px-3 py-2 text-c-text hover:bg-c-6  ${
+        added ? 'pointer-events-none' : 'cursor-pointer'
+      }`}
     >
       <Avatar src={profileUrl} name={username} />
       <span className='mx-3'>{username}</span>

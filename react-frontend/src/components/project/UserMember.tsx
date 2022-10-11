@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import toast from 'react-hot-toast';
 import { PublicUser } from '../../api/apiTypes';
 import { useAddMemberMutation } from '../../api/endpoints/member.endpoint';
 import Avatar from '../util/Avatar';
@@ -13,16 +14,17 @@ const UserMember = (props: Props) => {
   const { id, username, email, profileUrl, added, projectId, setInput } = props;
   const [addMember] = useAddMemberMutation();
 
-  const handleAddMember = () => {
+  const handleAddMember = async () => {
     if (added) return;
-    addMember({ userId: id, projectId });
+    await addMember({ userId: id, projectId });
+    toast(username + ' has joined to the project!');
     setInput('');
   };
 
   return (
     <div
       onClick={handleAddMember}
-      className={`flex items-center rounded-sm bg-c-2 px-3 py-2 text-c-text hover:bg-c-6  ${
+      className={`mb-1 flex items-center rounded-sm bg-c-2 px-3 py-2 text-c-text hover:bg-c-6  ${
         added ? 'pointer-events-none' : 'cursor-pointer'
       }`}
     >

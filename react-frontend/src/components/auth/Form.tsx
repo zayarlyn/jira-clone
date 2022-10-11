@@ -7,6 +7,7 @@ import {
   UseFormHandleSubmit,
   UseFormRegister,
 } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { APIERROR } from '../../api/apiTypes';
 import InputWithValidation from '../util/InputWithValidation';
 
@@ -28,6 +29,7 @@ function Form(props: Props) {
   const submit = handleSubmit(async (form) => {
     try {
       await onSubmit(form);
+      toast(type === 'LOGIN' ? 'You have logged in!' : 'Your account is created!');
       window.location.replace('https://jira-replica.vercel.app/project'); //with refresh
     } catch (error) {
       setError(((error as AxiosError).response?.data as APIERROR).message);

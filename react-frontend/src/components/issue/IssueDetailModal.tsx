@@ -16,6 +16,7 @@ import Model from '../util/Model';
 import CommentSection from './CommentSection';
 import { parseDate } from '../../utils';
 import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
+import toast from 'react-hot-toast';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 const IssueDetailModal = (props: IssueModalProps) => {
@@ -43,12 +44,13 @@ const IssueDetailModal = (props: IssueModalProps) => {
   const isMine = reporterId === u?.id;
   const reporter = members.filter(({ value }) => value === reporterId)[0];
 
-  const dispatchMiddleware = (data: DispatchMiddleware) => {
+  const dispatchMiddleware = async (data: DispatchMiddleware) => {
     const assigneeIds = assignees.map(({ userId }) => userId);
     const body =
       data.type === 'assignee' ? constructApiAssignee(assigneeIds, data.value as number[]) : data;
     if (!body) return;
-    updateIssue({ id, body: { ...body, projectId: Number(projectId) } });
+    await updateIssue({ id, body: { ...body, projectId: Number(projectId) } });
+    toast(`Updated issue ${cipher[data.type as keyof typeof cipher] ?? data.type}!`);
   };
 
   return (
@@ -157,6 +159,7 @@ const IssueDetailModal = (props: IssueModalProps) => {
             <ConfirmModel
               onClose={() => setIsOpen(false)}
               onSubmit={() => deleteIssue({ issueId: id, projectId })}
+              toastMsg='Deleted a issue!'
             />
           </S>
         )}
@@ -181,4 +184,8 @@ const constructApiAssignee = (OLD: number[], NEW: number[]): DispatchMiddleware 
 export type DispatchMiddleware = {
   type: UpdateIssueType;
   value: number | number[] | string;
+};
+const cipher = {
+  descr: 'description',
+  listId: 'status',
 };

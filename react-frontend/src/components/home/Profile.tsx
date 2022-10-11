@@ -18,7 +18,11 @@ const Profile = (props: Props) => {
     <div className='flex h-screen w-[320px] flex-col items-center gap-8 overflow-y-auto overflow-x-hidden border-r-2 border-c-3 bg-c-1 p-6'>
       {u ? (
         <>
-          <Avatar src={u.profileUrl} name={u.username} className='h-40 w-40 cursor-default' />
+          <Avatar
+            src={u.profileUrl}
+            name={u.username}
+            className='h-40 w-40 cursor-default text-6xl'
+          />
           <div className='mb-2'>
             {isNormal ? (
               <UpdateProfile user={u} />

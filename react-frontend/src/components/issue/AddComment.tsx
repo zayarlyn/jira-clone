@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import toast from 'react-hot-toast';
 import RTAutosize from 'react-textarea-autosize';
 import { AuthUser } from '../../api/apiTypes';
 import { useCreateCmtMutation } from '../../api/endpoints/comment.endpoint';
@@ -13,14 +14,15 @@ interface Props {
 function AddComment(props: Props) {
   const { u, ...data } = props;
   const [descr, setDescr] = useState('');
-  const [createCmt] = useCreateCmtMutation();
+  const [createCmt, { isLoading }] = useCreateCmtMutation();
   if (!u) return null;
 
   const len = descr.length;
 
-  const handleCreateCmt = () => {
+  const handleCreateCmt = async () => {
     if (len > 200) return;
-    createCmt({ descr, userId: u.id, ...data });
+    await createCmt({ descr, userId: u.id, ...data });
+    toast('Added comment!');
     setDescr('');
   };
 
@@ -51,7 +53,7 @@ function AddComment(props: Props) {
             cancel
           </button>
           <button onClick={handleCreateCmt} className='btn'>
-            Add
+            {isLoading ? 'adding...' : 'Add'}
           </button>
         </div>
       )}

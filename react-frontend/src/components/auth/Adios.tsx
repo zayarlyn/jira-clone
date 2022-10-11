@@ -6,6 +6,7 @@ import { useAuthUserQuery } from '../../api/endpoints/auth.endpoint';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';
+import toast from 'react-hot-toast';
 
 function Adios() {
   const {
@@ -28,6 +29,7 @@ function Adios() {
     if (form.name.trim() !== name) return setSubmitError("the name doesn't match");
     try {
       await deleteACC(form);
+      toast('Your account is deleted!');
       navigate('/login');
     } catch (error) {
       setSubmitError(((error as AxiosError).response?.data as APIERROR).message);

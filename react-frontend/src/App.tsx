@@ -5,6 +5,7 @@ import { store } from './store/store';
 import { getTheme } from './utils';
 import Welcome from './components/auth/Welcome';
 import Home from './components/home/Home';
+import { Toaster } from 'react-hot-toast';
 
 const Setting = lazy(() => import('./components/project/Setting'));
 const Project = lazy(() => import('./components/project/Project'));
@@ -52,6 +53,7 @@ function App() {
           </Routes>
         </BR>
       </Provider>
+      <Toaster />
     </main>
   );
 }

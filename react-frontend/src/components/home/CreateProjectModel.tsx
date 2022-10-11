@@ -6,6 +6,7 @@ import InputWithValidation from '../util/InputWithValidation';
 import WithLabel from '../util/WithLabel';
 import Model from '../util/Model';
 import Item from '../util/Item';
+import toast from 'react-hot-toast';
 
 interface Props {
   onClose: () => void;
@@ -24,10 +25,9 @@ const CreateProjectModel = (props: Props) => {
 
   const handleCreateProject = async (form: FieldValues) => {
     if (!authUser) return;
-    try {
-      await createProject({ ...form, userId: authUser.id } as CreateProject);
-      onClose();
-    } catch (err) {}
+    await createProject({ ...form, userId: authUser.id } as CreateProject);
+    toast('Created a new project!');
+    onClose();
   };
 
   return (

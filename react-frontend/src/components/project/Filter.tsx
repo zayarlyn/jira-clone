@@ -8,6 +8,7 @@ import { useProjectQuery } from '../../api/endpoints/project.endpoint';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { setIssueQuery } from '../../store/slices/querySlice';
 import Avatar from '../util/Avatar';
+import toast from 'react-hot-toast';
 const IssueModelHOC = lazy(() => import('../issue/IssueModelHOC'));
 const CreateIssueModal = lazy(() => import('../issue/CreateIssueModal'));
 
@@ -31,7 +32,7 @@ function Filter(props: Props) {
   if (error && (error as APIERROR).status === 401) return <Navigate to='/login' />;
 
   function handleClick() {
-    if (isEmpty) return console.log('shit');
+    if (isEmpty) return toast.error('Please create a list first!');
     setOn(true);
   }
 
@@ -90,16 +91,9 @@ function Filter(props: Props) {
           </button>
         </>
       )}
-      <div className='relative mx-5'>
-        <button onClick={handleClick} className='btn peer relative shrink-0'>
-          Create an issue
-        </button>
-        {isEmpty && (
-          <span className='absolute mt-2 hidden whitespace-nowrap text-sm text-red-400 peer-focus:block'>
-            Please create a list first
-          </span>
-        )}
-      </div>
+      <button onClick={handleClick} className='btn peer relative mx-5 shrink-0'>
+        Create an issue
+      </button>
       {pj && pj.repo && (
         <button
           title='go to github'

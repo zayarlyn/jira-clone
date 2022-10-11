@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import toast from 'react-hot-toast';
 import {
   useDeleteProjectMutation,
   useLeaveProjectMutation,
@@ -19,13 +20,15 @@ function DeleteProject(props: Props) {
   const [leaveProject, { isLoading: ll }] = useLeaveProjectMutation();
   const ref = useRef<HTMLInputElement | null>(null);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (ref.current?.value.trim() !== name) return;
-    deleteProject(projectId);
+    await deleteProject(projectId);
+    toast('Deleted the project!');
   };
 
-  const handleLeave = () => {
-    leaveProject({ memberId, projectId, userId: authUserId });
+  const handleLeave = async () => {
+    await leaveProject({ memberId, projectId, userId: authUserId });
+    toast('Leaved the project!');
   };
 
   return (
@@ -33,7 +36,7 @@ function DeleteProject(props: Props) {
       {isAdmin ? (
         <>
           <span>
-            Please type <span className='text-chakra-blue'>"{name}"</span> to delete
+            Please type "<span className='text-chakra-blue'>{name}</span>" to delete
           </span>
           <input
             placeholder='project name'

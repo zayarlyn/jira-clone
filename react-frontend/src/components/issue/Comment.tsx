@@ -41,6 +41,7 @@ function Comment(props: Props) {
           <ConfirmModel
             onClose={() => setOn(false)}
             onSubmit={() => deleteCmt({ id, projectId })}
+            toastMsg='Deleted a comment!'
           />
         </S>
       )}

@@ -5,6 +5,7 @@ import type { Issue as ApiIssue, List as LIST } from '../../api/apiTypes';
 import { Icon } from '@iconify/react';
 import { lazy, Suspense as S, useState } from 'react';
 import { useDeleteListMutation, useUpdateListMutation } from '../../api/endpoints/lists.endpoint';
+import toast from 'react-hot-toast';
 const ConfirmModel = lazy(() => import('../util/ConfirmModel'));
 
 interface Props extends LIST {
@@ -21,10 +22,11 @@ const List = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [updateList] = useUpdateListMutation();
 
-  const handleUpdateList = () => {
+  const handleUpdateList = async () => {
     // when the user saves
     if (name && name !== NAME) {
-      updateList({ listId: id, body: { projectId, name } });
+      await updateList({ listId: id, body: { projectId, name } });
+      toast('Updated list name!');
     }
     setIsEditing((p) => !p);
   };
@@ -95,6 +97,7 @@ const List = (props: Props) => {
           <ConfirmModel
             onClose={() => setIsOpen(false)}
             onSubmit={() => deleteList({ listId: id, projectId })}
+            toastMsg='Deleted a list!'
           />
         </S>
       )}

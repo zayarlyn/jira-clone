@@ -1,4 +1,5 @@
 import { FieldError, FieldValues, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { AuthUser } from '../../api/apiTypes';
 import { useUpdateAuthUserMutation } from '../../api/endpoints/auth.endpoint';
 import InputWithValidation from '../util/InputWithValidation';
@@ -18,6 +19,7 @@ function UpdateProfile({ user: u }: { user: AuthUser }) {
     )
       return;
     await updateAuthUser(form);
+    toast('Updated profile!');
   };
   return (
     <>

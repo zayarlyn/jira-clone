@@ -21,6 +21,7 @@ const MemberInput = (props: Props) => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const uname = members && members[selectedIdx as number]?.username;
 
   const handleRemoveMember = async () => {
     if (!selectedIdx || !members) return;
@@ -118,9 +119,10 @@ const MemberInput = (props: Props) => {
       {isOpen && (
         <S>
           <ConfirmModel
-            msg={'remove ' + members?.[selectedIdx as number].username}
+            msg={'remove ' + uname}
             onClose={() => setIsOpen(false)}
             onSubmit={handleRemoveMember}
+            toastMsg={uname + ' is out from the project!'}
           />
         </S>
       )}

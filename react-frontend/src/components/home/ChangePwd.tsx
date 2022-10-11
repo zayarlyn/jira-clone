@@ -3,6 +3,7 @@ import { FieldError, FieldValues, useForm } from 'react-hook-form';
 import type { AxiosError } from 'axios';
 import InputWithValidation from '../util/InputWithValidation';
 import axiosDf from '../../api/axios';
+import toast from 'react-hot-toast';
 
 type APIERROR = { message: string };
 
@@ -17,6 +18,7 @@ function ChangePwd() {
   const handleChangePwd = async (form: FieldValues) => {
     try {
       await changePwd(form);
+      toast('Account password changed');
       setError('');
     } catch (error) {
       setError(((error as AxiosError).response?.data as APIERROR).message);

@@ -7,6 +7,7 @@ import Avatar from '../util/Avatar';
 import { setTheme, Theme } from '../../utils';
 import { APIERROR } from '../../api/apiTypes';
 import axiosDf from '../../api/axios';
+import toast from 'react-hot-toast';
 const Profile = lazy(() => import('./Profile'));
 
 interface Props {
@@ -32,6 +33,7 @@ function Sidebar(props: Props) {
 
   const handleLogOut = async () => {
     await logOut();
+    toast('Logged out!');
     navigate('/login');
   };
   return (

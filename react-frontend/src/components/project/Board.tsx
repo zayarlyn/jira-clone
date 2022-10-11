@@ -7,6 +7,7 @@ import { useCreateListMutation, useReorderListsMutation } from '../../api/endpoi
 import type { Issues, List as ApiList } from '../../api/apiTypes';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import toast from 'react-hot-toast';
 
 interface Props {
   lists: ApiList[];
@@ -39,8 +40,9 @@ const Board = (props: Props) => {
         });
   };
 
-  const handleCreateList = () => {
-    createList({ projectId });
+  const handleCreateList = async () => {
+    await createList({ projectId });
+    toast('Created a list!');
   };
 
   return (

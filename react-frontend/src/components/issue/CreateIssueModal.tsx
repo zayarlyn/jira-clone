@@ -9,6 +9,7 @@ import Item from '../util/Item';
 import Model from '../util/Model';
 import type { IssueModalProps } from './IssueModelHOC';
 import TextInput from './TextInput';
+import toast from 'react-hot-toast';
 
 const CreateIssueModel = (props: IssueModalProps) => {
   const { lists, members, types, priorities, onClose } = props;
@@ -26,6 +27,7 @@ const CreateIssueModel = (props: IssueModalProps) => {
     if (!form.summary) return setErr('summary must not be empty');
     if (!u || form.summary.length > 100 || form.descr.length > 500) return;
     await createIssue({ ...form, reporterId: u.id, projectId }); //for now
+    toast('Created an issue!');
     onClose();
   };
 

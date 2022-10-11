@@ -8,9 +8,10 @@ import {
 import { useParams } from 'react-router-dom';
 import { selectMembers } from '../../api/endpoints/member.endpoint';
 import { selectAuthUser } from '../../api/endpoints/auth.endpoint';
+import toast from 'react-hot-toast';
 
 const Setting = () => {
-  const [updateProject, { isLoading, isSuccess }] = useUpdateProjectMutation();
+  const [updateProject, { isLoading }] = useUpdateProjectMutation();
   const projectId = Number(useParams().projectId);
   const { members } = selectMembers(projectId);
   const { authUser: u } = selectAuthUser();
@@ -26,9 +27,10 @@ const Setting = () => {
   const { id, name, descr, repo } = project;
   const isAdmin = members.filter(({ userId: uid }) => uid === u.id)[0].isAdmin;
 
-  const onSubmit = (formData: FieldValues) => {
+  const onSubmit = async (formData: FieldValues) => {
     if (formData.name === name && formData.descr === descr && formData.repo === repo) return;
-    updateProject({ id, ...formData });
+    await updateProject({ id, ...formData });
+    toast('Project setting updated');
   };
 
   return (
@@ -75,7 +77,7 @@ const Setting = () => {
             disabled={!isAdmin}
             className={`btn mt-3 ${!isAdmin ? 'pointer-event-none cursor-not-allowed' : ''}`}
           >
-            {isSuccess ? 'Saved Changes' : isLoading ? 'saving changes...' : 'Save Changes'}
+            {isLoading ? 'saving changes...' : 'Save Changes'}
           </button>
         </div>
       </form>

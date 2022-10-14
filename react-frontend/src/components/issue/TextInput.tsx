@@ -7,13 +7,14 @@ interface Props {
   value: string;
   type: T;
   max: number;
+  label: string;
 }
 
 function TextInput(props: Props) {
-  const { dispatch, value, type, max } = props;
+  const { dispatch, value, type, max, label } = props;
 
   return (
-    <WithLabel label='Short summary'>
+    <WithLabel label={label}>
       <div className='relative'>
         <input
           placeholder='a short summary of your project'

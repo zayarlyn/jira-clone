@@ -42,4 +42,4 @@ This is a minimalist replica of a issue-tracking software called [Jira](https://
 ```
 
 ## Contribution
-Raising issues, fixing bugs and creating pull requests. Any kind of contributions are welcome!
+Raising issues, fixing bugs, forking repo and creating pull requests. Any kind of contributions are welcome!
